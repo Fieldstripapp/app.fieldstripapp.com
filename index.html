@@ -420,12 +420,15 @@
     #scr-player .step-info{grid-column:2;grid-row:3;min-height:0;overflow-y:auto}
     #scr-player .controls{grid-column:2;grid-row:4}
 
-    #scr-player.fs-textguide .player{grid-template-columns:1fr}
-    #scr-player.fs-textguide .stage{display:none}
-    #scr-player.fs-textguide .expbtn,
-    #scr-player.fs-textguide .progress,
-    #scr-player.fs-textguide .step-info,
-    #scr-player.fs-textguide .controls{grid-column:1}
+    #scr-player.fs-textguide .player{grid-template-columns:1fr;grid-template-rows:auto auto auto 1fr auto auto}
+    #scr-player.fs-textguide .stage{grid-column:1;grid-row:1;display:block;height:auto;min-height:0;
+      max-height:32svh;overflow:hidden;padding:8px 0 2px;
+      border-right:none;border-bottom:1px solid var(--edge)}
+    #scr-player.fs-textguide .expbtn{grid-column:1;grid-row:2}
+    #scr-player.fs-textguide .progress{grid-column:1;grid-row:3}
+    #scr-player.fs-textguide .step-info{grid-column:1;grid-row:4}
+    #scr-player.fs-textguide #fsStripBar{grid-column:1;grid-row:5}
+    #scr-player.fs-textguide .controls{grid-column:1;grid-row:6}
 
     .lviewport{position:absolute!important;inset:0!important;margin:auto!important;width:auto!important;height:auto!important;max-width:100%!important;max-height:82svh!important}
     .stage svg.gun-svg.active{max-height:82svh}
@@ -541,6 +544,10 @@
     font-family:var(--display);font-size:10.5px;letter-spacing:1.4px;
     text-transform:uppercase;color:var(--amber);text-align:center;cursor:pointer}
   .heroinvitebar:active{color:var(--text)}
+  .heroartline{font-size:12.5px;line-height:1.45;color:var(--muted);text-align:center;max-width:34em;margin:0 auto}
+  .heroinvitebar.said{font-family:var(--body);font-size:11.5px;letter-spacing:0;
+    text-transform:none;color:var(--muted);line-height:1.4;cursor:default}
+  .heroinvitebar.said:active{color:var(--muted)}
   .uarttag.top{bottom:auto;top:8px}
   .exframe{margin-top:9px;display:flex;flex-direction:column;gap:8px}
   .exframe .exf-t{color:var(--muted);font-size:11.5px;line-height:1.45}
@@ -716,6 +723,14 @@
   .fsbar .fsActs{display:flex;gap:8px;flex-wrap:wrap}
   .fsbar .fsFork{display:flex;gap:10px;margin:2px 0 12px}
   .fsbar .fsFork .btn{flex:1 1 0;min-width:0}
+  .fsbar .fslaid{margin:0 0 12px}
+  .fsbar .fslaid .heroplate{margin:6px auto}
+  .fsbar .fslaid .tmplate{display:flex;align-items:center;justify-content:center;padding:10px 12px}
+  .fsbar .fslaid .tmplate img{display:block;width:auto;height:auto;max-width:100%;max-height:236px;
+    filter:invert(1) brightness(.92);mix-blend-mode:screen}
+  .fsbar .fslaid .tmcredit{display:block;text-align:center;color:var(--muted);
+    font-family:var(--display);font-size:8.5px;letter-spacing:1.1px;text-transform:uppercase;
+    padding:2px 0 0}
   .fsbar .fsAddWrap{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
   .fsbar .fsAddIn{flex:1;min-width:150px;background:var(--panel2);color:var(--text);border:1px solid var(--edge);
     border-radius:8px;padding:9px;font-family:var(--body);font-size:14px}
@@ -3549,7 +3564,6 @@
     const nfaEligible=nfaOptions.length>0;
     const nfaCls=nfaClassOf(f);
     const nfaLocked = (isNFA||nfaEligible) && !isPro();
-    document.getElementById("proNfaLock").style.display = nfaLocked ? "block" : "none";
     nfaBoxEl.style.display=((isNFA||nfaEligible)&&!nfaLocked)?"block":"none";
     document.getElementById("nfaSupWrap").hidden=!isNFA;
     document.getElementById("nfaClassWrap").hidden=!nfaEligible;
@@ -3562,18 +3576,6 @@
     const dNfaTag=document.getElementById("dNfaTag");
     dNfaTag.hidden=!nfaCls;
     if(nfaCls) dNfaTag.textContent=NFA_LABEL[nfaCls];
-    if(nfaLocked){
-      const has=[];
-      if(f.nfa && Object.keys(f.nfa).some(k=>f.nfa[k])) has.push("form details");
-      if(nfaCls) has.push(NFA_LABEL[nfaCls]+" classification");
-      if(f.nfaDate) has.push("a stamp date");
-      if(f.stamp) has.push("a stamp photo");
-      document.getElementById("proNfaMsg").textContent =
-        (has.length ? `${has.join(", ")} already stored — unlock to view and edit. ` : "")
-        + (isNFA
-            ? "Stamp and Form 4/1 tracking, plus a stored photo of the stamp itself. Part of Fieldstrip Pro."
-            : "SBR/SBS/AOW classification, stamp date, and a stored photo of the stamp itself. Part of Fieldstrip Pro.");
-    }
 
     const wtBoxEl=document.getElementById("wtBox");
     const wtLocked = isNFA && !isPro();
@@ -3597,13 +3599,6 @@
     const zeroLocked = !isNFA && !isPro();
     const zbxDet=document.getElementById("zeroBox");
     if(zbxDet && zbxDet.closest("#scr-detail")) zbxDet.style.display=(isNFA||zeroLocked)?"none":"block";
-    document.getElementById("proZeroLock").style.display=zeroLocked?"block":"none";
-    if(zeroLocked){
-      const n=(f.zeros||[]).length;
-      document.getElementById("proZeroMsg").textContent =
-        (n ? `${n} ${n===1?"zero":"zeros"} already recorded and still stored — unlock to view and log more. ` : "")
-        + "Where this firearm is zeroed, with what ammo — so a re-zero after optic work starts from facts, not memory. Part of Fieldstrip Pro.";
-    }
     if(!isNFA && !zeroLocked && zbxDet && zbxDet.closest("#scr-detail")) renderZero(f);
 
 
@@ -6158,21 +6153,12 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     const isNFAcan=(fcat(f)||{}).gp==="Suppressors";
     const locked=!isPro();
     document.getElementById("nfaBox").style.display = locked ? "none" : "block";
-    document.getElementById("proNfaLock").style.display = locked ? "block" : "none";
     document.getElementById("nfaSupWrap").hidden=false;
     document.getElementById("nfaClassWrap").hidden=true;
     document.getElementById("nfaForm").hidden=true;
     document.getElementById("nfaSave").hidden=true;
     document.getElementById("nfaEdit").style.display="none";
     if(locked){
-      const has=[];
-      const fls=Array.isArray(f.nfaFilings)?f.nfaFilings:[];
-      if(fls.length) has.push(`${fls.length} filing${fls.length===1?"":"s"}`);
-      if(f.nfaItemType) has.push(f.nfaItemType+" item type");
-      if(f.stamp) has.push("a stamp photo");
-      document.getElementById("proNfaMsg").textContent =
-        (has.length ? `${has.join(", ")} already stored — unlock to view and edit. ` : "")
-        + "Item type, every filing — Form 1/4/5 or your own — dates, entity, status, stamp photo and documents. Part of Fieldstrip Pro.";
     } else {
       renderNfa(f);
       document.getElementById("stampWrap").hidden = !(isNFAcan || f.nfaItemType || f.stamp);
@@ -6557,17 +6543,19 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
           <button class="btn sm primary" id="benchUnlock">Unlock Pro</button>
         </div>`;
       lh+=lockRow("NFA Items", c.nfa.length||"—",
-        c.nfa.length
+        (c.nfa.length
           ? c.nfa.slice(0,3).map(x=>`<div class="benchrow"><div class="bi"><div class="bn">${esc(x.name)}</div><div class="bs">${esc(x.f.nfaItemType||"filings on record")}</div></div></div>`).join("")
-          : `<div class="lmsg">Item types and every filing — Form 1/4/5 or your own — would gather here.</div>`);
+          : `<div class="lmsg">Item types and every filing — Form 1/4/5 or your own — would gather here.</div>`)
+        + `<div id="benchNfaLockHost"></div>`);
       lh+=lockRow("Magazines", totMags?`${totMags} mags`:"—",
         c.fleets.length
           ? c.fleets.slice(0,3).map(g=>`<div class="benchrow"><div class="bi"><div class="bn">${esc(g.model||g.cap+"-rd")}</div><div class="bs">${g.mags.length} mag${g.mags.length===1?"":"s"} · ${esc(g.name)}</div></div></div>`).join("")
           : `<div class="lmsg">Your fleet, individually numbered per firearm, would live here.</div>`);
       lh+=lockRow("Zero Records", c.zeros.length||"—",
-        c.zeros.length
+        (c.zeros.length
           ? c.zeros.slice(0,2).map(x=>`<div class="benchrow"><div class="bi"><div class="bn">${esc(x.name)} · ${x.z.dist} ${esc(x.z.unit)}</div><div class="bs">${fmtDate(x.z.ts)}</div></div></div>`).join("")
-          : `<div class="lmsg">Distance, load AND lot, before/after targets — per firearm.</div>`);
+          : `<div class="lmsg">Distance, load AND lot, before/after targets — per firearm.</div>`)
+        + `<div id="benchZeroLockHost"></div>`);
       lh+=lockRow("Care Reminders", c.care.length?`${c.care.length} clock${c.care.length===1?"":"s"}`:"—",
         c.care.length
           ? c.care.slice(0,3).map(x=>`<div class="benchrow"><div class="bi"><div class="bn">${esc(x.r.label)} — ${esc(x.name)}</div><div class="bs">${esc(benchDueLabel(x.f,x.r))}</div></div></div>`).join("")
@@ -6577,6 +6565,7 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
       lh+=lockRow("Backup", "—",
         `<div class="lmsg">One local file with everything the Bench knows, photos optional — saved wherever you choose.</div>`);
       body.innerHTML=lh;
+      benchSeatProLocks(byId(benchScopeId) || benchScopedSafe()[0] || null);
       document.getElementById("benchUnlock").onclick=()=>openProSheet();
       body.onclick=e=>{ if(e.target.id!=="benchUnlock") openProSheet(); };
       return;
@@ -7256,6 +7245,41 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
       cleaning:[{"name":"BORE & CHAMBER","tasks":["⛔ ALWAYS from the chamber toward the muzzle","Chamber brush: 5 plunge strokes, 3 full clockwise turns","Never reverse the bore brush inside the bore"]},{"name":"BOLT CARRIER GROUP","tasks":["Locking lugs, gas rings, extractor lip, inside the carrier both ends","⛔ Gas key dried with a pipe cleaner, then ONE drop of CLP","Carrier vent holes cleared"]},{"name":"UPPER RECEIVER","tasks":["Carbon around the gas tube; a pipe cleaner INTO the tube","⛔ Toothbrush only — no wire brush on aluminium","Twist-test the barrel against the receiver for looseness"]},{"name":"LOWER RECEIVER","tasks":["Trigger well, magazine catch cavity, bolt catch, both pins","Buffer, action spring and inside the buffer tube","Generous lubrication on ALL moving lower parts and their detents"]}],
       reassembly:["Bolt into the carrier in the noted extractor/ejector orientation; cam pin in and rotated 90 degrees; firing pin seated fully forward; firing pin retainer in.","Charging handle into the upper, ears aligned with the notch, seated at the bottom of its slot, then slid forward about 1/4 inch.","Bolt fully extended, carrier into the upper using the charging handle slot as a guide, then both forward into battery together.","Line up the pivot pin holes and slide the front pivot pin into the locked position, then close the receivers and slide the takedown pin home.","Function test before the rifle goes away."],
       fncheck:"Magazine out, chamber cleared, muzzle safe. Pull the charging handle fully to the rear and release — the bolt assembly must return fully into battery on its own. Selector to SAFE and pull the trigger: the hammer must not fall. Selector to FIRE and pull: the hammer should fall. Anderson notes that dry firing this rifle does not damage it. Also confirm the takedown and pivot pins are fully seated and the cam pin is installed — Anderson warns a rifle fired without the cam pin can explode."
+    },
+    "sg_angstadtarmsreticent22": {
+      textMode:true, parts:{}, origins:{},
+      sourcedFrom:"RETICENT 22 SUPPRESSOR INSTRUCTION MANUAL — ABSENT — no revision or edition code is printed in the document. (ABSENT — no copyright year line is printed.)",
+      sourceSha256:"474304a35fcecfaed0b579a2d7c410e0d5e0a2460f4e51518da459fef01fb8a4",
+      cleanIntro:"A sealed 2.5 oz titanium rimfire can, and sealed is Angstadt's own word for it — there is no end cap to unscrew and no baffle stack to push out. What a rimfire can still needs is the lead and carbon out of it, and this book publishes two ways to do that: thirty minutes in an ultrasonic cleaner, or a 12-to-24-hour standing soak with the exit hole plugged. ⛔ The interval is the maintenance: every 500–1,000 rounds on moderate use, every 300–500 on dirty ammunition.",
+      steps:[
+        tgStep("Clear","Host unloaded and open before the can comes off",
+          stA("Magazine out, action open, then look INTO the chamber and put a finger in it. Angstadt lists it as five numbered steps and ends the list with what happens if you skip them.")
+          +stAs("Visually and physically verify the chamber is empty."),
+          {"src":"RETICENT 22 SUPPRESSOR INSTRUCTION MANUAL — ABSENT — no revision or edition code is printed in the document. — Angstadt Arms Reticent 22 Instruction Manual — GENERAL FIREARM SAFETY & WARNINGS, printed p.3"}),
+        tgStep("Strip","⛔ Let it cool before a hand goes near it",
+          stA("Several hundred degrees is the book's own figure. A rimfire can is small enough to look harmless and holds heat exactly as well as a big one.")
+          +stLimit("Angstadt Arms","Suppressors become extremely hot during firing. Temperatures may exceed several hundred degrees. Never touch a suppressor immediately after firing without protective equipment. Allow the suppressor to cool before handling.","RETICENT 22 SUPPRESSOR INSTRUCTION MANUAL — ABSENT — no revision or edition code is printed in the document. — Angstadt Arms Reticent 22 Instruction Manual — SUPPRESSOR SAFETY WARNINGS, printed p.3"),
+          {"src":"RETICENT 22 SUPPRESSOR INSTRUCTION MANUAL — ABSENT — no revision or edition code is printed in the document. — Angstadt Arms Reticent 22 Instruction Manual — SUPPRESSOR SAFETY WARNINGS, printed p.3"}),
+        tgStep("Strip","Off the muzzle — and that is the whole strip",
+          stA("Unscrew it counter-clockwise off the 1/2x28 threads by hand. There is nothing after this: the tube does not open, and Angstadt says so on its product overview page rather than leaving you to find out with a wrench.")
+          +stAs("Rimfire ammunition generates significant carbon and lead fouling. The Reticent 22 is designed to allow straightforward cleaning to maintain consistent performance over extended firing cycles."),
+          {"src":"RETICENT 22 SUPPRESSOR INSTRUCTION MANUAL — ABSENT — no revision or edition code is printed in the document. — Angstadt Arms Reticent 22 Instruction Manual — PRODUCT OVERVIEW, printed p.4"}),
+        tgStep("Clean","Ultrasonic, thirty minutes, then dry",
+          stA("The whole can goes in — there is nothing to take out of it first. Half an hour in a proper firearms solution, then out and dried all the way through before it goes back on a barrel.")
+          +stAs("After the cycle is complete, remove the suppressor and allow it to fully dry."),
+          {"src":"RETICENT 22 SUPPRESSOR INSTRUCTION MANUAL — ABSENT — no revision or edition code is printed in the document. — Angstadt Arms Reticent 22 Instruction Manual — CLEANING PROCEDURE, printed p.7"}),
+        tgStep("Clean","Or the standing soak, if there is no ultrasonic on the bench",
+          stA("Plug the exit hole, stand the can threads-up in a cup so nothing spills, fill it to the top with solvent and leave it overnight or longer. Then the plug comes out, it gets rinsed with water and it dries.")
+          +stAs("Leave solvent in suppressor for 12-24 hours"),
+          {"src":"RETICENT 22 SUPPRESSOR INSTRUCTION MANUAL — ABSENT — no revision or edition code is printed in the document. — Angstadt Arms Reticent 22 Instruction Manual — CLEANING PROCEDURE, printed p.7"}),
+        tgStep("Clean","⛔ Wash your hands, and open a window",
+          stA("Rimfire fouling is lead. This is the one maintenance job in the app where the hazard is the residue itself rather than the firearm."),
+          {"src":"RETICENT 22 SUPPRESSOR INSTRUCTION MANUAL — ABSENT — no revision or edition code is printed in the document. — Angstadt Arms Reticent 22 Instruction Manual — SUPPRESSOR SAFETY WARNINGS, printed p.4"})
+      ],
+      deepAbsentReason:"ANGSTADT PUBLISHES NO TEARDOWN FOR THIS CAN BECAUSE THERE IS NONE: \"The Reticent 22 is a sealed titanium rimfire suppressor and does not permit user disassembly.\" The book's maintenance section is the cleaning procedure above and nothing else, and its warranty section sends a suppressor needing service back to the company — \"Contact Angstadt Arms before returning any suppressor for service.\" A deeper procedure authored here would be invention, and on a welded tube it would be an instruction to destroy the product.",
+      cleaning:[{"name":"THE TUBE (IT DOES NOT OPEN)","tasks":["Ultrasonic, ~30 minutes in a firearms cleaning solution","OR plugged and filled with solvent, standing, 12–24 hours","Rinsed with water and dried COMPLETELY either way","⛔ No harsh abrasives or solvents on the outside — the Cerakote is the finish"]},{"name":"MOUNT AND THREADS","tasks":["1/2x28 barrel threads cleaned and checked undamaged while the can is off","The can's own threads checked before it goes back","Seated fully against the barrel shoulder, hand tight, no tools"]},{"name":"⛔ THE INTERVAL IS THE MAINTENANCE","tasks":["Every 500–1,000 rounds on moderate use","Every 300–500 rounds on heavy use or dirty ammunition","Rimfire lead is what fouls it — the schedule is not optional on a .22 can"]},{"name":"AFTER THE JOB","tasks":["Hands washed thoroughly — the fouling is lead","Ventilation while cleaning, by the maker's own instruction"]}],
+      reassembly:["Nothing to reassemble — the can never opened.","Muzzle threads clean, undamaged, and free of any muzzle device or thread protector.","Thread the can on by hand, clockwise, until it contacts the barrel shoulder.","Hand tight. ⛔ No tools.","Look through the bore and check the can sits straight; if alignment is in doubt, do not fire it.","Re-check tightness periodically while shooting — thread mounts walk loose as they heat."],
+      fncheck:"Dry, and back on the host with the action open and clear: threaded on by hand until it contacts the barrel shoulder, hand tight, nothing used to tighten it. Sight through the bore and confirm it is clear and that the can looks straight relative to it — if it does not, stop, because a misaligned can is a baffle strike waiting to happen. Then check it is still tight after the first few shots and periodically after that."
     },
     "sg_ar15": {
       textMode:true, parts:{}, origins:{},
@@ -9167,6 +9191,68 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
       reassembly:["Firing pin complete with its spring back into the bolt, fixed with its pin.","Bolt taken by the top part and squeezed, then inserted in its proper place.","Firearm held vertically; the fore-end guide rods inserted in their respective tracks.","Firearm laid horizontal; the action bars hooked onto the bolt guide, lifting the bars slightly with the other hand.","CHECK the action bars-to-bolt engagement is correct before going further.","Fore-end slid ahead; trigger guard inserted with the hammer COCKED, twisting in at the front locking hole and then seating the rear on the receiver.","Trigger guard pins pushed in — the LONGER pin goes in the forward hole.","If a pistol grip or telescopic stock is fitted: TIGHTEN the retaining nut or ring nut fully, until it solidly contacts the receiver.","Barrel and barrel retaining cap refitted to complete the assembly."],
       fncheck:"With the gun proven empty: check the action bars-to-bolt engagement is correct before the trigger guard goes back, because it cannot be seen afterwards. Refit the trigger guard only with the hammer cocked. On a pistol grip or telescopic stock, confirm the retaining nut is fully tightened against the receiver — a loose stock nut here is a loose trigger group. With everything together, press the safety button until the red ring disappears and confirm it does, work the fore-end fully back and forward to confirm the bolt runs and locks, and check the barrel retaining cap is fully screwed down onto the magazine tube."
     },
+    "sg_beretta1301comppro": {
+      textMode:true, parts:{}, origins:{},
+      sourcedFrom:"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) (UNDATED — Beretta prints a form code rather than a year)",
+      sourceSha256:"775abb44fcf9ac7ef102a4fbe6f79b367d85824c0dfcdb217e28a988aa699585",
+      cleanIntro:"A 1301 built for competition arrives assembled and is expected to keep running through a programme, not a morning. The strip is the same tool-free sequence the rest of Beretta's semiautos use — cap, fore-end, barrel, bolt group — and the same hard rule governs the gas system: clean it, then put it back dry.",
+      steps:[
+        tgStep("Clear","Three places checked, hammer decocked",
+          stA("Ejection port, loading gate, chamber — look at each one, then confirm the hammer is decocked. A competition gun gets handled between stations more than it gets fired, which is exactly why the check happens every time and not just at the end.")
+          +stAs("It is advisable to carry out the stripping operations over a table to catch components should they drop."),
+          {"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — FIELD STRIPPING, printed p.31-32"}),
+        tgStep("Strip","Carrier stop pin all the way down, bolt open",
+          stA("Push the carrier stop pin fully down, then pull the bolt right back so it stays open. Nothing forward of the receiver will release until both of those are true, and the cap is not the part to force.")
+          +stAs("Pull the breech bolt all the way back so that it remains open"),
+          {"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — FIELD STRIPPING, printed p.31-32"}),
+        tgStep("Strip","Front cap anticlockwise, fore-end off toward the muzzle",
+          stA("Unscrew the fore-end's front cap anticlockwise, then hold the gun by the BARREL and pull the fore-end straight out toward the muzzle. Straight is the whole trick — angled, it wedges on the magazine tube.")
+          +stAs("Holding the shotgun by the barrel, pull the fore-end straight out toward the muzzle."),
+          {"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — FIELD STRIPPING, printed p.31-32"}),
+        tgStep("Strip","⛔ Barrel off with the piston held — and the valve stays shut",
+          stA("Draw the barrel out of the stock-receiver assembly with the piston held inside its gas cylinder, then let the piston parts off the tube. ⛔ The valve is where this stops: never strip its spring or its retaining nut. It is self-cleaning and needs no maintenance; if it is genuinely wrong, that is a factory-trained gunsmith's work.")
+          +stAs("The valve device is self-cleaning and requires no maintenance"),
+          {"branch":true,"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — FIELD STRIPPING, printed p.31-32"}),
+        tgStep("Clean","Bore, and then the locking shoulders",
+          stA("Soft flannel through the bore, bronze brush or an oiled cloth for the rest, dry cloth after, then a light film. Then the breech end, and give it real attention — a competition gun that starts closing sluggishly halfway through a programme is usually complaining about those bearing surfaces, not about the shells.")
+          +stAs("Lightly lubricate the barrel with a soft clean cloth soaked with Beretta Gun Oil."),
+          {"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — ROUTINE MAINTENANCE, printed p.35-36"}),
+        tgStep("Clean","Gas system cleaned, then left dry",
+          stA("Clean and spray the piston, the elastic piston seal and the magazine tube; spray the cylinder walls, brush them with a bronze brush and wipe the inside out. ⛔ Then stop — Beretta says the components named must not be lubricated, and a wet gas system is the fastest route to a gun that will not finish a round.")
+          +stAs("After removing any combustion residue, clean the inside of the gas cylinder with a clean cloth."),
+          {"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — ROUTINE MAINTENANCE, printed p.35-36"}),
+        tgStep("Clean","Piston glides freely, or it does not go back",
+          stA("Push the piston along the magazine tube by hand. It should slide with no catch at all. This is the check that separates a gun that will run a full programme from one that starts leaving the bolt short somewhere in the middle of it.")
+          +stAs("To clean the walls of the gas cylinder, spray them with Beretta Gun Oil and clean thoroughly with a bronze brush."),
+          {"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — ROUTINE MAINTENANCE, printed p.35-36"})
+      ],
+      deepSteps:[
+        tgStep("Deep","The bolt comes apart to be CLEANED, and for nothing else",
+          stA("Beretta puts the reason above the procedure, and it is the reason to do this at the end of a season rather than after a squad: the breech bolt assembly is taken down to clean its components. Nothing below is a tuning operation."),
+          {"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — FIELD STRIPPING, printed p.31-32"}),
+        tgStep("Deep","Ride the bolt forward under control",
+          stA("Keep the index or middle finger on the cocking handle, press the release button, and let the bolt travel forward slowly until it stops. Letting it slam is how a bolt face and a barrel breech get peened over a season of doing it."),
+          {"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — FIELD STRIPPING, printed p.31-32"}),
+        tgStep("Deep","Depress the bolt head until the neck groove lines up",
+          stA("Press the head of the bolt in until the groove in its neck sits level with the edge of the bolt body. With the groove aligned the cocking handle will pull straight out and it takes force; with it misaligned nothing will come and levering it is how the handle gets bent.")
+          +stAs("Keeping the head depressed in this position, extract the cocking handle from the breech bolt, pulling forcefully."),
+          {"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — FIELD STRIPPING, printed p.31-32"}),
+        tgStep("Deep","Bolt group forward off the receiver — ejection port UP",
+          stA("Flat surface, ejection port facing upward, and pull the bolt assembly, the operating rods with sleeve, the recoil spring and the spring holder forward together. Port up is what keeps the firing pin, the locking block and their springs inside the bolt instead of on the floor."),
+          {"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — FIELD STRIPPING, printed p.31-32"}),
+        tgStep("Deep","Trigger plate out — safety ON, hammer cocked",
+          stA("Engage the safety with the hammer cocked, press the carrier stop pin, then drive the trigger guard retaining pin out with a punch or an awl and lever the plate free by the trigger guard — toward the barrel first, then outward. The order matters; pulling straight out binds it.")
+          +stAs("The trigger plate only needs to be disassembled in order to clean the trigger mechanism."),
+          {"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — FIELD STRIPPING, printed p.31-32"}),
+        tgStep("Deep","Clean bolt, plate and receiver — then put the tools down",
+          stA("Spray and clean the bolt parts, dry them thoroughly, lubricate lightly. Wipe the trigger plate and put a light film on its metal parts and its retaining pin. Do the receiver the same way, lubricating the internal bolt guides. ⛔ The plate comes OUT to be cleaned; it does not come APART, and the valve stays exactly where the strip left it.")
+          +stAs("Proceed as indicated for the breech bolt. Clean thoroughly with a soft cloth and lubricate the internal breech bolt guides."),
+          {"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — SPECIAL MAINTENANCE, printed p.36"})
+      ],
+      cleaning:[{"name":"BARREL & LOCKING SHOULDERS","tasks":["Flannel through the bore for combustion residue; bronze brush if a match day has earned it","Locking shoulders at the barrel breech cleaned thoroughly","Dry cloth through, then a light oil; bore and chamber checked clear of obstruction"]},{"name":"GAS CYLINDER, PISTON, SEAL, MAGAZINE TUBE","tasks":["Piston, elastic piston seal and magazine tube cleaned and sprayed","Piston proved to glide freely along the tube by hand","Cylinder walls sprayed and brushed, then wiped out with a clean cloth","⛔ These components must NOT be lubricated"]},{"name":"BREECH BOLT, TRIGGER PLATE, RECEIVER (end of season)","tasks":["Bolt parts sprayed and cleaned, dried thoroughly, lightly lubricated","Trigger plate wiped; metal parts and the retaining pin lightly oiled","Receiver treated as the bolt was, internal bolt guides lubricated"]},{"name":"⛔ LEAVE ALONE","tasks":["The valve assembly is never disassembled","The valve spring and the valve retaining nut are never stripped","Oil never goes on a cartridge, and never stays in the bore"]}],
+      reassembly:["Trigger plate back in with the hammer cocked and the safety engaged, rear of the plate flush to the receiver, pushed firmly toward the stock.","Retaining pin in only once the trigger guard hole is centred on the receiver.","Bolt group, operating rods with sleeve, recoil spring and piston stop onto the magazine tube, ejection port UP on a flat surface.","Bolt head depressed to the neck groove, cocking handle driven home firmly.","Piston into the barrel's gas cylinder, elastic seal pinched between the fingers to start it.","Barrel checked clear, carrier stop pin down, fore-end on and the front cap tightened."],
+      fncheck:"Back together and unloaded: cycle the action several times, confirm the bolt locks open on the carrier stop and returns fully into battery, and check the front cap is tight and the choke seated. Short-stroking straight after a clean points at oil left in the gas system, which the book says should carry none."
+    },
     "sg_beretta1301tactical": {
       textMode:true, parts:{}, origins:{},
       sourcedFrom:"Beretta Semiauto Shotgun User Manual — UQAN3953 rev 3 (form code printed in the running header of every page; the book prints no year) (UNDATED — Beretta prints a form code rather than a year)",
@@ -9904,6 +9990,138 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
       cleaning:[{"name":"CHOKE TUBE & HOUSING","tasks":["Choke out, housing brushed and dried","Choke checked clean inside AND outside","Thin film of gun oil on the barrel thread and the choke before it goes back"]},{"name":"BARREL","tasks":["Soft patch through to lift combustion residue; brass brush if it needs it","Barrel extension cleaned thoroughly — that is the locking surface","Dry patch, then a lightly oiled cloth over the outside","⛔ Bore checked clear before it goes back on"]},{"name":"GAS CYLINDER, PISTON, MAGAZINE TUBE","tasks":["Magazine tube shaft sprayed and cleaned; piston must glide freely on it","Gas cylinder walls brushed with a brass brush, then wiped out","⛔ NEVER oil inside the gas cylinder — these parts run dry"]},{"name":"BREECH BOLT, TRIGGER PACK, RECEIVER (end of season)","tasks":["Bolt parts sprayed, dried thoroughly, lightly lubricated","Trigger pack wiped clean; metal parts and the retaining pin lightly oiled","Receiver's internal bolt guides cleaned and lubricated","⛔ Never spray or apply oil to cartridges"]}],
       reassembly:["Connecting rod with sleeve back onto the breech bolt.","Working on a flat surface with the ejection port UP, bolt assembly and operating rod with sleeve onto the magazine tube shaft.","Push the operating rod all the way in to enter the bolt into the receiver, then slide it down against the recoil spring until the breech locks open.","⛔ Cocking handle into the bolt and struck firmly until FULLY seated — a handle that is not fully seated can dislodge during operation.","Barrel checked clear, then back into the receiver with the piston held in its cylinder; forend on, forend cap tightened.","Trigger pack back in and its retaining pin driven home before anything else.","Choke tube in, tightened, and the gun cycled to check function."],
       fncheck:"Reassembled and unloaded: the cocking handle must be COMPLETELY seated in the breech bolt — Beretta warns that a partly-seated handle can fly out of the gun in use, and that the damage is not covered by warranty. Then cycle the bolt several times and confirm it locks open on the carrier stop and closes fully. Check the choke is tight before shooting."
+    },
+    "sg_berettaa400xcelmultitarget": {
+      textMode:true, parts:{}, origins:{},
+      sourcedFrom:"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) (UNDATED — Beretta prints a form code rather than a year)",
+      sourceSha256:"775abb44fcf9ac7ef102a4fbe6f79b367d85824c0dfcdb217e28a988aa699585",
+      cleanIntro:"The Multitarget is one A400 asked to shoot several disciplines, so it lives with an adjustable comb and a shell count that never stops climbing. None of that changes the strip: cap, fore-end, barrel, bolt group, no tool needed. What it does change is how often you are into the gas system — and Beretta is explicit that the gas parts are cleaned and then left DRY.",
+      steps:[
+        tgStep("Clear","Prove it empty three ways, then check the hammer",
+          stA("Look through the ejection port, the loading gate and the chamber — three places, three looks — and then confirm the hammer is decocked before a single part moves. On a gun that spends its day being loaded two at a time, the magazine is the one that catches people out.")
+          +stAs("It is advisable to carry out the stripping operations over a table to catch components should they drop."),
+          {"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — FIELD STRIPPING, printed p.31-32"}),
+        tgStep("Strip","Stop pin down first, then lock the bolt back",
+          stA("The carrier stop pin goes all the way down, and the bolt gets pulled fully back so it stays open. Do these in that order — with the bolt already back it is awkward to reach the pin, and with neither done the cap simply will not free the fore-end.")
+          +stAs("Pull the breech bolt all the way back so that it remains open"),
+          {"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — FIELD STRIPPING, printed p.31-32"}),
+        tgStep("Strip","Cap anticlockwise, fore-end forward off the barrel",
+          stA("Spin the front cap off anticlockwise and set it where it cannot roll. Hold the gun by the BARREL and pull the fore-end straight forward off the muzzle end; it comes easily when it is straight and binds the moment it is not.")
+          +stAs("Holding the shotgun by the barrel, pull the fore-end straight out toward the muzzle."),
+          {"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — FIELD STRIPPING, printed p.31-32"}),
+        tgStep("Strip","⛔ Barrel off with the piston held — the valve is not yours",
+          stA("Keep a hand on the piston inside its cylinder as the barrel comes away, then let the piston and its elastic seal slide off the magazine tube. ⛔ The valve is where this stops: nothing in it is serviceable, and a valve that is genuinely wrong goes to a factory-trained gunsmith rather than onto the bench.")
+          +stAs("The valve device is self-cleaning and requires no maintenance"),
+          {"branch":true,"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — FIELD STRIPPING, printed p.31-32"}),
+        tgStep("Clean","Bore, then the shoulders the bolt locks into",
+          stA("Flannel through for residue, bronze brush if it has earned one, then a dry cloth and a light film of oil. The step people skip is the locking shoulders at the barrel breech: clean those thoroughly, because that is where a gun stops closing fully and starts feeling gritty.")
+          +stAs("Pull a soft, clean, dry cloth through the barrel."),
+          {"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — ROUTINE MAINTENANCE, printed p.35-36"}),
+        tgStep("Clean","Heavy powders foul four named parts — clean all four",
+          stA("The book names them: gas cylinder, piston, elastic piston seal, magazine tube. Clean and spray each, brush the cylinder walls, wipe the inside out. ⛔ Then they go back dry — the components named above must not be lubricated, and that instruction is not a preference about oil brands.")
+          +stAs("The particular composition of the powders of some Super Magnum ammunition can leave consistent deposits of combustion residue."),
+          {"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — ROUTINE MAINTENANCE, printed p.35-36"}),
+        tgStep("Clean","The piston must glide, by hand, before reassembly",
+          stA("Slide the piston up and down the magazine tube with your fingers. Free is free; any drag at all means it goes back to the brush. A multi-discipline gun that has been running light target loads all morning is exactly the gun that will not cycle a light load once the piston starts to stick.")
+          +stAs("To clean the walls of the gas cylinder, spray them with Beretta Gun Oil and clean thoroughly with a bronze brush."),
+          {"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — ROUTINE MAINTENANCE, printed p.35-36"}),
+        tgStep("Clean","⛔ Right tube in the right barrel",
+          stA("Changing discipline means changing choke, and a bench full of tubes is where the wrong pattern gets started into an Optima-Bore HP barrel. ⛔ That barrel takes Optimachoke HP tubes only; the book states plainly that other Beretta patterns are incompatible with it.")
+          +stAs("Beretta Optimachoke® HP (High Performance) tubes are built in high resistance steel to ensure a long life and rust protection and are designed to withstand the use of steel shot."),
+          {"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — BERETTA OPTIMACHOKE® HP CHOKE TUBES, printed p.42"})
+      ],
+      deepSteps:[
+        tgStep("Deep","The bolt comes apart to be CLEANED, and for nothing else",
+          stA("Beretta puts the reason above the procedure, and it is the reason to do this at the end of a season rather than after a squad: the breech bolt assembly is taken down to clean its components. Nothing below is a tuning operation."),
+          {"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — FIELD STRIPPING, printed p.31-32"}),
+        tgStep("Deep","Ride the bolt forward under control",
+          stA("Keep the index or middle finger on the cocking handle, press the release button, and let the bolt travel forward slowly until it stops. Letting it slam is how a bolt face and a barrel breech get peened over a season of doing it."),
+          {"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — FIELD STRIPPING, printed p.31-32"}),
+        tgStep("Deep","Depress the bolt head until the neck groove lines up",
+          stA("Press the head of the bolt in until the groove in its neck sits level with the edge of the bolt body. With the groove aligned the cocking handle will pull straight out and it takes force; with it misaligned nothing will come and levering it is how the handle gets bent.")
+          +stAs("Keeping the head depressed in this position, extract the cocking handle from the breech bolt, pulling forcefully."),
+          {"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — FIELD STRIPPING, printed p.31-32"}),
+        tgStep("Deep","Bolt group forward off the receiver — ejection port UP",
+          stA("Flat surface, ejection port facing upward, and pull the bolt assembly, the operating rods with sleeve, the recoil spring and the spring holder forward together. Port up is what keeps the firing pin, the locking block and their springs inside the bolt instead of on the floor."),
+          {"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — FIELD STRIPPING, printed p.31-32"}),
+        tgStep("Deep","Trigger plate out — safety ON, hammer cocked",
+          stA("Engage the safety with the hammer cocked, press the carrier stop pin, then drive the trigger guard retaining pin out with a punch or an awl and lever the plate free by the trigger guard — toward the barrel first, then outward. The order matters; pulling straight out binds it.")
+          +stAs("The trigger plate only needs to be disassembled in order to clean the trigger mechanism."),
+          {"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — FIELD STRIPPING, printed p.31-32"}),
+        tgStep("Deep","Clean bolt, plate and receiver — then put the tools down",
+          stA("Spray and clean the bolt parts, dry them thoroughly, lubricate lightly. Wipe the trigger plate and put a light film on its metal parts and its retaining pin. Do the receiver the same way, lubricating the internal bolt guides. ⛔ The plate comes OUT to be cleaned; it does not come APART, and the valve stays exactly where the strip left it.")
+          +stAs("Proceed as indicated for the breech bolt. Clean thoroughly with a soft cloth and lubricate the internal breech bolt guides."),
+          {"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — SPECIAL MAINTENANCE, printed p.36"})
+      ],
+      cleaning:[{"name":"BARREL, BREECH SHOULDERS & CHOKE","tasks":["Flannel through the bore for combustion residue; bronze brush or an oiled cloth if it needs more","Locking shoulders at the barrel breech cleaned thoroughly","Dry cloth pulled through, light oil, bore and chamber checked clear of obstruction","⛔ Optima-Bore HP barrels take Optimachoke HP tubes and no other Beretta pattern"]},{"name":"GAS CYLINDER, PISTON, SEAL, MAGAZINE TUBE","tasks":["Piston, elastic piston seal and magazine tube cleaned and sprayed","Piston made to glide freely along the tube by hand before anything goes back","Cylinder walls sprayed and brushed with a bronze brush, then wiped out with a clean cloth","⛔ These components go back DRY — the book forbids lubricating them"]},{"name":"BREECH BOLT, TRIGGER PLATE, RECEIVER (end of season)","tasks":["Bolt parts sprayed and cleaned, dried thoroughly, lightly lubricated","Trigger plate wiped; metal parts and the retaining pin lightly oiled","Receiver cleaned as the bolt was, internal bolt guides lubricated"]},{"name":"⛔ LEAVE ALONE","tasks":["The valve assembly is never disassembled","The valve spring and the valve retaining nut are never stripped","Oil never goes on a cartridge, and never stays in the bore"]}],
+      reassembly:["Trigger plate back in with the hammer cocked and the safety engaged, rear of the plate flush to the receiver, pushed firmly toward the stock.","Retaining pin in only once the trigger guard hole is centred on the receiver.","Bolt group, operating rods with sleeve, recoil spring and piston stop onto the magazine tube, ejection port UP on a flat surface.","Bolt head depressed to the neck groove, cocking handle driven home firmly.","Piston into the barrel's gas cylinder, elastic seal pinched between the fingers to start it.","Barrel checked clear, carrier stop pin down, fore-end on and the front cap tightened."],
+      fncheck:"Reassembled and unloaded: work the bolt several times, confirm it holds open on the carrier stop and closes fully into battery, and check the front cap is tight and the choke fully seated. A gun that suddenly will not cycle its lightest load after a clean has oil where the book says there should be none."
+    },
+    "sg_berettaa400xcelsporting": {
+      textMode:true, parts:{}, origins:{},
+      sourcedFrom:"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) (UNDATED — Beretta prints a form code rather than a year)",
+      sourceSha256:"775abb44fcf9ac7ef102a4fbe6f79b367d85824c0dfcdb217e28a988aa699585",
+      cleanIntro:"A sporting A400 goes through more shells in a season than most guns see in a decade, and it is the gas system that decides whether the last station of the day feels like the first. It strips with no tool at all: cap, fore-end, barrel, bolt group off the magazine tube. The one thing to fix in your head before you start is that the gas parts get cleaned and then go back DRY — Beretta says in as many words that they must not be lubricated.",
+      steps:[
+        tgStep("Clear","Empty in all three places, hammer decocked",
+          stA("Chamber, receiver and magazine, each looked at — through the ejection port, the loading gate and the chamber. Then check the hammer is decocked. A tube gun that reads empty at the port can still be holding shells in the magazine.")
+          +stAs("It is advisable to carry out the stripping operations over a table to catch components should they drop."),
+          {"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — FIELD STRIPPING, printed p.31-32"}),
+        tgStep("Strip","Carrier stop pin down, bolt held open",
+          stA("Press the carrier stop pin all the way down if it is not already there, then draw the bolt fully to the rear so it stays open. Both have to be true before the fore-end cap will release anything, and forcing the cap against a closed bolt is how the threads get chewed.")
+          +stAs("Pull the breech bolt all the way back so that it remains open"),
+          {"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — FIELD STRIPPING, printed p.31-32"}),
+        tgStep("Strip","Front cap off anticlockwise, fore-end off the muzzle end",
+          stA("Unscrew the fore-end's front cap anticlockwise. Then hold the gun BY THE BARREL and draw the fore-end straight out toward the muzzle — holding it by the receiver puts your hand where the fore-end has to travel.")
+          +stAs("Holding the shotgun by the barrel, pull the fore-end straight out toward the muzzle."),
+          {"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — FIELD STRIPPING, printed p.31-32"}),
+        tgStep("Strip","⛔ Hold the piston as the barrel comes off — and stop at the valve",
+          stA("Draw the barrel out of the stock-receiver assembly with the piston held inside its gas cylinder, then let the piston parts come off the tube. ⛔ Stop at the valve. Beretta gives a reason rather than just a rule — there is nothing inside it to service — and anything genuinely wrong with it goes to a factory-trained gunsmith.")
+          +stAs("The valve device is self-cleaning and requires no maintenance"),
+          {"branch":true,"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — FIELD STRIPPING, printed p.31-32"}),
+        tgStep("Clean","Bore first, then the locking shoulders at the breech",
+          stA("Soft flannel down the bore for combustion residue, bronze brush or an oiled cloth if a heavy day has left more than that. Then the surfaces people walk past: the shoulders at the breech end that the bolt actually locks into. Fouling there is what a gun that will not quite close on the second bird is complaining about.")
+          +stAs("Carefully clean the inside of the barrel with a soft cloth (flannel) to remove any combustion residue."),
+          {"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — ROUTINE MAINTENANCE, printed p.35-36"}),
+        tgStep("Clean","The gas parts get cleaned — and go back dry",
+          stA("Beretta names where heavy powders deposit: the gas cylinder, the piston, the elastic piston seal and the magazine tube. Clean and spray those, brush the cylinder walls with a bronze brush and wipe the inside out with a clean cloth. ⛔ Then leave them dry. Oil in a gas cylinder turns residue into paste, and paste is what a short-stroking gun is full of.")
+          +stAs("After removing any combustion residue, clean the inside of the gas cylinder with a clean cloth."),
+          {"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — ROUTINE MAINTENANCE, printed p.35-36"}),
+        tgStep("Clean","Make the piston glide before anything goes back together",
+          stA("Run the piston along the magazine tube by hand and feel it move freely. This is the one check on a gas gun that predicts the failure before it happens: a piston that drags will short-stroke long before it refuses to fire, and you will blame the shells.")
+          +stAs("To clean the walls of the gas cylinder, spray them with Beretta Gun Oil and clean thoroughly with a bronze brush."),
+          {"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — ROUTINE MAINTENANCE, printed p.35-36"}),
+        tgStep("Clean","⛔ Choke back in — and only an Optimachoke HP tube",
+          stA("Sporting guns get their chokes changed more than anything else on the gun, which is how the wrong tube ends up in the right barrel. ⛔ An Optima-Bore HP barrel takes Optimachoke HP tubes and no other Beretta pattern; the book says a wrong-pattern tube will damage the shotgun.")
+          +stAs("Check the barrel. The barrel and cartridge chamber must be clean and free from obstructions."),
+          {"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — BERETTA OPTIMACHOKE® HP CHOKE TUBES, printed p.42"})
+      ],
+      deepSteps:[
+        tgStep("Deep","The bolt comes apart to be CLEANED, and for nothing else",
+          stA("Beretta puts the reason above the procedure, and it is the reason to do this at the end of a season rather than after a squad: the breech bolt assembly is taken down to clean its components. Nothing below is a tuning operation."),
+          {"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — FIELD STRIPPING, printed p.31-32"}),
+        tgStep("Deep","Ride the bolt forward under control",
+          stA("Keep the index or middle finger on the cocking handle, press the release button, and let the bolt travel forward slowly until it stops. Letting it slam is how a bolt face and a barrel breech get peened over a season of doing it."),
+          {"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — FIELD STRIPPING, printed p.31-32"}),
+        tgStep("Deep","Depress the bolt head until the neck groove lines up",
+          stA("Press the head of the bolt in until the groove in its neck sits level with the edge of the bolt body. With the groove aligned the cocking handle will pull straight out and it takes force; with it misaligned nothing will come and levering it is how the handle gets bent.")
+          +stAs("Keeping the head depressed in this position, extract the cocking handle from the breech bolt, pulling forcefully."),
+          {"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — FIELD STRIPPING, printed p.31-32"}),
+        tgStep("Deep","Bolt group forward off the receiver — ejection port UP",
+          stA("Flat surface, ejection port facing upward, and pull the bolt assembly, the operating rods with sleeve, the recoil spring and the spring holder forward together. Port up is what keeps the firing pin, the locking block and their springs inside the bolt instead of on the floor."),
+          {"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — FIELD STRIPPING, printed p.31-32"}),
+        tgStep("Deep","Trigger plate out — safety ON, hammer cocked",
+          stA("Engage the safety with the hammer cocked, press the carrier stop pin, then drive the trigger guard retaining pin out with a punch or an awl and lever the plate free by the trigger guard — toward the barrel first, then outward. The order matters; pulling straight out binds it.")
+          +stAs("The trigger plate only needs to be disassembled in order to clean the trigger mechanism."),
+          {"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — FIELD STRIPPING, printed p.31-32"}),
+        tgStep("Deep","Clean bolt, plate and receiver — then put the tools down",
+          stA("Spray and clean the bolt parts, dry them thoroughly, lubricate lightly. Wipe the trigger plate and put a light film on its metal parts and its retaining pin. Do the receiver the same way, lubricating the internal bolt guides. ⛔ The plate comes OUT to be cleaned; it does not come APART, and the valve stays exactly where the strip left it.")
+          +stAs("Proceed as indicated for the breech bolt. Clean thoroughly with a soft cloth and lubricate the internal breech bolt guides."),
+          {"src":"Beretta Semiauto Shotgun User Manual — MAN0088/001 (form code printed in the running header) — SPECIAL MAINTENANCE, printed p.36"})
+      ],
+      cleaning:[{"name":"BARREL, BREECH SHOULDERS & CHOKE","tasks":["Flannel through the bore for combustion residue; bronze brush or an oiled cloth if it needs more","Locking shoulders at the barrel breech cleaned thoroughly","Dry cloth pulled through, light oil, bore and chamber checked clear of obstruction","⛔ Optima-Bore HP barrels take Optimachoke HP tubes and no other Beretta pattern"]},{"name":"GAS CYLINDER, PISTON, SEAL, MAGAZINE TUBE","tasks":["Piston, elastic piston seal and magazine tube cleaned and sprayed","Piston made to glide freely along the tube by hand before anything goes back","Cylinder walls sprayed and brushed with a bronze brush, then wiped out with a clean cloth","⛔ These components go back DRY — the book forbids lubricating them"]},{"name":"BREECH BOLT, TRIGGER PLATE, RECEIVER (end of season)","tasks":["Bolt parts sprayed and cleaned, dried thoroughly, lightly lubricated","Trigger plate wiped; metal parts and the retaining pin lightly oiled","Receiver cleaned as the bolt was, internal bolt guides lubricated"]},{"name":"⛔ LEAVE ALONE","tasks":["The valve assembly is never disassembled","The valve spring and the valve retaining nut are never stripped","Oil never goes on a cartridge, and never stays in the bore"]}],
+      reassembly:["Trigger plate back in with the hammer cocked and the safety engaged, rear of the plate flush to the receiver, pushed firmly toward the stock.","Retaining pin in only once the trigger guard hole is centred on the receiver.","Bolt group, operating rods with sleeve, recoil spring and piston stop onto the magazine tube, ejection port UP on a flat surface.","Bolt head depressed to the neck groove, cocking handle driven home firmly.","Piston into the barrel's gas cylinder, elastic seal pinched between the fingers to start it.","Barrel checked clear, carrier stop pin down, fore-end on and the front cap tightened."],
+      fncheck:"Back together and unloaded: cycle the bolt several times, confirm it locks open on the carrier stop and returns fully into battery, and check the front cap is tight and the choke seated. If it short-strokes after a clean, the first suspect is oil left in the gas cylinder — those parts run dry by design."
     },
     "sg_berettaa400xtremeplus": {
       textMode:true, parts:{}, origins:{},
@@ -23232,6 +23450,41 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
       reassembly:["Refit the magazine box into the receiver, open end to the rear and notched end first.","Seat the barrelled action in the stock with the trigger guard properly located, remembering the LONGER takedown screw goes behind the trigger guard.","Tighten both takedown screws alternately until snug, then tighten the front screw firmly, then the rear.","With the bolt OUT of the rifle for this step — never screw the trigger guard in with the bolt in the gun.","Orient the bolt handle up and to the right, lugs aligned with their races and the cocking piece projection at six o'clock, and push it in until the bolt stop snaps behind it.","Close the bolt and turn the handle down to its locked position."],
       fncheck:"Any time the bolt has been out, do this before ammunition goes anywhere near the rifle: \"Push the safety \"OFF\". Press the trigger. The firing pin should snap forward (\"dry-fire\"). Operate the bolt again a full cycle. It should close smoothly and turn down to lock easily, without impediment. If either does not, the bolt may be incorrectly assembled.\" (Reassembly, Warning, p.26). Also confirm the safety still locks the trigger in the ON position, and on a three-position lever that the fully rearward notch locks the bolt shut. A rifle that fails either check goes to LSI, not to the range."
     },
+    "sg_huxwrxflowrange36ti": {
+      textMode:true, parts:{}, origins:{},
+      sourcedFrom:"FLOW RANGE 36 Ti INSTRUCTION MANUAL — ABSENT — no revision or edition code is printed in the document. (ABSENT — no copyright year line is printed.)",
+      sourceSha256:"680552e0f4d71fe15a4e2850b4e3415235b8701e488c6da3fe5176e5ea26b1dd",
+      cleanIntro:"A 3D-printed titanium Flow-Through can, and the printing is the reason the cleaning rule is a chemistry rule: HUXWRX names titanium-safe cleaners specifically. ⛔ It does not open — the book's own warning forbids going past what it shows, and what it shows is a mount, a torque figure and a solvent. The maintenance cycle is 2,500 rounds or less. And one thing worth knowing before the next range trip: after a wet clean, solvent and debris can come out of the muzzle end on the first shots.",
+      steps:[
+        tgStep("Clear","Unloaded, and the ammunition off the bench",
+          stA("HUXWRX prints the same warning at the head of BOTH its installation and its cleaning sections, word for word: magazine out, chamber checked by eye and by finger, and the ammunition moved out of the workspace entirely.")
+          +stAs("Use proper safety equipment before handling. Ensure firearm is not loaded before installing or removing the suppressor. Only operate the suppressor system with a serviceable firearm and ammunition of the correct caliber."),
+          {"src":"FLOW RANGE 36 Ti INSTRUCTION MANUAL — ABSENT — no revision or edition code is printed in the document. — HUXWRX FLOW Range 36 Ti Instruction Manual — SUPPRESSOR INSTALLATION, printed p.2"}),
+        tgStep("Strip","⛔ Cool before it is touched",
+          stA("A Flow-Through can vents gas forward and gets hot doing it. The book's warning is about skin and clothing, and it is the first thing on the page.")
+          +stLimit("HUXWRX","The suppressor system can reach extremely hot temperatures. Use caution before handling after use. Avoid contact with skin or clothing when hot.","FLOW RANGE 36 Ti INSTRUCTION MANUAL — ABSENT — no revision or edition code is printed in the document. — HUXWRX FLOW Range 36 Ti Instruction Manual — WARNING, printed p.1"),
+          {"src":"FLOW RANGE 36 Ti INSTRUCTION MANUAL — ABSENT — no revision or edition code is printed in the document. — HUXWRX FLOW Range 36 Ti Instruction Manual — WARNING, printed p.1"}),
+        tgStep("Strip","Lock nut loose, then the can off the QD device",
+          stA("The lock nut at the base of the HUB QD adapter comes loose by hand first — that is what frees the can to turn. Then reverse the mounting direction to run it off the muzzle device. The lock/unlock icons on the can and on the nut tell you which way is which, so there is no guessing.")
+          +stAs("Reverse this process to remove the suppressor from the barrel."),
+          {"src":"FLOW RANGE 36 Ti INSTRUCTION MANUAL — ABSENT — no revision or edition code is printed in the document. — HUXWRX FLOW Range 36 Ti Instruction Manual — SUPPRESSOR INSTALLATION, printed p.2"}),
+        tgStep("Strip","⛔ And that is as far as it opens",
+          stA("There is no end cap procedure and no baffle stack in this book, and the warning page says outright not to go past the level it shows. On a printed titanium core there is nothing behind that instruction to find.")
+          +stLimit("HUXWRX","Do not disassemble the suppressor system beyond required level, as shown in this manual, for standard maintenance.","FLOW RANGE 36 Ti INSTRUCTION MANUAL — ABSENT — no revision or edition code is printed in the document. — HUXWRX FLOW Range 36 Ti Instruction Manual — WARNING, printed p.1"),
+          {"src":"FLOW RANGE 36 Ti INSTRUCTION MANUAL — ABSENT — no revision or edition code is printed in the document. — HUXWRX FLOW Range 36 Ti Instruction Manual — WARNING, printed p.1"}),
+        tgStep("Clean","Titanium-safe chemistry, and nothing else",
+          stA("The material decides the solvent here. HUXWRX names its own Suppressor Sauce as the standard for Flow-Through geometries, and whatever you use, it has to be safe on titanium.")
+          +stAs("Recommended maintenance cycle for the suppressor is 2500 rounds or less."),
+          {"src":"FLOW RANGE 36 Ti INSTRUCTION MANUAL — ABSENT — no revision or edition code is printed in the document. — HUXWRX FLOW Range 36 Ti Instruction Manual — SUPPRESSOR CLEANING AND MAINTENANCE, printed p.2"}),
+        tgStep("Clean","Threads and taper faces clean before it goes back",
+          stA("Every mounting surface — the barrel threads, the taper, the HUB interface — gets cleaned while the can is off. A dirty taper is what stops a QD can seating square, and a can that does not seat square is a baffle strike."),
+          {"src":"FLOW RANGE 36 Ti INSTRUCTION MANUAL — ABSENT — no revision or edition code is printed in the document. — HUXWRX FLOW Range 36 Ti Instruction Manual — SUPPRESSOR INSTALLATION, printed p.2"})
+      ],
+      deepAbsentReason:"HUXWRX PUBLISHES NO TEARDOWN FOR THIS CAN AND FORBIDS ONE IN ITS OWN WARNING: \"Do not disassemble the suppressor system beyond required level, as shown in this manual, for standard maintenance.\" There is no end-cap step, no baffle count and no internal torque figure anywhere in the manual — the only torque it prints is 25 ft-lbf for the HUB adapter onto the housing and 35 ft-lbf for a flash hider onto the barrel, both of which are mounting figures. A deeper procedure authored here would be invention, and on a single printed titanium core it would be an instruction to destroy the product.",
+      cleaning:[{"name":"THE CAN (IT DOES NOT OPEN)","tasks":["⛔ Titanium-safe cleaners ONLY — it is 3D-printed titanium","HUXWRX names Suppressor Sauce as its own standard for Flow-Through geometry","No abrasives, no wire, nothing driven through the bore"]},{"name":"MOUNT AND THREADS","tasks":["All threads and taper mounting surfaces cleaned while the can is off","HUB adapter torqued to the housing at 25 ft-lbf","A flash hider / comp / brake torqued to the barrel at 35 ft-lbf where it applies","Lock nut hand tight, 50 in-lbf minimum"]},{"name":"⛔ THE CYCLE IS THE MAINTENANCE","tasks":["2,500 rounds or less, by the maker's own figure","Expect solvent and debris to blow out on the first shots after a wet clean"]}],
+      reassembly:["Nothing to reassemble — the can never opened.","Threads and taper mounting surfaces clean and dry.","Lock nut at the base of the HUB QD adapter backed off by hand.","Can onto the QD muzzle device in the direction its lock/unlock icon shows, until hand tight and firmly seated.","Lock nut tightened firmly by hand — 50 in-lbf minimum — in the direction ITS icon shows.","HUB adapter at 25 ft-lbf to the housing; muzzle device at 35 ft-lbf to the barrel where one is fitted.","⛔ Solvent and debris may shoot out on the first shots after cleaning."],
+      fncheck:"Back on the host with the action open and clear: threads and taper clean, the can run on in the direction its own lock icon shows until it is hand tight and firmly seated, then the lock nut tightened by hand to at least 50 in-lbf. Confirm the HUB adapter is still at 25 ft-lbf on the housing and that any muzzle device is still torqued to the barrel — HUXWRX makes both a before-firing check, not an install-day one. ⛔ And expect the first few rounds after a wet clean to throw solvent out of the muzzle: stand clear and do not read it as a fault."
+    },
     "sg_ithacamodel37": {
       textMode:true, parts:{}, origins:{},
       sourcedFrom:"Model 37 Owners Manual — UNDATED — no edition or revision code is printed in the document (undated — no copyright line is printed)",
@@ -24545,6 +24798,47 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
       cleaning:[{"name":"BORE","tasks":["Bolt out first, so the bore can be worked from the breech end","Patch on a good quality cleaning rod, breech to muzzle, repeated until the patches come out clean","Barrel solvent on the patch only if fouling calls for it — non-corrosive and non-abrasive, followed by dry patches","Wire brush with powder solvent if necessary","One slightly oiled patch through in the same direction to finish"]},{"name":"BOLT AND EXTERNAL METAL","tasks":["Wipe the bolt, the breech and all external metal surfaces with a light coat of oil","Clean and oil the extractor area if empty cases are not being removed","A very light film of oil on all metal parts, no more"]},{"name":"CHEMISTRY","tasks":["Non-acid, resinous, recognised quality gun oil only","No other chemicals, especially in the barrel bore","Follow the directions of the cleaning rod manufacturer"]},{"name":"INTERVAL AND STORAGE","tasks":["Clean the rifle each time it has been used","At least monthly in a humid climate","Before storing, be sure the rifle is uncocked and unloaded","Store the rifle and the ammunition separately"]}],
       reassembly:["Place the bolt into the receiver while pulling the trigger, exactly as it came out.","Move the bolt all the way forward and rotate the handle down to lock.","If the stock was removed, refit it and tighten the takedown screw.","Examine the barrel and confirm it is clean and free of heavy oil, grease or any other obstruction before the rifle is fired."],
       fncheck:"With the chamber empty, work the bolt several times and confirm it closes and locks with the handle down. Check the cocking piece pulls back to its stop and that the action will not open while the rifle is cocked. Confirm the rifle is not loose in the stock. Look through the bore one last time for patch material or oil. Do not dry fire to test it — use a spent case in the chamber if a trigger check is needed."
+    },
+    "sg_kgmrf22": {
+      textMode:true, parts:{}, origins:{},
+      sourcedFrom:"USER MANUAL FOR KGM RF22 SUPPRESSOR — Rev: 1/25 — printed on the title page. (2025 — ©2025 on the title page.)",
+      sourceSha256:"9cb776f35935e895479393edd2adee4237be2f0bdb451869f83a7cd5691b85d6",
+      cleanIntro:"A 5 oz .22 can that KGM designed to come apart — the spec table says \"User Serviceable: Yes\" and the book prints the teardown with its own tool. It is rated up to 5.7x28, which is why the interval is short: basic cleaning every 150–200 rounds, a full submerged clean at a thousand or once a year. ⛔ The internals are ALUMINIUM, so the chemistry matters — an aluminium-friendly solvent or nothing. And the one part that has an orientation is the steel blast baffle: its engraved arrow faces the muzzle.",
+      steps:[
+        tgStep("Clear","Host unloaded before the can is touched",
+          stA("KGM's first safety line covers mounting, removing, cleaning, storage and shipping in one sentence — the gun is unloaded for all five. Magazine out, action open, chamber checked by eye and by finger."),
+          {"src":"USER MANUAL FOR KGM RF22 SUPPRESSOR — Rev: 1/25 — printed on the title page. — KGM RF22 Suppressor User Manual — Safety Precautions, printed p.2"}),
+        tgStep("Strip","⛔ Cool before it comes off",
+          stA("A .22 can run on 5.7x28 gets hotter than its size suggests. The book puts the wait in its own warning box above the removal procedure."),
+          {"src":"USER MANUAL FOR KGM RF22 SUPPRESSOR — Rev: 1/25 — printed on the title page. — KGM RF22 Suppressor User Manual — Removing Direct Thread Suppressor, printed p.5"}),
+        tgStep("Strip","Off the muzzle by the grasping grooves",
+          stA("Hold the can by the knurled grasping grooves, hold the gun, and unscrew counter-clockwise. If carbon has locked it on, KGM's own answer is a 7/8 inch wrench on the REAR MOUNT — not on the tube, and not on the front cap.")
+          +stAs("After extensive firing, carbon buildup can make the suppressor hard to remove. Use a 7/8” wrench on the rear mount to get additional leverage for removal."),
+          {"src":"USER MANUAL FOR KGM RF22 SUPPRESSOR — Rev: 1/25 — printed on the title page. — KGM RF22 Suppressor User Manual — Removing Direct Thread Suppressor, printed p.5"}),
+        tgStep("Strip","Front cap off with the male end of the tool",
+          stA("The RF22 ships with its own assembly/disassembly tool and it is double-ended. The male end goes into the front cap; unscrew counter-clockwise until the cap is off. Everything from here is what the cap was holding in."),
+          {"src":"USER MANUAL FOR KGM RF22 SUPPRESSOR — Rev: 1/25 — printed on the title page. — KGM RF22 Suppressor User Manual — Disassembly of RF22 Suppressor, printed p.7"}),
+        tgStep("Strip","Baffles out — and catch them",
+          stA("Tip it and they may simply fall out. Fouled, they stay put, and the fix is a WOOD OR DELRIN rod from the back end and a gentle push — soft rod, soft push, because the baffles are aluminium. Expect them to separate and come free as they clear the tube, so work over the bench, not over the floor.")
+          +stAs("The baffles may freely fall out, or if heavily fouled may stay in place.")
+          +stLimit("KGM","If the baffles do not freely fall out, insert a wood or delrin rod from the back end. A gentle push will push the baffles out","USER MANUAL FOR KGM RF22 SUPPRESSOR — Rev: 1/25 — printed on the title page. — KGM RF22 Suppressor User Manual — Disassembly of RF22 Suppressor, printed p.7"),
+          {"src":"USER MANUAL FOR KGM RF22 SUPPRESSOR — Rev: 1/25 — printed on the title page. — KGM RF22 Suppressor User Manual — Disassembly of RF22 Suppressor, printed p.7"}),
+        tgStep("Strip","Rear mount off with the female end",
+          stA("The other end of the same tool takes the rear mount off, counter-clockwise. That is the whole can: tube, front cap, baffle stack, steel blast baffle and rear mount."),
+          {"src":"USER MANUAL FOR KGM RF22 SUPPRESSOR — Rev: 1/25 — printed on the title page. — KGM RF22 Suppressor User Manual — Disassembly of RF22 Suppressor, printed p.7"}),
+        tgStep("Clean","⛔ Aluminium-friendly chemistry, nylon brush",
+          stA("The baffles and front cap are aluminium and the wrong solvent will eat them. Nylon brush on the accessible surfaces, wipe everything down, then rinse and dry. That is the 150-to-200-round job.")
+          +stAs("KGM recommends basic cleaning every 150-200 rounds depending on the host firearm and ammunition."),
+          {"src":"USER MANUAL FOR KGM RF22 SUPPRESSOR — Rev: 1/25 — printed on the title page. — KGM RF22 Suppressor User Manual — Regular Maintenance, printed p.10"}),
+        tgStep("Clean","The heavy clean: submerged, rinsed, blown dry",
+          stA("At a thousand rounds, once a year, or whenever it stops working as well: the parts go into a chemically resistant container and get submerged in an aluminium-friendly suppressor chemical. Then out, rinsed, brushed, rinsed again, and dried with compressed air before anything is reassembled.")
+          +stAs("Use compressed air to dry suppressor internals."),
+          {"warn":"Perform a more thorough cleaning cycle for the suppressor after one thousand rounds (1,000), on an annual basis, or as necessary due to fouling or loss of effectiveness.","warnSrc":"maker","src":"USER MANUAL FOR KGM RF22 SUPPRESSOR — Rev: 1/25 — printed on the title page. — KGM RF22 Suppressor User Manual — Heavy Cleaning, printed p.10"})
+      ],
+      deepAbsentReason:"THE PUBLISHED TEARDOWN IS ALREADY THE WHOLE CAN, so there is nothing deeper to publish. KGM's field procedure takes the RF22 down to tube, front cap, baffle stack, blast baffle and rear mount — five parts and a tool — and a baffle does not itself come apart. The book's only escalation past that is the warranty route: an RMA number from Customer Service before anything is shipped. Inventing a deeper step would mean inventing a joint the product does not have.",
+      cleaning:[{"name":"BAFFLE STACK AND FRONT CAP (ALUMINIUM)","tasks":["⛔ Aluminium-friendly chemicals ONLY — the wrong solvent eats them","Nylon brush on the accessible surfaces, carbon and copper","Submerged for the heavy clean, then rinsed with water","Compressed air through the internals before reassembly"]},{"name":"BLAST BAFFLE (STEEL) AND REAR MOUNT (TITANIUM)","tasks":["Blast baffle cleaned and its ENGRAVED ARROW found before it goes back","Rear mount threads cleaned — this is the part a wrench is allowed on"]},{"name":"MOUNT AND THREADS","tasks":["1/2x28 barrel threads cleaned and checked undamaged","⛔ Mount fully contacting the barrel shoulder, no visible gap"]},{"name":"⛔ THE INTERVALS ARE THE MAINTENANCE","tasks":["Basic clean every 150–200 rounds","Heavy clean at 1,000 rounds, annually, or on loss of effectiveness","Weigh it new and weigh it again periodically — KGM's own fouling measure"]}],
+      reassembly:["Rear mount onto the rear of the tube, clockwise, snug with the female end of the tool.","⛔ Blast baffle first, closest to the rear mount, engraved ARROW FACING THE MUZZLE.","The aluminium baffles after it, cone end facing the rear — they need no indexing and no fixed order.","Front cap on with the male end of the tool, snug. It may not sit flush on a low-round can; that is by design.","Onto the host with the action open and clear: clockwise until it completely stops, then hand-checked for a firm seat.","A 7/8 inch or strap wrench on the REAR MOUNT only, if extra force is wanted.","First fitting on a new host: verify alignment with a bore rod, and REMOVE THE ROD BEFORE FIRING."],
+      fncheck:"Back together: rear mount snug with the tool, blast baffle nearest it with its engraved arrow pointing at the muzzle, the rest of the stack cone-end rearward, front cap snug. ⛔ A front cap that does not sit flush with the tube is NORMAL on a new or low-round can — KGM designs the stack to compress — so do not force it. Sight through the bore for one clear channel. On the host, screw it down until it stops and then try to turn it further by hand: it must be firmly seated, with the mount fully against the barrel shoulder and no visible gap. First time on a new host, check it with a bore alignment rod — and take the rod out before you fire."
     },
     "sg_kimber2k11": {
       textMode:true, parts:{}, origins:{},
@@ -42710,6 +43004,82 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
       reassembly:["Confirm all seven baffles and the end cap are clean, dry and free of oil and solvent.","Install the seven baffles into the tube with the rounded edge facing forward.","Thread the front end cap into the tube and tighten it by hand using the suppressor wrench.","If your host is M9-.75 threaded, thread the adapter into the end cap and snug it with an adjustable wrench on the adapter flats.","Clear the host firearm, check the muzzle and suppressor threads are clean and that they match (1/2 x 28 TPI right hand unless the adapter is fitted), align them and screw the suppressor on as tight as you can by hand. Do not use the suppressor wrench to install it on the firearm."],
       fncheck:"There is no dry-fire check for a suppressor — the check is a mounting and inspection check. With the host cleared, confirm the suppressor is fully threaded and hand-tight against the shoulder with no visible gap, that the baffle count was seven and each one showed no strike damage, and that nothing was added to the assembly that changes its overall length (that is unlawful under NFA rules). Once shooting, check frequently that the suppressor is still securely threaded to the firearm — SIG makes that a during-firing check, not an end-of-day one — and watch for tube discolouration as the sign it is being overheated."
     },
+    "sg_silencercentralbanish22": {
+      textMode:true, parts:{}, origins:{},
+      sourcedFrom:"BANISH 22 OWNER'S MANUAL — ABSENT — no revision or edition statement is printed in the document; the cached file is the 2025 posting. (ABSENT — no copyright line printed.)",
+      sourceSha256:"2163420733f95a83bed05b4cf97df38e33901c07f26c20a05527605608840dde",
+      cleanIntro:"A rimfire can is the one suppressor that has to come apart on a schedule rather than when something feels wrong. Unjacketed .22 bullets throw lead, the lead lands with the carbon, and left long enough the two weld the baffle stack into one piece — after which nothing you own will get it apart. BANISH puts a number on it: every 100 to 200 rounds.",
+      steps:[
+        tgStep("Clear","Host unloaded and open before the can is touched",
+          stA("Magazine out, bolt or slide locked back, then look INTO the chamber and put a finger in it. Then the safety. A can comes off the muzzle of a loaded gun more often than anybody admits, and this is the sequence that stops it.")
+          +stAs("Visually and physically inspect the chamber to ensure the firearm is empty and unloaded. Engage the safety."),
+          {"src":"BANISH 22 OWNER'S MANUAL — ABSENT — no revision or edition statement is printed in the document; the cached file is the 2025 posting. — INSTALLATION OF SUPPRESSOR, printed p.5"}),
+        tgStep("Strip","⛔ Let it cool, then unscrew it off the muzzle",
+          stA("Give it time, or use a cover or a glove. A .22 can after a brick of ammunition will still take skin off. Unscrew it off the threads with the action still open and clear.")
+          +stAs("When removing the silencer, use extreme caution as it may be hot to the touch after firing."),
+          {"src":"BANISH 22 OWNER'S MANUAL — ABSENT — no revision or edition statement is printed in the document; the cached file is the 2025 posting. — WARNING, printed p.2-3"}),
+        tgStep("Strip","Muzzle cap off with the tool key, then the breach cap",
+          stA("The key that shipped with the can is the tool for both ends — the muzzle cap first, then the breach cap off the other end. Nothing here is torqued; if a cap will not start moving with the key, the stack is fouled and the soak comes before the force.")
+          +stAs("To disassemble make sure the firearm is unloaded and remove from host firearm."),
+          {"src":"BANISH 22 OWNER'S MANUAL — ABSENT — no revision or edition statement is printed in the document; the cached file is the 2025 posting. — CLEANING, printed p.6"}),
+        tgStep("Strip","Soak an hour or two before anything is pushed",
+          stA("Penetrating oil down the tube and over the baffles, then leave it alone for an hour or two. This is the step people skip and the reason a stack seizes: the oil is what lets the baffles come out without being driven.")
+          +stAs("It is recommended that the suppressor be cleaned regularly."),
+          {"src":"BANISH 22 OWNER'S MANUAL — ABSENT — no revision or edition statement is printed in the document; the cached file is the 2025 posting. — CLEANING, printed p.6"}),
+        tgStep("Strip","⛔ Baffles out — pushed, not hammered",
+          stA("They should slide. Where they will not, BANISH's own answer is their baffle removal tool and a careful push — and the caution that comes with it is about damaging the baffles, so the force stops well before anything deforms.")
+          +stAs("This will result in the baffles not being able to slide out past the buildup.")
+          +stLimit("Silencer Central","If excessive fouling has occurred, our Baffle Remove Tool (sold separately) can be used to push the baffles out. Care must be taken to avoid damage to the baffles.","BANISH 22 OWNER'S MANUAL — ABSENT — no revision or edition statement is printed in the document; the cached file is the 2025 posting. — CLEANING, printed p.6"),
+          {"src":"BANISH 22 OWNER'S MANUAL — ABSENT — no revision or edition statement is printed in the document; the cached file is the 2025 posting. — CLEANING, printed p.6"}),
+        tgStep("Clean","Nylon brush, baffles and tube, until the carbon is off",
+          stA("Nylon, not bronze, and not a wire wheel — the finish and the baffle faces are what you are protecting. Work the tube's inside wall as well as the baffles; the wall is where the build-up that stops the next strip actually lives.")
+          +stAs("Note: .22 Long rifle projectiles are not jacketed."),
+          {"src":"BANISH 22 OWNER'S MANUAL — ABSENT — no revision or edition statement is printed in the document; the cached file is the 2025 posting. — CLEANING, printed p.6"}),
+        tgStep("Clean","Dry, then a light film of oil on the baffles",
+          stA("Everything dry first — oil over solvent is paste. Then the thinnest film on the baffles, which BANISH gives for one reason only: so the stack goes back together and comes apart again next time.")
+          +stAs("Cleaning is required every 100 - 200 rounds to avoid having the baffles fuse together."),
+          {"src":"BANISH 22 OWNER'S MANUAL — ABSENT — no revision or edition statement is printed in the document; the cached file is the 2025 posting. — CLEANING, printed p.6"})
+      ],
+      deepAbsentReason:"BANISH publishes NO procedure deeper than the one above for this can, and there is nothing deeper to publish: the BANISH 22 is a tube, two caps and a stack of individual baffles, and the field strip already takes all of it apart. A baffle does not itself come apart. ⛔ The book's only escalation past its own cleaning section is to the maker — the warranty page sends a suppressor needing repair back to Customer Service — so inventing a deeper teardown would be substitution from a different product, which is the exact failure the sealed/serviceable record exists to prevent.",
+      cleaning:[{"name":"BAFFLE STACK","tasks":["Soaked 1–2 hours in penetrating oil before anything is pushed","Pushed out, never driven — BANISH's own tool where the stack resists","Nylon-brushed until the carbon is off, then dried","Light film of oil on the baffles, for assembly only"]},{"name":"TUBE","tasks":["Inside wall brushed — that is where the build-up that blocks the next strip sits","Threads inside the tube cleaned before grease or anti-seize goes back on"]},{"name":"CAPS AND THREADS","tasks":["Muzzle cap and breach cap cleaned and dried","Barrel threads and the can's thread mount checked clean and undamaged","⛔ No gap between barrel shoulder and thread mount, ever"]},{"name":"⛔ THE SCHEDULE IS THE MAINTENANCE","tasks":["Every 100–200 rounds, by the maker's own number","A can left past it can foul solid and refuse to come apart at all"]}],
+      reassembly:["A little grease or anti-seize on the threads inside the tube.","Breach cap into the COUNTER-BORED short end, hand tight — if it will not shoulder, it is on the wrong end.","Baffles back in with the shortest one LAST, each aligned on its own etched line.","Muzzle cap on hand tight with the key tool.","Onto the host only with the action open and clear: threads clean, screwed down until it seats against the shoulder, hand tight.","Re-check the mount is still tight after the first few shots and periodically thereafter."],
+      fncheck:"Back together and off the gun: both caps hand tight with the key, no baffle proud of either end, and the bore clear when you look through it. On the host, the can screws down until it seats against the shoulder with NO visible gap — and then it gets checked again after the first few shots, because a thread mount that walks loose is how a baffle strike starts."
+    },
+    "sg_silencercentralbanish30v2": {
+      textMode:true, parts:{}, origins:{},
+      sourcedFrom:"BANISH 30-V2 OWNER'S MANUAL — ABSENT — no revision or edition statement is printed in the document; the cached file is the 2025 posting. (ABSENT — no copyright line printed.)",
+      sourceSha256:"584870c63230b9e6e1695bc0cef221024b79cbbe7b7690f6151f458c95c74d47",
+      cleanIntro:"A modular .30 can that changes length is a can with more threads and more indexing than most, and both of those are what a cleaning schedule protects. Silencer Central puts the interval at 50 to 100 rounds and prints an end-cap torque — this is one of the few cans whose own book gives you a number to tighten to.",
+      steps:[
+        tgStep("Clear","Host unloaded and open, and the can off it",
+          stA("Nothing starts until the action is open and you have looked into it. Then the can comes off — and it comes off hot for far longer than it looks.")
+          +stAs("When removing the silencer, use extreme caution as it may be hot to the touch after firing."),
+          {"src":"BANISH 30-V2 OWNER'S MANUAL — ABSENT — no revision or edition statement is printed in the document; the cached file is the 2025 posting. — WARNING, printed p.2-3"}),
+        tgStep("Strip","End cap off with the key and a T-45",
+          stA("Both tools, together — the tool key and the T-45. The book's own tip is to bond the two into one tool so the pair is never half-missing when the can needs opening at the bench.")
+          +stAs("It is recommended that the suppressor be cleaned every 50 - 100 rounds fired."),
+          {"src":"BANISH 30-V2 OWNER'S MANUAL — ABSENT — no revision or edition statement is printed in the document; the cached file is the 2025 posting. — CLEANING & DISASSEMBLE, printed p.8"}),
+        tgStep("Strip","⛔ Front module off — and the barrel-side cap stays put",
+          stA("The front module unthreads from the main tube; that is the joint that opens. ⛔ The cap at the barrel end is not one of them, and the book says so in as many words. Turning it is how a tube gets damaged for nothing.")
+          +stAs("The end cap of the suppressor that threads onto the barrel is not intended to be removed from the main tube of the suppressor."),
+          {"src":"BANISH 30-V2 OWNER'S MANUAL — ABSENT — no revision or edition statement is printed in the document; the cached file is the 2025 posting. — CLEANING & DISASSEMBLE, printed p.8"}),
+        tgStep("Strip","Soak a full day before the baffles move",
+          stA("Solvent inside, then leave it for twenty-four hours. A day sounds like a lot until you have tried to drive a dry .30 baffle stack out of a titanium tube; the soak is what makes the next step a push instead of a fight.")
+          +stAs("Push baffles out of the tube with our Baffle Removal Tool (sold separately) or a wooden dowel."),
+          {"src":"BANISH 30-V2 OWNER'S MANUAL — ABSENT — no revision or edition statement is printed in the document; the cached file is the 2025 posting. — CLEANING & DISASSEMBLE, printed p.8"}),
+        tgStep("Strip","⛔ Count the baffles as they come out",
+          stA("This can ships in two lengths with two baffle counts, and the reassembly differs between them. Lay the stack out in the order it came out and count it — that count is the only thing that tells you which configuration you are putting back."),
+          {"src":"BANISH 30-V2 OWNER'S MANUAL — ABSENT — no revision or edition statement is printed in the document; the cached file is the 2025 posting. — CLEANING & DISASSEMBLE, printed p.8"}),
+        tgStep("Clean","Stiff brush, brass or nylon, baffles and tube",
+          stA("Work the baffle faces and the inside of the tube with solvent and a stiff brush. The indexing tabs matter as much as the faces: carbon in a tab is what stops a stack seating square, and a stack that will not seat square will not let the end cap go down.")
+          +stAs("The use of solid lead or plated lead bullets is not recommended."),
+          {"src":"BANISH 30-V2 OWNER'S MANUAL — ABSENT — no revision or edition statement is printed in the document; the cached file is the 2025 posting. — CLEANING & DISASSEMBLE, printed p.8"})
+      ],
+      deepAbsentReason:"There is nothing below this. Silencer Central publishes ONE procedure for the BANISH 30-V2 and the field strip above is all of it — cap, module, baffle stack, brush. A baffle does not itself come apart, and the one joint the book explicitly withholds (the barrel-side end cap in the main tube) is carried as a PROHIBITION rather than being quietly turned into a deeper step. ⛔ Inventing a deeper teardown for a can would be exactly the substitution the sealed/serviceable record exists to prevent.",
+      cleaning:[{"name":"BAFFLE STACK","tasks":["Soaked 24 hours in solvent before anything is pushed","Pushed out with the maker's tool or a wooden dowel — never driven","Faces AND indexing tabs brushed; a fouled tab stops the stack seating square","Counted out and laid in order — 8 or 11, and the two configurations differ"]},{"name":"TUBE AND MODULE","tasks":["Inside of the main tube and the extension brushed with solvent","All solvent removed before anything goes back","⛔ The barrel-side end cap stays in the main tube"]},{"name":"THREADS","tasks":["Anti-seize on the threads before the end cap or modular end goes back","Mount and barrel threads checked clean and undamaged","⛔ No gap between barrel shoulder and thread mount, ever"]},{"name":"⛔ THE SCHEDULE IS THE MAINTENANCE","tasks":["Every 50–100 rounds, by the maker's own number","Solid lead and plated lead are not recommended through this can"]}],
+      reassembly:["Seven matching baffles stacked on a flat surface, indexing tabs aligned and fully engaged.","Tube slid over the stack, upright, and the stack pushed up until it indexes with the main tube.","Assembly flipped open-end up, and the threads get anti-seize before anything is started into them.","Short baffle into the main tube; for the long configuration, two tall extension baffles and a short one into the extension tube, then the end cap.","End cap started light — only the 45° bevel showing, about 1/32\"; an o-ring in sight means the tabs are wrong.","Finish to 110–120 inch pounds, then check the bore is clear before it goes back on a barrel."],
+      fncheck:"Reassembled and off the gun: with the baffles indexed correctly ONLY the 45-degree bevel on the end cap shows, about 1/32\". If more than that is proud, or you can see the o-ring, the tabs are not aligned and the cap comes back off — torquing it down at that point is how a baffle stack gets crushed. Then 110–120 inch-pounds, and a clear look down the bore."
+    },
     "sg_silencercentralbanish556": {
       textMode:true, parts:{}, origins:{},
       sourcedFrom:"BANISH 556 PRODUCT MANUAL — ABSENT — no revision, date code or edition statement printed anywhere in the document. (ABSENT — no copyright line printed.)",
@@ -42762,6 +43132,41 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
       cleaning:[{"name":"INTERIOR","tasks":["Interval: every 500 - 600 rounds fired","Submerge the whole can, or seal the muzzle end and fill it, and soak 24 hours","Mild firearm solvent, sonic wash solution or dish soap — nothing that strips Cerakote","Brass brush the blast chamber once it has soaked","Do NOT attempt to remove the baffles — they are not removable"]},{"name":"MOUNT & THREADS","tasks":["Remove the mounting adapter — the only removable part","Clean the suppressor's rear HUB threads (1.375x24)","Clean the adapter's internal AND external threads","Clean the barrel threads on the host; remove any crush washer under an existing brake"]},{"name":"AFTER CLEANING","tasks":["Let it dry fully before the adapter goes back in","Fire 10-15 clearing rounds at the next session to evacuate loosened debris","Fit a thread protector to the bare muzzle whenever the can is off"]}],
       reassembly:["Dry the suppressor completely, then reinstall the mounting adapter into the rear HUB thread.","Check the barrel threads and the adapter face are clean and undamaged.","Line the threaded end up with the barrel and start it by hand, taking care not to cross-thread.","Screw it down until the mount seats firmly against the barrel shoulder — hand tight only, no tools.","Confirm there is no visible gap between the barrel shoulder and the face of the suppressor mount.","Fire 10-15 clearing rounds at the next range session to evacuate anything the soak loosened."],
       fncheck:"Check the fit before you fire it: on a direct-thread mount there must be NO visible gap between the barrel shoulder and the face of the suppressor mount, and the can must be free of any obstruction down the bore. If there is any gap, do not fire the host with the suppressor attached — a can that is not seated against the thread shoulder gives poor accuracy and can damage the product. Once shooting, re-check that it is still securely tightened after the first 5 discharges and every 30 thereafter, letting it cool or using a cover before you re-tighten."
+    },
+    "sg_silencercentralbanishspeedk": {
+      textMode:true, parts:{}, origins:{},
+      sourcedFrom:"BANISH SPEED K OWNER'S MANUAL — ABSENT — no revision or edition statement is printed in the document; the cached file is the 2025 posting. (ABSENT — no copyright line printed.)",
+      sourceSha256:"ada485dc53b4501e3ea11f3c0d5eeec0b570b5beded993612b5b8ab3da1470e0",
+      cleanIntro:"This one does not come apart, and that is a design decision rather than a warning: it is printed as one piece and the baffles are part of the print. So the whole of its maintenance is a soak, a brush where a brush can reach, and the mount — which is the only thing on it that unthreads. Every 50 to 100 rounds, by the maker's number.",
+      steps:[
+        tgStep("Clear","Host unloaded, can off, and let it cool",
+          stA("Action open and looked into before anything comes off the muzzle, and then give it time — a short can on a short barrel gets hotter faster than anything else you own.")
+          +stAs("When removing the silencer, use extreme caution as it may be hot to the touch after firing."),
+          {"src":"BANISH SPEED K OWNER'S MANUAL — ABSENT — no revision or edition statement is printed in the document; the cached file is the 2025 posting. — CLEANING, printed p.7"}),
+        tgStep("Strip","⛔ The mount is the only thing that comes off",
+          stA("Unthread the mount interface and set it aside. ⛔ That is the entire strip. The tube and the baffles are one printed piece, and no amount of soaking will change that — anything that looks like a seam is not one.")
+          +stAs("It is recommended that the silencer be cleaned every 50 - 100 rounds fired.")
+          +stLimit("Silencer Central","The BANISH Speed K is not user-serviceable, it is a solid 3D printed construction and the baffles cannot be removed.","BANISH SPEED K OWNER'S MANUAL — ABSENT — no revision or edition statement is printed in the document; the cached file is the 2025 posting. — CLEANING, printed p.7"),
+          {"src":"BANISH SPEED K OWNER'S MANUAL — ABSENT — no revision or edition statement is printed in the document; the cached file is the 2025 posting. — CLEANING, printed p.7"}),
+        tgStep("Clean","Soak it whole, a full day",
+          stA("Either put the can into a dish-soap bath or plug the muzzle exit and fill it. Twenty-four hours either way. ⛔ Read the label first — a solution that lifts Cerakote will take the finish off a can that cannot be refinished by taking it apart.")
+          +stAs("Ensure not to use solutions that will strip the Cerakote coating from the silencer."),
+          {"src":"BANISH SPEED K OWNER'S MANUAL — ABSENT — no revision or edition statement is printed in the document; the cached file is the 2025 posting. — CLEANING, printed p.7"}),
+        tgStep("Clean","Brass brush where the brush reaches",
+          stA("The blast chamber and the accuracy baffle are what you can get at, and they are where the fouling is worst. Brass, not steel, and take your time — this is the only mechanical cleaning this can will ever get."),
+          {"src":"BANISH SPEED K OWNER'S MANUAL — ABSENT — no revision or edition statement is printed in the document; the cached file is the 2025 posting. — CLEANING, printed p.7"}),
+        tgStep("Clean","Threads, both sets — and the vent ports",
+          stA("The mount has internal AND external threads and both foul. Then run a rod down the four vent ports in the muzzle cap; carbon packs into those and nothing else will move it."),
+          {"src":"BANISH SPEED K OWNER'S MANUAL — ABSENT — no revision or edition statement is printed in the document; the cached file is the 2025 posting. — CLEANING, printed p.7"}),
+        tgStep("Clean","Dry, remount — and let the first rounds finish the job",
+          stA("Let it dry properly before the mount goes back. The maker's last instruction is the one people skip: a short string through it blows out what the brush loosened and could not reach.")
+          +stAs("Shoot 10 - 15 rounds through the silencer. The high pressure will shoot out any loose debris and buildup that was loosened during cleaning."),
+          {"src":"BANISH SPEED K OWNER'S MANUAL — ABSENT — no revision or edition statement is printed in the document; the cached file is the 2025 posting. — CLEANING, printed p.7"})
+      ],
+      deepAbsentReason:"⛔ SEALED, ON THE MAKER'S OWN SENTENCE, WHICH THE STRIP STEP QUOTES IN FULL. There is no deeper procedure because there is nothing deeper to have: the only removable part is the mount interface, and the field strip already covers it. A baffle-stack teardown written for this can would be borrowed from a different product — the exact substitution this project has already been bitten by — and it would tell an owner to open something that does not open.",
+      cleaning:[{"name":"THE WHOLE CAN","tasks":["Soaked 24 hours — dish-soap bath, or muzzle plugged and filled","⛔ Nothing that strips Cerakote","Blast chamber and accuracy baffle brushed with brass","Dried thoroughly before the mount goes back"]},{"name":"MOUNT AND THREADS","tasks":["Mount removed — the only part that comes off","Silencer threads, and the mount's internal AND external threads, cleaned","⛔ No gap between barrel shoulder and thread mount, ever"]},{"name":"VENT PORTS","tasks":["A rod down each of the four muzzle-cap vent ports to push carbon out"]},{"name":"⛔ LEAVE ALONE","tasks":["The baffles are part of the printed body and do not come out","Solid lead and plated lead are not recommended through this can"]}],
+      reassembly:["Can fully dry before anything is threaded back on.","Mount interface back onto the can, threads clean, seated properly.","Onto the host only with the action open and clear — hand tight, seated against the shoulder, no gap.","Bore checked clear before a round goes near it.","First 10–15 rounds treated as part of the cleaning, not as the start of the next session."],
+      fncheck:"Dry, mount back on hand tight, bore clear when you look through it. On the host it screws down until it seats against the shoulder with NO visible gap. Then the maker's own last step: 10 to 15 rounds, which is what actually clears the debris the soak loosened."
     },
     "sg_silencercochimera300": {
       textMode:true, parts:{}, origins:{},
@@ -53817,6 +54222,7 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     "americantacticalfx45": "sg_americantacticalfx45",
     "andersonkiger9c": "sg_andersonkiger9c",
     "andersonmanufacturingam15": "sg_andersonmanufacturingam15",
+    "angstadtarmsreticent22": "sg_angstadtarmsreticent22",
     "ar15": "sg_ar15",
     "armalitear10": "sg_armalitear10",
     "armalitear50a1": "sg_armalitear50a1",
@@ -53842,6 +54248,7 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     "benellinova": "sg_benellinova",
     "benellisuperblackeagle3": "sg_benellisuperblackeagle3",
     "benellisupernova": "sg_benellisupernova",
+    "beretta1301comppro": "sg_beretta1301comppro",
     "beretta1301tactical": "sg_beretta1301tactical",
     "beretta20xbobcat": "sg_beretta20xbobcat",
     "beretta21abobcat": "sg_beretta21abobcat",
@@ -53856,6 +54263,8 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     "beretta92xperformance": "sg_beretta92xperformance",
     "berettaa300patrol": "sg_berettaa300patrol",
     "berettaa300ultima": "sg_berettaa300ultima",
+    "berettaa400xcelmultitarget": "sg_berettaa400xcelmultitarget",
+    "berettaa400xcelsporting": "sg_berettaa400xcelsporting",
     "berettaa400xtremeplus": "sg_berettaa400xtremeplus",
     "berettaapxa1": "sg_berettaapxa1",
     "berettaapxcarrya1": "sg_berettaapxcarrya1",
@@ -54043,6 +54452,7 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     "hkmr556": "sg_hkmr556",
     "hkmr762": "sg_hkmr762",
     "howa1500": "sg_howa1500",
+    "huxwrxflowrange36ti": "sg_huxwrxflowrange36ti",
     "ithacamodel37": "sg_ithacamodel37",
     "iverjohnson1911a1": "sg_iverjohnson1911a1",
     "iwijericho941": "sg_iwijericho941",
@@ -54066,6 +54476,7 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     "keltecsu16": "sg_keltecsu16",
     "keltecsub2000": "sg_keltecsub2000",
     "keystonecrickettyouth": "sg_keystonecrickettyouth",
+    "kgmrf22": "sg_kgmrf22",
     "kimber2k11": "sg_kimber2k11",
     "kimberaegiselite": "sg_kimberaegiselite",
     "kimbercarboncompact": "sg_kimbercarboncompact",
@@ -54356,7 +54767,10 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     "sigsauerp365xmacro": "sg_sigsauerp365xmacro",
     "sigsauerp938": "sg_sigsauerp938",
     "sigsauersrd22x": "sg_sigsauersrd22x",
+    "silencercentralbanish22": "sg_silencercentralbanish22",
+    "silencercentralbanish30v2": "sg_silencercentralbanish30v2",
     "silencercentralbanish556": "sg_silencercentralbanish556",
+    "silencercentralbanishspeedk": "sg_silencercentralbanishspeedk",
     "silencercochimera300": "sg_silencercochimera300",
     "silencercoharvester300": "sg_silencercoharvester300",
     "silencercoharvesterevo": "sg_silencercoharvesterevo",
@@ -54550,6 +54964,280 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
   };
   Object.assign(GUNS, SOURCED_GUIDES);
 
+  const TM_PLATE_FOR = {
+   "aeroprecisionac15": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "aeroprecisionm4e1": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "andersonmanufacturingam15": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "ar15": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "atiomnihybrid": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "battlearmsworkhorse": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "bcmrecce16": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "bearcreekarsenalbc15": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "bushmasterxm15": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "centurionarmsc4": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "christensenarmsca15": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "cmmgresolute": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "coltle6920": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "danieldefenseddm4v7": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "danieldefensemk18": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "diamondbackdb15": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "dpmsoracle": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "faxonfx15": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "fnfn15": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "geisselesuperduty": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "greyghostcombat": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "iwizionz15": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "jpenterprisesjp15": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "knightsarmamentsr15": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "lantacraven": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "lmtdefender": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "lwrcicdi": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "mossbergmmr": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "nemobattlelight": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "noveskegen4": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "palmettostatearmorypa15": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "pofrenegadeplus": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "radianmodel1": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "radicalfirearmsrf15": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "rainierultramatch": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "rockriverarmslar15": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "rugerar556": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "rugerar556mpr": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "savagearmsmsr15recon": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "seekinsnx15": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "sigsauerm400tread": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "sionicspatrolrifle": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "smithwessonmp15sportiii": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "sonsoflibertym489": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "springfieldarmorysa16a2": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "springfieldarmorysaint": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "springfieldarmorysaintedge": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "springfieldarmorysaintvict": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "stagarmsstag15": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "twoaarmamentblr16": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "vsevenharbinger": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "wilsoncombatprotector": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "windhamweaponrysrc": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   },
+   "zevcoreelite": {
+    "f": "f1546775fb56718c.png",
+    "w": 1457,
+    "h": 1599
+   }
+  };
+  const TM_PLATE_CREDIT = "TM 9-1005-319-23&P · Distribution A";
+
   const TEXT_GUIDE_FAM = {"1022":"sg_tx1022","AR15":"sg_txar15"};
   function textGuideKey(modelId){
     const c = CATALOG.find(x=>x.i===modelId);
@@ -54652,10 +55340,11 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     const f=byId(activeId);
     return f ? (benchUserArtRec(f)||null) : null;
   }
+  const WALK_UNIFORM = true;
   const benchOrigStartGuide = startGuide;
   startGuide = function(){
     const gun=activeGuide();
-    if(!gun.textMode){
+    if(!WALK_UNIFORM && !gun.textMode){
       document.getElementById("textArtPane").hidden=true;
       benchOrigStartGuide();
       renderStep(false);   
@@ -54665,7 +55354,7 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     document.querySelectorAll(".gun-svg").forEach(s=>s.classList.remove("active"));
     document.getElementById("textArtPane").hidden=false;
     buildProgress();
-    document.getElementById("explodedBtn").hidden=true;
+    document.getElementById("explodedBtn").hidden=!gun.exploded;
     document.getElementById("explodedOverlay").hidden=true;
     stepIndex=0; renderStep(false);
   };
@@ -54675,7 +55364,7 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     const fSlot=byId(activeId);
     const stepRec=fSlot?benchStepArtRec(fSlot, stepIndex):null;
     const pane=document.getElementById("textArtPane");
-    if(!gun.textMode && !stepRec){
+    if(!WALK_UNIFORM && !gun.textMode && !stepRec){
       if(pane) pane.hidden=true;
       document.getElementById("layerViewport").hidden=!gun.layerMode;
       document.querySelectorAll(".gun-svg").forEach(s=>s.classList.toggle("active", !gun.layerMode && s.id===gun.svg));
@@ -55103,7 +55792,6 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     "SERBU-BFG50A":"50-bmg-m107.png",
   };
   const HERO_ART_GP={
-    "Pistols":["pistol-10.png","pistol-8.png"],
   };
   function heroArtHash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
   function heroArtPick(files,row){return files.length===1?files[0]:files[heroArtHash(String((row&&row.i)||""))%files.length];}
@@ -55464,8 +56152,7 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     });
   }
 
-  function benchHeroPlate(f){
-    const k=(f && f.model)?guideKey(f.model):null;
+  function benchPlateFigure(k){
     if(!k) return null;
     const g=GUNS[k], ls=(typeof LAYER_SETS!=="undefined")?LAYER_SETS[k]:null;
     if(!g || !g.layerMode || !ls || !ls.layers || !ls.art) return null;
@@ -55479,12 +56166,30 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     }).join("");
     return `<div class="heroplate" style="aspect-ratio:${aw} / ${ah};width:min(100%,${wCap}px)">${imgs}</div>`;
   }
+  function benchLaidOutUnder(f){
+    const tm=benchTmPlateFigure(f);
+    if(tm) return tm;
+    return benchPlateFigure(benchPlateKey(f));
+  }
+  function benchTmPlateFigure(f){
+    if(!f || !f.model || typeof TM_PLATE_FOR==="undefined") return null;
+    const p=TM_PLATE_FOR[f.model];
+    if(!p) return null;
+    return '<div class="tmplate">'
+         + '<img src="assets/plates/'+p.f+'" alt="" width="'+p.w+'" height="'+p.h+'">'
+         + '</div>'
+         + '<span class="tmcredit">'+TM_PLATE_CREDIT+'</span>';
+  }
+  function benchPlateKey(f){ return (f && f.model) ? guideKey(f.model) : null; }
+  function benchHeroPlate(f){ return benchPlateFigure(benchPlateKey(f)); }
   function benchHeroArt(f){
     const file=heroArtFile(f);
     if(!file) return null;
     return `<div class="heroph"><img src="assets/hero/${file}" alt=""></div>`;
   }
 
+  const ART_LINE_APP = "Fieldstrip doesn't ship pictures of your guns. Put your own here and this card becomes yours.";
+  const ART_LINE_WEB = "Fieldstrip doesn't ship pictures of your guns. Your own photo goes here in the Android app.";
   function benchAttachBox(host, f){
     const rec=benchUserArtRec(f);
     const example=rec?null:benchOwnerExamplePath(f);
@@ -55492,7 +56197,8 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     const ph=(rec||plate||example)?null:benchHeroArt(f);
     const canFS=BenchEnv.hasFS();
     const attach=canFS?'<button class="uartbtn abAttach" title="Attach your piece">＋</button>':"";
-    const invite=canFS?'<div class="heroinvitebar">Attach your piece here.</div>':"";
+    const invite=canFS?'<div class="heroinvitebar">Attach your piece here.</div>'
+                      :`<div class="heroinvitebar said">${esc(ART_LINE_WEB)}</div>`;
     let art, state;
     if(rec){
       state="photo";
@@ -55520,7 +56226,10 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
       art=`<div class="heroart abBox">${ph}${attach}${invite}</div>`;
     } else {
       state="empty";
-      art=`<div class="heroart empty abBox">${FS_LOGO_WM}${canFS?'<div class="heroinvite">Attach your piece here.</div>':""}</div>`;
+      art=`<div class="heroart empty abBox" style="cursor:${canFS?"pointer":"default"}">${FS_LOGO_WM}`
+        + `<div class="heroartline">${esc(canFS?ART_LINE_APP:ART_LINE_WEB)}</div>`
+        + (canFS?`<button class="btn sm primary abAdd" type="button">Add a photo of yours</button>`:"")
+        + `</div>`;
     }
     host.innerHTML=art;
     const box=host.querySelector(".abBox");
@@ -55540,7 +56249,9 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     } else {
       const ha=box.querySelector(".abAttach");
       if(ha) ha.onclick=e=>{ e.stopPropagation(); benchSetUserArt(f); };
-      const hi=box.querySelector(".heroinvitebar");
+      const aa=box.querySelector(".abAdd");
+      if(aa) aa.onclick=e=>{ e.stopPropagation(); benchSetUserArt(f); };
+      const hi=canFS?box.querySelector(".heroinvitebar"):null;
       if(hi) hi.onclick=e=>{ e.stopPropagation(); benchSetUserArt(f); };
       const hw=host.querySelector(".abHow");
       const ha2=host.querySelector(".abAttach2");
@@ -55745,9 +56456,18 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
   }
   function benchStepArtRec(f, i){
     if(!f || !f.stepArt) return null;
-    const id=f.stepArt[benchStepArtKey(f,i)];
+    return benchArtRecByKey(f, benchStepArtKey(f,i));
+  }
+  function benchLaidOutKey(f){
+    const k=(typeof fkey==="function" && fkey(f))||"guide";
+    return k+":laidout";
+  }
+  function benchArtRecByKey(f, key){
+    if(!f || !f.stepArt) return null;
+    const id=f.stepArt[key];
     return id ? (BenchAttach.readReg(BenchEnv.store).find(a=>a.id===id)||null) : null;
   }
+  function benchLaidOutRec(f){ return benchArtRecByKey(f, benchLaidOutKey(f)); }
   function benchSlotSeen(){ return !!BenchEnv.store.getRaw("fs_slot_seen"); }
   function benchSlotIntro(go){
     if(benchSlotSeen()){ go(null); return; }
@@ -55773,12 +56493,13 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     sh.querySelector("#slotNo").onclick=()=>{ done(); };
     sh.classList.add("open");
   }
-  function benchSetStepArt(f, i){
+  function benchSetStepArt(f, i){ return benchSetSlotArt(f, benchStepArtKey(f,i)); }
+  function benchSetLaidOutArt(f){ return benchSetSlotArt(f, benchLaidOutKey(f)); }
+  function benchSetSlotArt(f, key){
     benchSlotIntro(mode=>{
       benchPickPhoto(async (b64,dims)=>{
         try{
-          const key=benchStepArtKey(f,i);
-          const old=benchStepArtRec(f,i);
+          const old=benchArtRecByKey(f, key);
           const rec=await benchImport({kind:"firearm", id:f.id}, b64, dims, "steppic");
           if(old) await BenchAttach.deleteAttachment(BenchEnv.store, BenchEnv.files(), old.id);
           if(!f.stepArt) f.stepArt={};
@@ -55788,9 +56509,10 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
       }, mode);
     });
   }
-  async function benchClearStepArt(f, i){
-    const key=benchStepArtKey(f,i);
-    const old=benchStepArtRec(f,i);
+  async function benchClearStepArt(f, i){ return benchClearSlotArt(f, benchStepArtKey(f,i)); }
+  async function benchClearLaidOutArt(f){ return benchClearSlotArt(f, benchLaidOutKey(f)); }
+  async function benchClearSlotArt(f, key){
+    const old=benchArtRecByKey(f, key);
     if(old) await BenchAttach.deleteAttachment(BenchEnv.store, BenchEnv.files(), old.id);
     if(f.stepArt) delete f.stepArt[key];
     saveSafe(); renderStep(false);
@@ -55802,33 +56524,43 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     }catch(e){}
     benchLoadThumb(imgEl, rec);
   }
-  function benchRenderStepSlot(f, gun, stepRec){
-    const host=document.getElementById("textArtBox");
-    const line=document.getElementById("textArtLine");
-    if(line) line.innerHTML="";
+  function benchRenderStepSlot(f, gun, stepRec, opts){
+    opts=opts||{};
+    const host=opts.host||document.getElementById("textArtBox");
+    if(!opts.host){ const line=document.getElementById("textArtLine"); if(line) line.innerHTML=""; }
     if(!host) return;
     const canFS=BenchEnv.hasFS();
+    const doSet=opts.set||(()=>benchSetStepArt(f, stepIndex));
+    const doClr=opts.clr||(()=>benchClearStepArt(f, stepIndex));
     if(stepRec){
-      const plateStep=!gun.textMode;   
+      const revert = opts.under ? "Revert to the diagram" : "Remove photo";
       host.innerHTML=`<div class="heroart abBox"><img class="abImg" alt="Your photo">
         <div class="heroacts abActs" hidden>
           <button class="btn sm primary abReplace">Replace</button>
-          <button class="btn sm abRevert">${plateStep?"Revert to illustration":"Remove photo"}</button>
+          <button class="btn sm abRevert">${revert}</button>
         </div></div>`;
       const box=host.querySelector(".abBox");
       benchSlotImg(box.querySelector(".abImg"), stepRec);
       const acts=box.querySelector(".abActs");
       box.querySelector(".abImg").onclick=()=>{ acts.hidden=!acts.hidden; };
       acts.onclick=e=>{ if(e.target===acts) acts.hidden=true; };
-      box.querySelector(".abReplace").onclick=e=>{ e.stopPropagation(); benchSetStepArt(f, stepIndex); };
-      box.querySelector(".abRevert").onclick=e=>{ e.stopPropagation(); benchClearStepArt(f, stepIndex); };
+      box.querySelector(".abReplace").onclick=e=>{ e.stopPropagation(); doSet(); };
+      box.querySelector(".abRevert").onclick=e=>{ e.stopPropagation(); doClr(); };
+      return;
+    }
+    if(opts.under){
+      const plus=canFS?'<button class="uartbtn abAttach" title="Your own laid-out photo">＋</button>':"";
+      host.innerHTML=`<div class="heroart abBox" style="cursor:${canFS?"pointer":"default"}">${opts.under}${plus}</div>`;
+      if(canFS) host.querySelector(".abBox").onclick=()=>doSet();
+      const ab0=host.querySelector(".abAttach");
+      if(ab0) ab0.onclick=e=>{ e.stopPropagation(); doSet(); };
       return;
     }
     const attach=canFS?'<button class="uartbtn abAttach" title="Photo for this step">＋</button>':"";
     host.innerHTML=`<div class="heroart empty abBox" style="cursor:${canFS?"pointer":"default"}">${FS_LOGO_WM}${attach}</div>`;
-    if(canFS) host.querySelector(".abBox").onclick=()=>benchSetStepArt(f, stepIndex);
+    if(canFS) host.querySelector(".abBox").onclick=()=>doSet();
     const ab=host.querySelector(".abAttach");
-    if(ab) ab.onclick=e=>{ e.stopPropagation(); benchSetStepArt(f, stepIndex); };
+    if(ab) ab.onclick=e=>{ e.stopPropagation(); doSet(); };
   }
   function benchStageAttach(f){
     const stage=document.getElementById("gunStage"); if(!stage) return;
@@ -56237,15 +56969,37 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     if(id && byId(id)) activeId=id;
   }
 
+  const BENCH_MOVED=["careBox","svcBox","nfaBox","magBox","zeroBox","roundsBox","proNfaLock","proZeroLock"];
+  function benchSeatProLocks(f, seats){
+    const fls=(f && Array.isArray(f.nfaFilings))?f.nfaFilings:[];
+    const has=[];
+    if(fls.length) has.push(`${fls.length} filing${fls.length===1?"":"s"}`);
+    if(f && f.nfaItemType) has.push(f.nfaItemType+" item type");
+    if(f && f.stamp) has.push("a stamp photo");
+    const nm=document.getElementById("proNfaMsg");
+    if(nm) nm.textContent =
+      (has.length ? `${has.join(", ")} already stored — unlock to view and edit. ` : "")
+      + "Item type, every filing — Form 1/4/5 or your own — dates, entity, status, stamp photo and documents. Part of Fieldstrip Pro.";
+    const zn=(f && Array.isArray(f.zeros))?f.zeros.length:0;
+    const zm=document.getElementById("proZeroMsg");
+    if(zm) zm.textContent =
+      (zn ? `${zn} ${zn===1?"zero":"zeros"} already recorded and still stored — unlock to view and log more. ` : "")
+      + "Where this firearm is zeroed, with what ammo — so a re-zero after optic work starts from facts, not memory. Part of Fieldstrip Pro.";
+    (seats || [["benchNfaLockHost","proNfaLock"],["benchZeroLockHost","proZeroLock"]]).forEach(([hid,lid])=>{
+      const host=(typeof hid==="string")?document.getElementById(hid):hid;
+      const lock=document.getElementById(lid);
+      if(host && lock){ host.appendChild(lock); lock.style.display="block"; }
+    });
+  }
   const benchHoldPen=(function(){
     const d=document.createElement("div");
     d.id="benchHoldPen"; d.style.display="none";
     document.body.appendChild(d);
-    ["careBox","svcBox","nfaBox","magBox","zeroBox","roundsBox"].forEach(id=>{ const el=document.getElementById(id); if(el){ el.style.display=""; d.appendChild(el); } });
+    BENCH_MOVED.forEach(id=>{ const el=document.getElementById(id); if(el){ el.style.display=""; d.appendChild(el); } });
     return d;
   })();
   (function(){
-    ["careBox","svcBox","nfaBox","magBox","zeroBox","roundsBox"].forEach(id=>{
+    BENCH_MOVED.forEach(id=>{
       const i=BENCH_BOXES.findIndex(b=>b.id===id);
       if(i>=0) BENCH_BOXES.splice(i,1);
     });
@@ -56408,6 +57162,39 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     }
   };
 
+  function benchCanNfaSeat(){
+    let h=document.getElementById("suppNfaHost");
+    if(!h){
+      const anchor=document.getElementById("wtBox");
+      if(!anchor || !anchor.parentNode) return null;
+      h=document.createElement("div");
+      h.id="suppNfaHost";
+      anchor.parentNode.insertBefore(h, anchor);
+    }
+    return h;
+  }
+  const benchPrevRenderDetail_vc53=renderDetail;
+  renderDetail=function(){
+    const f0=byId(activeId);
+    const can=!!(f0 && typeof benchIsSuppressor==="function" && benchIsSuppressor(f0));
+    const seat=can?benchCanNfaSeat():null;
+    const nbx=document.getElementById("nfaBox"), nlk=document.getElementById("proNfaLock");
+    if(can && seat){
+      if(nbx && nbx.parentNode!==seat) seat.appendChild(nbx);
+    } else {
+      if(nbx && nbx.closest("#scr-detail")) benchHoldPen.appendChild(nbx);
+      if(nlk && nlk.closest("#scr-detail")){ nlk.style.display="none"; benchHoldPen.appendChild(nlk); }
+    }
+    benchPrevRenderDetail_vc53();
+    if(can && seat){
+      if(isPro()){
+        if(nlk && nlk.closest("#scr-detail")){ nlk.style.display="none"; benchHoldPen.appendChild(nlk); }
+      } else {
+        benchSeatProLocks(f0, [[seat,"proNfaLock"]]);
+      }
+    }
+  };
+
   function benchSeatAttCard(){
     const host=document.getElementById("benchAttHost"); if(!host) return;
     const items=benchScopedAtt();
@@ -56476,16 +57263,11 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
   renderBench=function(scopeId){
     if(arguments.length) benchScopeId = scopeId || null;
     const body=document.getElementById("benchBody");
+    BENCH_MOVED.forEach(id=>{ const el=document.getElementById(id); if(el) benchHoldPen.appendChild(el); });
     if(!isPro()){
       benchPrevRenderBench_v16locked();
       return;
     }
-    benchHoldPen.appendChild(document.getElementById("careBox"));   
-    benchHoldPen.appendChild(document.getElementById("svcBox"));
-    benchHoldPen.appendChild(document.getElementById("nfaBox"));
-    benchHoldPen.appendChild(document.getElementById("magBox"));
-    benchHoldPen.appendChild(document.getElementById("zeroBox"));    
-    benchHoldPen.appendChild(document.getElementById("roundsBox"));  
     const c=benchCollect();
     const totMags=c.fleets.reduce((a,g)=>a+g.mags.length,0);
     let h=`<div class="d-head"><div class="dname">The Bench</div><div class="dsub">${benchScopeId&&byId(benchScopeId)?esc(faInfo(byId(benchScopeId)).name)+" \u2014 this item only.":"Your whole inventory, without going through a firearm."}</div></div>`;
@@ -56530,8 +57312,9 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
       const s=benchNfaSummary(x.f); const first=s.fls[0];
       nb+=`<div class="benchrow" data-nav="${x.f.id}"><div class="bi"><div class="bn">${esc(x.name)}</div><div class="bs">${esc(x.f.nfaItemType||"type unset")}${first?` · ${esc(benchFilingLabel(first))} · ${esc(first.entity)}`:""}${x.f.stamp?" · stamp photo attached":""}</div></div>${first?`<span class="statuschip ${first.status==="Approved"?"active":(first.status==="Denied"?"problem":"due")}">${esc(first.status.toUpperCase())}</span>`:""}</div>`;
     });
-    nb+=`<div class="lmsg" style="margin-top:10px">Pick an item — its NFA card opens below, exactly as it lived on the firearm page.</div>`;
-    benchScopedSafe().forEach(f=>{
+    const nfaSeatGuns=benchScopedSafe().filter(f=>!(typeof benchIsSuppressor==="function" && benchIsSuppressor(f)));
+    nb+=`<div class="lmsg" style="margin-top:10px">Pick a firearm — its NFA card opens below, exactly as it lived on the firearm page. A suppressor's NFA record lives on its own page.</div>`;
+    nfaSeatGuns.forEach(f=>{
       const fl=(f.nfaFilings||[]).length;
       nb+=`<div class="benchrow${benchNfaTargetId===f.id?" on":""}" data-nfasel="${f.id}" style="${benchNfaTargetId===f.id?"color:var(--amber)":""}"><div class="bi"><div class="bn">${esc(faInfo(f).name)}</div><div class="bs">${f.nfaItemType?esc(f.nfaItemType):"type unset"}${fl?` · ${fl} filing${fl===1?"":"s"}`:""}</div></div></div>`;
     });
@@ -56691,13 +57474,14 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     const cbx=document.getElementById("careBox"), sbx=document.getElementById("svcBox");
     if(ch && cbx && benchCareTargetId){ ch.appendChild(cbx); cbx.style.display="block"; renderCare(byId(benchCareTargetId)); }
     if(svh && sbx && benchSvcTargetId){ svh.appendChild(sbx); sbx.style.display="block"; renderSvc(byId(benchSvcTargetId)); benchFillVendorSelect(document.getElementById("svcVendor"),"Self"); }
-    const nfaGuns=benchScopedSafe();
+    const nfaGuns=benchScopedSafe().filter(f=>!(typeof benchIsSuppressor==="function" && benchIsSuppressor(f)));
     if(!nfaGuns.some(f=>f.id===benchNfaTargetId)) benchNfaTargetId=nfaGuns.length?nfaGuns[0].id:null;
     const magSeatGuns=benchScopedSafe().filter(f=>typeof hasMags==="function" && hasMags(f));
     if(!magSeatGuns.some(f=>f.id===benchMagTargetId)) benchMagTargetId=magSeatGuns.length?magSeatGuns[0].id:null;
     if(benchNfaTargetId && byId(benchNfaTargetId)) activeId=benchNfaTargetId;
     const nh=document.getElementById("benchNfaHost"), nbx=document.getElementById("nfaBox");
     if(nh && nbx && benchNfaTargetId){ nh.appendChild(nbx); nbx.style.display="block"; renderNfa(byId(benchNfaTargetId)); }
+    ["proNfaLock","proZeroLock"].forEach(id=>{ const el=document.getElementById(id); if(el) el.style.display="none"; });
     const mh=document.getElementById("benchMagHost"), mbx=document.getElementById("magBox");
     if(mh && mbx && benchMagTargetId){ mh.appendChild(mbx); mbx.style.display="block"; renderMags(byId(benchMagTargetId)); }
     const zeroSeatGuns=benchScopedSafe();
@@ -58155,8 +58939,10 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     const isUser=!!s.userStep;
     const atStop = !isUser && WALK.mode==="strip" && stepIndex===WALK.published-1 && WALK.published>0;
     const fork = WALK.mode==="strip" && last && walkHasClean();
+    const atLaidOut = WALK.mode==="strip" && stepIndex===WALK.forkAt;
     bar.innerHTML=
-      (atStop?'<div class="fsStop">This is as far as the maker publishes. Anything past this is yours to record.</div>':"")
+      (atLaidOut?'<div class="fslaid"><div id="laidOutBox"></div></div>':"")
+      + (atStop?'<div class="fsStop">This is as far as the maker publishes. Anything past this is yours to record.</div>':"")
       + (isUser?'<div class="fsYours">Your own step &mdash; the app records it, it does not instruct it.</div>':"")
       + (fork?'<div class="fsFork">'
              +'<button class="btn primary fsClean" type="button">Clean it</button>'
@@ -58167,6 +58953,14 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
       + (isUser?'<button class="btn sm fsDel" type="button">Remove this step</button>':"")
       + ((last && !fork && WALK.mode==="strip")?'<button class="btn sm fsLog" type="button">Log it</button>':"")
       + '</div>';
+    if(atLaidOut){
+      benchRenderStepSlot(f, activeGuide()||{}, benchLaidOutRec(f), {
+        host: bar.querySelector("#laidOutBox"),
+        under: benchLaidOutUnder(f),
+        set: ()=>{ const f2=byId(activeId); if(f2) benchSetLaidOutArt(f2); },
+        clr: ()=>{ const f2=byId(activeId); if(f2) benchClearLaidOutArt(f2); },
+      });
+    }
     const fc=bar.querySelector(".fsClean"); if(fc) fc.onclick=()=>walkCleanIt();
     const fr=bar.querySelector(".fsReasm"); if(fr) fr.onclick=()=>walkReassemble();
     bar.querySelector(".fsAdd").onclick=()=>fsAddUserStep(f, isUser ? s.userStep.after : origStepIndex(stepIndex));
@@ -58208,7 +59002,7 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     if(pl){
       const gk=fkey(f), gg=gk?GUNS[gk]:null;
       const hasArt=!!(gg && (gg.layerMode || (typeof LAYER_SETS!=="undefined" && LAYER_SETS[gk])));
-      pl.classList.toggle("fs-textguide", !hasArt);
+      pl.classList.toggle("fs-textguide", WALK_UNIFORM || !hasArt);
     }
     if(s && s.fsEmpty && pl){
       const a=pl.querySelector(".fsEmptyAdd"); if(a) a.onclick=()=>fsAddUserStep(f, origStepIndex(stepIndex));
