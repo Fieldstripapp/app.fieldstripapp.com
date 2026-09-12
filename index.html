@@ -1,6 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta name="robots" content="noindex, nofollow">
+<style id="fsGateStyle">html.fsgate body>*:not(#fsGate){display:none!important}
+#fsGate{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;
+justify-content:center;gap:26px;background:#14161A;padding:24px}
+#fsGate .gmark{font-family:var(--display,sans-serif);font-weight:700;font-size:clamp(26px,6vw,40px);
+letter-spacing:.42em;text-indent:.42em;color:#DFE6F0}
+#fsGate .gmark b{color:#F0AC3F;font-weight:700}
+#fsGate label{font-family:var(--display,sans-serif);font-size:11px;letter-spacing:1.8px;
+text-transform:uppercase;color:#8b93a0}
+#fsGate form{display:flex;flex-direction:column;gap:14px;align-items:center;width:min(100%,320px)}
+#fsGate input{width:100%;background:#1b1f26;border:1px solid #39424e;border-radius:10px;color:#E6EAF0;
+font-family:var(--body,sans-serif);font-size:17px;padding:13px 14px;text-align:center;letter-spacing:.05em}
+#fsGate input:focus{outline:none;border-color:#F0AC3F}
+#fsGate button{width:100%;background:#F0AC3F;border:none;border-radius:10px;color:#14161A;
+font-family:var(--display,sans-serif);font-weight:600;font-size:14px;letter-spacing:1.6px;
+text-transform:uppercase;padding:13px 14px;cursor:pointer}</style><script id="fsGateEarly">try{if(localStorage.getItem("fs_web_gate")!=='"1"')document.documentElement.classList.add("fsgate");}catch(e){document.documentElement.classList.add("fsgate");}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#14161A">
@@ -421,9 +437,14 @@
     #scr-player .controls{grid-column:2;grid-row:4}
 
     #scr-player.fs-textguide .player{grid-template-columns:1fr;grid-template-rows:auto auto auto 1fr auto auto}
-    #scr-player.fs-textguide .stage{grid-column:1;grid-row:1;display:block;height:auto;min-height:0;
+    #scr-player.fs-textguide .stage{grid-column:1;grid-row:1;display:flex;flex-direction:column;height:auto;min-height:0;
       max-height:32svh;overflow:hidden;padding:8px 0 2px;
       border-right:none;border-bottom:1px solid var(--edge)}
+    #scr-player.fs-textguide #textArtPane:not([hidden]){display:flex;flex-direction:column;flex:1 1 auto;min-height:0}
+    #scr-player.fs-textguide #textArtLine{flex:0 0 auto}
+    #scr-player.fs-textguide #textArtBox{flex:0 1 auto;min-height:0;display:flex;flex-direction:column;justify-content:center}
+    #scr-player.fs-textguide #textArtBox .heroart:not(.empty){flex:0 1 auto;min-height:0;display:flex;flex-direction:column;justify-content:center}
+    #scr-player.fs-textguide #textArtBox .heroart:not(.empty)>img{flex:0 1 auto;min-height:0}
     #scr-player.fs-textguide .expbtn{grid-column:1;grid-row:2}
     #scr-player.fs-textguide .progress{grid-column:1;grid-row:3}
     #scr-player.fs-textguide .step-info{grid-column:1;grid-row:4}
@@ -509,6 +530,8 @@
   #textArtPane .refill svg{width:72%;max-height:96px;display:block}
   #textArtPane .refill .rtag{position:absolute;right:8px;top:8px;font-family:var(--display);font-size:8px;letter-spacing:1px;color:var(--muted);border:1px solid var(--edge);border-radius:4px;padding:2px 6px;text-transform:uppercase}
   .textartline{color:var(--muted);font-size:11.5px;line-height:1.5;text-align:center;padding:7px 22px 0;font-style:italic}
+  .webkeep{color:var(--muted);font-family:var(--body);font-size:11px;line-height:1.45;text-align:center;padding:6px 10px 2px;font-style:normal;letter-spacing:0;text-transform:none}
+  .heroart.empty .webkeep{padding:2px 6px 0;max-width:34em}
   .pickref{flex:none;width:52px;height:34px;display:flex;align-items:center;justify-content:center;border:1px solid var(--edge);border-radius:8px;background:#0e1013;overflow:hidden}
   .pickref svg{width:88%;height:auto}
   .gun-card .tag.textg{color:var(--text);border-color:var(--muted)}
@@ -536,7 +559,7 @@
   .hiddenrow{border:1px dashed var(--edge);border-radius:12px;padding:4px 12px 8px;margin-top:2px}
   .hiddenrow-head{width:100%;background:none;border:none;color:var(--muted);font-family:var(--display);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;padding:9px 0;cursor:pointer;text-align:center}
   .uartwrap{position:relative;border:1px solid var(--edge);border-radius:12px;overflow:hidden;background:#0e1013}
-  .uartwrap img{display:block;width:100%;max-height:220px;object-fit:cover;cursor:pointer}
+  .uartwrap img{display:block;width:100%;height:auto;max-height:220px;object-fit:contain;cursor:pointer}
   .uartbtn{position:absolute;right:8px;top:8px;background:rgba(12,14,17,.85);border:1px solid var(--edge);border-radius:7px;color:var(--text);font-size:13px;line-height:1;padding:6px 9px;cursor:pointer}
   .uartbtn.del{right:auto;left:8px;color:var(--safe-red)}
   .heroinvitebar{position:absolute;left:0;right:0;bottom:0;padding:7px 10px;
@@ -562,85 +585,90 @@
   #textArtPane .refill img{display:block;width:100%;max-height:230px;object-fit:contain;cursor:default}
   .artadd-line{background:none;border:none;color:var(--amber);font-family:var(--body);font-size:11.5px;font-style:normal;cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:2px}
   .uarttag{position:absolute;left:8px;bottom:8px;font-family:var(--display);font-size:8.5px;letter-spacing:1.2px;color:var(--muted);background:rgba(12,14,17,.82);border-radius:4px;padding:2px 7px;text-transform:uppercase}
-  #safeDoor{position:fixed;inset:0;z-index:220;background:#04050a;display:flex;padding:0;transition:background .4s ease .5s}
+  #safeDoor{position:fixed;inset:0;z-index:220;background:#04050a;display:flex;padding:0;transition:background .4s ease .5s;
+    --dpad:clamp(14px,2.8vmin,34px);
+    --dw:min(calc(100vw - 2 * var(--dpad)), 440px, calc((100svh - 2 * var(--dpad)) * 362 / 816));
+    --dh:calc(var(--dw) * 816 / 362);
+    --du:calc(var(--dw) / 362)}
   #safeDoor.opening{pointer-events:none;background:transparent}
-  .sd-frame{position:absolute;inset:0;padding:clamp(14px,2.8vmin,34px);border-radius:0;
+  .sd-frame{position:absolute;inset:0;padding:var(--dpad);border-radius:0;
+    display:flex;align-items:center;justify-content:center;
     background:
       linear-gradient(150deg,#3b434f,#232830 55%,#2f3742);
     border:none;
     box-shadow:inset 0 3px 12px rgba(255,255,255,.06),inset 0 -8px 24px rgba(0,0,0,.65);
     transition:opacity .3s ease .55s}
   #safeDoor.opening .sd-frame{opacity:.55}
-  .sd-scene{position:relative;width:100%;height:100%;perspective:2000px;
+  .sd-scene{position:relative;width:var(--dw);height:var(--dh);flex:0 0 auto;perspective:2000px;
     background:#030408;border-radius:8px;
     box-shadow:inset 0 0 0 3px #0b0e13,inset 0 0 70px rgba(0,0,0,.95)}
-  .sd-door{position:absolute;inset:clamp(5px,1vmin,12px);border-radius:10px;transform-origin:left center;
+  .sd-door{position:absolute;inset:clamp(4px,calc(5 * var(--du)),12px);border-radius:10px;transform-origin:left center;
     background:
       radial-gradient(130% 95% at 28% 10%,rgba(255,255,255,.075),transparent 55%),
       linear-gradient(148deg,#2e343e 0%,#1d2127 55%,#262c35 100%);
     border:1px solid #414a56;
-    box-shadow:inset 0 2px 0 rgba(255,255,255,.08),inset 0 -3vmin 8vmin rgba(0,0,0,.5),0 2.4vmin 6vmin rgba(0,0,0,.7);
+    box-shadow:inset 0 2px 0 rgba(255,255,255,.08),inset 0 calc(-11.7 * var(--du)) calc(31.2 * var(--du)) rgba(0,0,0,.5),0 calc(9.36 * var(--du)) calc(23.4 * var(--du)) rgba(0,0,0,.7);
     transition:transform .62s cubic-bezier(.45,0,.18,1)}
   .sd-door::after{content:"";position:absolute;inset:0;border-radius:10px;pointer-events:none;
     background:repeating-linear-gradient(115deg,rgba(255,255,255,.018) 0 2px,transparent 2px 6px)}
-  .sd-door::before{content:"";position:absolute;inset:clamp(10px,2vmin,24px);border-radius:8px;pointer-events:none;
+  .sd-door::before{content:"";position:absolute;inset:calc(10 * var(--du));border-radius:8px;pointer-events:none;
     border:1px solid rgba(255,255,255,.05);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.04),inset 0 0 3vmin rgba(0,0,0,.35)}   
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.04),inset 0 0 calc(11.7 * var(--du)) rgba(0,0,0,.35)}   
   .sd-door.open{transform:rotateY(-104deg)}
-  .sd-screws i{position:absolute;width:clamp(10px,1.6vmin,18px);height:clamp(10px,1.6vmin,18px);border-radius:50%;
+  .sd-screws i{position:absolute;width:calc(10 * var(--du));height:calc(10 * var(--du));border-radius:50%;
     background:radial-gradient(circle at 34% 30%,#6a7482,#3a424d 60%,#232830);border:1px solid #1a1f26;
     box-shadow:0 1px 2px rgba(0,0,0,.6),inset 0 1px 1px rgba(255,255,255,.25)}
   .sd-screws i:nth-child(1){left:3.2%;top:2.4%}.sd-screws i:nth-child(2){right:3.2%;top:2.4%}
   .sd-screws i:nth-child(3){left:3.2%;bottom:2.4%}.sd-screws i:nth-child(4){right:3.2%;bottom:2.4%}
-  .sd-hinge{position:absolute;left:calc(-1 * clamp(6px,1.1vmin,13px));top:12%;bottom:12%;width:clamp(12px,2vmin,24px);display:flex;flex-direction:column;justify-content:space-between}
-  .sd-hinge i{display:block;height:16%;width:100%;border-radius:clamp(5px,1vmin,11px);
+  .sd-hinge{position:absolute;left:calc(-6 * var(--du));top:12%;bottom:12%;width:calc(12 * var(--du));display:flex;flex-direction:column;justify-content:space-between}
+  .sd-hinge i{display:block;height:16%;width:100%;border-radius:calc(5 * var(--du));
     background:linear-gradient(90deg,#525c6a,#2a3039 55%,#3d4550);border:1px solid #1e242c;
     box-shadow:0 2px 5px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.16)}
   .sd-brand{position:absolute;top:5.5%;left:0;right:0;text-align:center;font-family:var(--display);font-weight:700;
-    font-size:clamp(21px,3.6vmin,36px);letter-spacing:.42em;text-indent:.42em;color:#DFE6F0;
+    font-size:calc(21 * var(--du));letter-spacing:.42em;text-indent:.42em;color:#DFE6F0;
     text-shadow:0 -1px 1px rgba(0,0,0,.85),0 1px 1px rgba(255,255,255,.09),0 0 22px rgba(213,220,230,.16)}
   .sd-brand span{color:#F0AC3F;text-shadow:0 -1px 1px rgba(0,0,0,.85),0 1px 1px rgba(255,255,255,.06),0 0 26px rgba(232,163,61,.4)}
-  .sd-sub{position:absolute;top:calc(5.5% + clamp(26px,4.6vmin,46px));left:0;right:0;text-align:center;
-    font-family:var(--display);font-size:clamp(8.5px,1.15vmin,11px);letter-spacing:.3em;text-indent:.3em;
+  .sd-sub{position:absolute;top:calc(5.5% + 26 * var(--du));left:0;right:0;text-align:center;
+    font-family:var(--display);font-size:calc(8.5 * var(--du));letter-spacing:.3em;text-indent:.3em;
     text-transform:uppercase;color:#8b93a0;text-shadow:0 -1px 1px rgba(0,0,0,.8)}
-  .sd-bolts{position:absolute;right:calc(-1 * clamp(7px,1.3vmin,15px));top:15%;bottom:15%;width:clamp(30px,4.6vmin,54px);display:flex;flex-direction:column;justify-content:space-between}
-  .sd-bolts i{display:block;height:clamp(16px,2.6vmin,30px);border-radius:clamp(8px,1.3vmin,15px);
+  .sd-bolts{position:absolute;right:calc(-7 * var(--du));top:15%;bottom:15%;width:calc(30 * var(--du));display:flex;flex-direction:column;justify-content:space-between}
+  .sd-bolts i{display:block;height:calc(16 * var(--du));border-radius:calc(8 * var(--du));
     background:linear-gradient(180deg,#7b8494,#454d59 55%,#5b6472);border:1px solid #232a33;
     box-shadow:0 2px 6px rgba(0,0,0,.6),inset 0 2px 1px rgba(255,255,255,.3),inset 0 -2px 3px rgba(0,0,0,.35);
     transition:transform .24s ease-in}
   .sd-bolts i:nth-child(2){transition-delay:.05s}.sd-bolts i:nth-child(3){transition-delay:.1s}.sd-bolts i:nth-child(4){transition-delay:.15s}
-  .sd-door.unbolted .sd-bolts i{transform:translateX(calc(-1 * clamp(26px,4vmin,48px)))}
-  .sd-plate{position:absolute;left:50%;top:28%;width:min(44vw,33vh);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;
+  .sd-door.unbolted .sd-bolts i{transform:translateX(calc(-26 * var(--du)))}
+  .sd-plate{position:absolute;left:50%;top:28%;width:calc(171.6 * var(--du));aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;
     background:linear-gradient(155deg,#333a45,#20252d 60%,#2a313b);border:1px solid #444d5a;
-    box-shadow:0 1vmin 2vmin rgba(0,0,0,.45),inset 0 2px 0 rgba(255,255,255,.09),inset 0 -1vmin 2.4vmin rgba(0,0,0,.4)}
-  .sd-handle{position:absolute;left:50%;top:57.2%;width:min(33.75vw,21vh);aspect-ratio:1;
+    box-shadow:0 calc(3.9 * var(--du)) calc(7.8 * var(--du)) rgba(0,0,0,.45),inset 0 2px 0 rgba(255,255,255,.09),inset 0 calc(-3.9 * var(--du)) calc(9.36 * var(--du)) rgba(0,0,0,.4)}
+  .sd-handle{position:absolute;left:50%;top:57.2%;width:calc(131.625 * var(--du));aspect-ratio:1;
     transform:translate(-50%,-50%);pointer-events:none;z-index:0;
-    filter:drop-shadow(0 1.2vmin 2vmin rgba(0,0,0,.65))}
+    filter:drop-shadow(0 calc(4.68 * var(--du)) calc(7.8 * var(--du)) rgba(0,0,0,.65))}
   .sd-handle svg{width:100%;height:100%;display:block;transform:rotate(0deg)}
-  #sdDoor.spin .sd-handle svg{transform:rotate(-1080deg);
+  #sdDoor.spin .sd-handle svg{transform:rotate(-360deg);
     transition:transform .95s cubic-bezier(.25,.7,.2,1)}
-  .sd-dial{position:absolute;left:50%;top:28%;width:min(40vw,30vh);transform:translate(-50%,-50%);
-    filter:drop-shadow(0 1.6vmin 2.4vmin rgba(0,0,0,.6))}
+  .sd-dial{position:absolute;left:50%;top:28%;width:calc(156 * var(--du));transform:translate(-50%,-50%);
+    filter:drop-shadow(0 calc(6.24 * var(--du)) calc(9.36 * var(--du)) rgba(0,0,0,.6))}
   .sd-dial.shudder{animation:sdshake .34s linear}
   @keyframes sdshake{0%,100%{transform:translate(-50%,-50%)}20%{transform:translate(calc(-50% - 4px),-50%) rotate(-1.2deg)}40%{transform:translate(calc(-50% + 4px),-50%) rotate(1.2deg)}60%{transform:translate(calc(-50% - 3px),-50%)}80%{transform:translate(calc(-50% + 2px),-50%)}}
   #sdDisc{transition:transform .5s cubic-bezier(.35,0,.25,1);transform-origin:100px 100px}
-  .sd-dots{position:absolute;bottom:calc(3.5% + 4*clamp(46px,6.8vmin,62px) + 3*clamp(7px,1.2vmin,12px) + 1.6vmin);left:0;right:0;text-align:center;font-size:clamp(14px,2vmin,20px);letter-spacing:.7em;text-indent:.7em;color:var(--muted)}
+  .sd-dots{position:absolute;bottom:calc(3.5% + 4 * 46 * var(--du) + 3 * 7 * var(--du) + 6.24 * var(--du));left:0;right:0;text-align:center;font-size:calc(14 * var(--du));letter-spacing:.7em;text-indent:.7em;color:var(--muted)}
   .sd-dots b{color:var(--amber)}
   .sd-pad{position:absolute;left:50%;bottom:3.5%;transform:translateX(-50%);display:grid;
-    grid-template-columns:repeat(3,clamp(64px,10vmin,92px));gap:clamp(7px,1.2vmin,12px)}
-  .sd-pad button{height:clamp(46px,6.8vmin,62px);border-radius:clamp(9px,1.4vmin,14px);font-family:var(--display);font-weight:600;
-    font-size:clamp(17px,2.4vmin,23px);color:var(--text);cursor:pointer;
+    grid-template-columns:repeat(3,calc(64 * var(--du)));gap:calc(7 * var(--du))}
+  .sd-pad button{height:calc(46 * var(--du));border-radius:calc(9 * var(--du));font-family:var(--display);font-weight:600;
+    font-size:calc(17 * var(--du));color:var(--text);cursor:pointer;
     background:linear-gradient(180deg,#2a303a,#1b1f26);border:1px solid #39424e;
     box-shadow:0 3px 7px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.07)}
   .sd-pad button:active{transform:translateY(1px);box-shadow:0 1px 2px rgba(0,0,0,.4)}
   .sd-pad button.sd-pro{color:var(--amber);border-color:#5a4a2a;
-    background:linear-gradient(180deg,#2f2a20,#1d1a14);letter-spacing:1px;font-size:clamp(12px,1.7vmin,16px)}
+    background:linear-gradient(180deg,#2f2a20,#1d1a14);letter-spacing:1px;font-size:calc(12 * var(--du))}
   .sd-pad button.sd-pro:active{transform:translateY(1px)}
   .prosheet.abovedoor{z-index:240}
   #safeDoor.fadeout{opacity:0;transition:opacity .28s ease .34s}
   .sd-setcombo{position:absolute;bottom:11%;left:50%;transform:translateX(-50%);white-space:nowrap;
     background:linear-gradient(180deg,#2a303a,#1b1f26);border:1px solid #3a424d;border-radius:11px;
-    color:var(--amber);font-family:var(--display);font-weight:600;font-size:clamp(11px,1.6vmin,15px);letter-spacing:1.8px;padding:clamp(9px,1.4vmin,14px) clamp(14px,2.2vmin,22px);cursor:pointer;
+    color:var(--amber);font-family:var(--display);font-weight:600;font-size:calc(11 * var(--du));letter-spacing:1.8px;padding:calc(9 * var(--du)) calc(14 * var(--du));cursor:pointer;
     box-shadow:0 3px 8px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.06)}
   .sd-pad[hidden]{display:none!important}
   .herocard{padding:10px 10px 12px;background:linear-gradient(180deg,#272d36,#1d2127);border-color:#3d4754;box-shadow:0 6px 20px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.06)}
@@ -650,7 +678,7 @@
     radial-gradient(ellipse 90% 75% at 50% 45%, #5A616B 0%, #474D56 55%, #2E333A 100%);
     background-size:28px 28px,28px 28px,100% 100%;
     box-shadow:inset 0 0 0 1px rgba(255,255,255,.06),inset 0 -14px 30px rgba(0,0,0,.3)}
-  .heroart>img{display:block;width:100%;max-height:260px;object-fit:cover}
+  .heroart>img{display:block;width:100%;height:auto;max-height:260px;object-fit:contain;margin-inline:auto}
   .heroart.empty{border:1px solid rgba(255,255,255,.08);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:24px 12px;cursor:pointer;min-height:120px}
   .heroart.empty svg{width:30%;max-height:74px}
   .heroinvite{font-family:var(--display);font-size:12px;letter-spacing:1.6px;text-transform:uppercase;color:var(--amber)}
@@ -3158,7 +3186,7 @@
     if(document.getElementById("webNote")) return;
     const n=document.createElement("div");
     n.id="webNote"; n.className="webnote";
-    n.innerHTML='<span><b>This browser isn\'t a safe.</b> Clear its data and your collection goes with it — the Android app keeps it on the phone.</span><button class="btn sm" id="webNoteOk">Got it</button>';
+    n.innerHTML='<span><b>This browser isn\'t a safe.</b> Clear its data and your collection goes with it — the Android app keeps it on the phone. Photos too: saved in this browser only. Clear its data and it\'s gone. The Android app keeps it.</span><button class="btn sm" id="webNoteOk">Got it</button>';
     document.body.appendChild(n);
     n.querySelector("#webNoteOk").addEventListener("click",()=>{ store.set("fs_web_seen","1"); n.remove(); });
   }
@@ -3740,7 +3768,7 @@
         await saveStampB64(f,b64);
         addLog(f,"nfa","Tax stamp photo "+(f.log.some(l=>l.msg&&l.msg.indexOf("stamp photo")>-1)?"replaced":"attached"));
         saveSafe(); renderStamp(f);
-      }catch(err){ alert("Couldn't save the photo — device storage may be full."); }
+      }catch(err){ alert(benchSaveFail(err, "Couldn't save the photo — device storage may be full.")); }
     }, ()=> alert("Couldn't read that image. Use a JPG or PNG — if your camera saves HEIF, switch it to 'most compatible' or screenshot the stamp instead."));
   });
   document.getElementById("stampRemove").addEventListener("click",async ()=>{
@@ -5251,14 +5279,69 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
       setRaw(k,v){ localStorage.setItem(k,String(v)); try{ const p=P(); if(p) p.set({key:k, value:String(v)}); }catch(e){} },
       remove(k){ localStorage.removeItem(k); try{ const p=P(); if(p) p.remove({key:k}); }catch(e){} }
     };
+    const IDB_NAME="fieldstrip-files", IDB_STORE="files";
+    const KEEP_LINE="Saved in this browser only. Clear its data and it's gone. The Android app keeps it.";
+    const KEEP_FULL="This browser is out of room for photos.";
+    let idbOpen=null;
+    function idb(){
+      if(idbOpen) return idbOpen;
+      idbOpen=new Promise((res,rej)=>{
+        let r;
+        try{ r=indexedDB.open(IDB_NAME, 1); }catch(e){ idbOpen=null; rej(e); return; }
+        r.onupgradeneeded=()=>{ try{ r.result.createObjectStore(IDB_STORE); }catch(e){} };
+        r.onsuccess=()=>res(r.result);
+        r.onerror=()=>{ idbOpen=null; rej(r.error||new Error("indexedDB open failed")); };
+        r.onblocked=()=>{ idbOpen=null; rej(new Error("indexedDB blocked")); };
+      });
+      return idbOpen;
+    }
+    function idbRun(mode, fn){
+      return idb().then(db=>new Promise((res,rej)=>{
+        let tx;
+        try{ tx=db.transaction(IDB_STORE, mode); }catch(e){ rej(e); return; }
+        const st=tx.objectStore(IDB_STORE);
+        let q=null;
+        try{ q=fn(st); }catch(e){ rej(e); return; }
+        tx.oncomplete=()=>res(q ? q.result : undefined);
+        tx.onerror=()=>rej(tx.error||(q&&q.error)||new Error("indexedDB "+mode+" failed"));
+        tx.onabort=()=>rej(tx.error||(q&&q.error)||new Error("indexedDB "+mode+" aborted"));
+      }));
+    }
+    const isQuota=e=>!!(e && (e.name==="QuotaExceededError" || (e.inner&&e.inner.name==="QuotaExceededError") || /quota/i.test(String(e.name||"")+" "+String(e.message||""))));
+    const b64ToBytes=b=>{ const s=atob(b); const u=new Uint8Array(s.length); for(let i=0;i<s.length;i++) u[i]=s.charCodeAt(i); return u; };
+    const bytesToB64=u=>{ let s=""; const CH=0x8000; for(let i=0;i<u.length;i+=CH) s+=String.fromCharCode.apply(null, u.subarray(i, i+CH)); return btoa(s); };
+    let filesB_=null;
+    function filesB(){
+      if(!window.indexedDB) return null;
+      if(filesB_) return filesB_;
+      filesB_={
+        backend:"browser",
+        async writeB64(p,b){
+          try{ await idbRun("readwrite", st=>st.put(b64ToBytes(String(b)), p)); }
+          catch(e){ if(isQuota(e)){ const q=new Error(KEEP_FULL); q.quota=true; q.cause=e; throw q; } throw e; }
+        },
+        async readB64(p){
+          const v=await idbRun("readonly", st=>st.get(p));
+          if(v==null) throw new Error("ENOENT: "+p);
+          return bytesToB64(v instanceof Uint8Array ? v : new Uint8Array(v));
+        },
+        async removeFile(p){ await idbRun("readwrite", st=>st.delete(p)); },
+        async wipeAll(){ await idbRun("readwrite", st=>st.clear()); },
+        async listPaths(){ return await idbRun("readonly", st=>st.getAllKeys()); }
+      };
+      return filesB_;
+    }
     function filesA(){
-      const fs=FS(); if(!fs) return null;
+      const fs=FS(); if(!fs) return filesB();
       return {
+        backend:"native",
         async writeB64(p,b){ await fs.writeFile({path:p, data:b, directory:"DATA", recursive:true}); },
         async readB64(p){ const r=await fs.readFile({path:p, directory:"DATA"}); return r && r.data; },
         async removeFile(p){ await fs.deleteFile({path:p, directory:"DATA"}); }
       };
     }
+    function filesBackend(){ return FS() ? "native" : (window.indexedDB ? "browser" : null); }
+    function keepLine(){ return filesBackend()==="browser" ? `<div class="webkeep">${KEEP_LINE}</div>` : ""; }
     function thumbnailer(b64, maxDim, quality){
       return new Promise((res, rej)=>{
         const img=new Image();
@@ -5289,8 +5372,10 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
         img.src=url;
       });
     }
-    return {store:storeA, files:filesA, share:SH, thumbnailer, fileToB64, fileDims, hasFS:()=>!!FS()};
+    return {store:storeA, files:filesA, share:SH, thumbnailer, fileToB64, fileDims,
+            hasFS:()=>!!(FS()||window.indexedDB), filesBackend, keepLine, KEEP_LINE, KEEP_FULL};
   })();
+  function benchSaveFail(e, fallback){ return (e && e.quota) ? String(e.message) : fallback; }
 
   const benchThumbCache = {};
   async function benchLoadThumb(imgEl, rec){
@@ -5460,7 +5545,7 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     };
     const addOf=type=>benchPickPhoto(async (b64,dims)=>{
       try{ await benchImport(parent,b64,dims,type); if(opts.onchange) opts.onchange(); }
-      catch(e){ console.error("attach:",e); alert("Couldn't save that file. Try again."); }
+      catch(e){ console.error("attach:",e); alert(benchSaveFail(e, "Couldn't save that file. Try again.")); }
     });
     const grid=document.createElement("div"); grid.className="attgrid";
     items.forEach(a=>{
@@ -5492,6 +5577,7 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
       grid.appendChild(add);
     }
     container.appendChild(grid);
+    if(BenchEnv.hasFS()) container.insertAdjacentHTML("beforeend", BenchEnv.keepLine());
     if(BenchEnv.hasFS() && opts.types){
       const list=document.createElement("div"); list.className="attlist";
       const byType=new Map();
@@ -5974,6 +6060,14 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
         benchPickPhoto((b64,dims)=>{ benchZeroStage[which]={b64,dims}; benchZeroSlots(); });
       };
     });
+    (function(){
+      const row=document.getElementById("zeroPhotoRow"); if(!row) return;
+      let k=document.getElementById("zeroKeepLine");
+      const html=BenchEnv.keepLine();
+      if(!html){ if(k) k.remove(); return; }
+      if(!k){ k=document.createElement("div"); k.id="zeroKeepLine"; row.insertAdjacentElement("afterend", k); }
+      k.innerHTML=html;
+    })();
   }
   renderZero = function(f){
     if(!Array.isArray(f.zeros)) f.zeros=[];
@@ -6050,7 +6144,7 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
           try{
             const rec=await benchImport({kind:"zero", id:z.id}, st.b64, st.dims, "target", which);
             if(which==="before") z.photoBefore=rec.id; else z.photoAfter=rec.id;
-          }catch(e){ console.error("attach:",e); alert("Couldn't save the "+which+" target photo. Try again."); }
+          }catch(e){ console.error("attach:",e); alert(benchSaveFail(e, "Couldn't save the "+which+" target photo. Try again.")); }
         }
       }
       benchZeroStage={before:null, after:null};
@@ -55374,8 +55468,14 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     }
     document.getElementById("layerViewport").hidden=true;
     document.querySelectorAll(".gun-svg").forEach(s=>s.classList.remove("active"));
-    benchRenderStepSlot(fSlot, gun, stepRec);
-    if(pane) pane.hidden=false;
+    if(walkAtLaidOut()){
+      const box=document.getElementById("textArtBox"); if(box) box.innerHTML="";
+      const line=document.getElementById("textArtLine"); if(line) line.innerHTML="";
+      if(pane) pane.hidden=true;
+    } else {
+      benchRenderStepSlot(fSlot, gun, stepRec);
+      if(pane) pane.hidden=false;
+    }
     const steps=curSteps();
     const s=steps[stepIndex];
     document.getElementById("stepNum").textContent=`STEP ${stepIndex+1} / ${steps.length}`;
@@ -55603,7 +55703,7 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
         try{
           await benchImport({kind:"firearm", id:f.id}, b64, dims, "work");
           document.getElementById("logPhotoMsg").textContent="Photo attached ✓";
-        }catch(e){ console.error("attach:",e); alert("Couldn't save that file. Try again."); }
+        }catch(e){ console.error("attach:",e); alert(benchSaveFail(e, "Couldn't save that file. Try again.")); }
       });
     });
     benchFillVendorSelect(document.getElementById("svcVendor"), "Self");
@@ -55774,7 +55874,7 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
         f.userArt=rec.id;
         addLog(f,"note","Photo set as this firearm's art");
         saveSafe(); benchArtChanged();
-      }catch(e){ console.error("attach:",e); alert("Couldn't save that file. Try again."); }
+      }catch(e){ console.error("attach:",e); alert(benchSaveFail(e, "Couldn't save that file. Try again.")); }
     });
   }
   async function benchRemoveUserArt(f){
@@ -55941,7 +56041,8 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
   function sdFinish(){
     const doorEl=document.getElementById("safeDoor");
     if(doorEl){ doorEl.style.display="none"; doorEl.classList.remove("opening","fadeout","brand-open"); }
-    document.getElementById("sdDoor").classList.remove("open","unbolted","spin");
+    const slab=document.getElementById("sdDoor");
+    if(slab) slab.classList.remove("open","unbolted","spin");
     sdState.open=false;
   }
   function sdOpenSequence(fast){
@@ -56167,9 +56268,7 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     return `<div class="heroplate" style="aspect-ratio:${aw} / ${ah};width:min(100%,${wCap}px)">${imgs}</div>`;
   }
   function benchLaidOutUnder(f){
-    const tm=benchTmPlateFigure(f);
-    if(tm) return tm;
-    return benchPlateFigure(benchPlateKey(f));
+    return benchTmPlateFigure(f);
   }
   function benchTmPlateFigure(f){
     if(!f || !f.model || typeof TM_PLATE_FOR==="undefined") return null;
@@ -56193,8 +56292,7 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
   function benchAttachBox(host, f){
     const rec=benchUserArtRec(f);
     const example=rec?null:benchOwnerExamplePath(f);
-    const plate=rec?null:benchHeroPlate(f);
-    const ph=(rec||plate||example)?null:benchHeroArt(f);
+    const ph=(rec||example)?null:benchHeroArt(f);
     const canFS=BenchEnv.hasFS();
     const attach=canFS?'<button class="uartbtn abAttach" title="Attach your piece">＋</button>':"";
     const invite=canFS?'<div class="heroinvitebar">Attach your piece here.</div>'
@@ -56207,9 +56305,6 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
           <button class="btn sm primary abReplace">Replace</button>
           <button class="btn sm abRemove">Remove</button>
         </div></div>`;
-    } else if(plate){
-      state="plate";
-      art=`<div class="heroart abBox">${plate}${attach}${invite}</div>`;
     } else if(example){
       state="example";
       art=`<div class="heroart abBox"><img src="${example}" alt="Example photo">
@@ -56229,6 +56324,7 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
       art=`<div class="heroart empty abBox" style="cursor:${canFS?"pointer":"default"}">${FS_LOGO_WM}`
         + `<div class="heroartline">${esc(canFS?ART_LINE_APP:ART_LINE_WEB)}</div>`
         + (canFS?`<button class="btn sm primary abAdd" type="button">Add a photo of yours</button>`:"")
+        + (canFS?BenchEnv.keepLine():"")   
         + `</div>`;
     }
     host.innerHTML=art;
@@ -56458,6 +56554,10 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     if(!f || !f.stepArt) return null;
     return benchArtRecByKey(f, benchStepArtKey(f,i));
   }
+  function walkAtLaidOut(){
+    return !!(typeof WALK!=="undefined" && WALK && WALK.mode==="strip"
+              && typeof WALK.forkAt==="number" && stepIndex===WALK.forkAt);
+  }
   function benchLaidOutKey(f){
     const k=(typeof fkey==="function" && fkey(f))||"guide";
     return k+":laidout";
@@ -56481,12 +56581,12 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
       <h3 style="text-transform:none;letter-spacing:0">Your own photo, your own bench.</h3>
       <p class="pp">Snap the part as it looks in front of you. Next time you walk this guide, your photo is the picture.</p>
       <p class="pp">Lay parts on a plain surface. Good overhead light, no flash. Fill the frame with the part.</p>
-      <p class="pp">Stays on this phone. Never uploaded, never shared.</p>
+      <p class="pp">${BenchEnv.filesBackend()==="browser" ? "Stays in this browser. Never uploaded, never shared." : "Stays on this phone. Never uploaded, never shared."}</p>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
         <button class="btn sm primary" id="slotCam">Take photo</button>
         <button class="btn sm" id="slotPick">Choose from phone</button>
         <button class="btn sm" id="slotNo">Not now</button>
-      </div></div>`;
+      </div>${BenchEnv.keepLine()}</div>`;
     const done=()=>{ BenchEnv.store.setRaw("fs_slot_seen","1"); sh.classList.remove("open"); };
     sh.querySelector("#slotCam").onclick=()=>{ done(); go("camera"); };
     sh.querySelector("#slotPick").onclick=()=>{ done(); go(null); };
@@ -56505,7 +56605,7 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
           if(!f.stepArt) f.stepArt={};
           f.stepArt[key]=rec.id;
           saveSafe(); renderStep(false);
-        }catch(e){ console.error("attach:",e); alert("Couldn't save that file. Try again."); }
+        }catch(e){ console.error("attach:",e); alert(benchSaveFail(e, "Couldn't save that file. Try again.")); }
       }, mode);
     });
   }
@@ -56527,9 +56627,10 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
   function benchRenderStepSlot(f, gun, stepRec, opts){
     opts=opts||{};
     const host=opts.host||document.getElementById("textArtBox");
-    if(!opts.host){ const line=document.getElementById("textArtLine"); if(line) line.innerHTML=""; }
+    if(!opts.host){ const line=document.getElementById("textArtLine"); if(line) line.innerHTML=BenchEnv.keepLine(); }
     if(!host) return;
     const canFS=BenchEnv.hasFS();
+    const keepUnder=opts.host ? BenchEnv.keepLine() : "";
     const doSet=opts.set||(()=>benchSetStepArt(f, stepIndex));
     const doClr=opts.clr||(()=>benchClearStepArt(f, stepIndex));
     if(stepRec){
@@ -56550,14 +56651,14 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     }
     if(opts.under){
       const plus=canFS?'<button class="uartbtn abAttach" title="Your own laid-out photo">＋</button>':"";
-      host.innerHTML=`<div class="heroart abBox" style="cursor:${canFS?"pointer":"default"}">${opts.under}${plus}</div>`;
+      host.innerHTML=`<div class="heroart abBox" style="cursor:${canFS?"pointer":"default"}">${opts.under}${plus}</div>${keepUnder}`;
       if(canFS) host.querySelector(".abBox").onclick=()=>doSet();
       const ab0=host.querySelector(".abAttach");
       if(ab0) ab0.onclick=e=>{ e.stopPropagation(); doSet(); };
       return;
     }
     const attach=canFS?'<button class="uartbtn abAttach" title="Photo for this step">＋</button>':"";
-    host.innerHTML=`<div class="heroart empty abBox" style="cursor:${canFS?"pointer":"default"}">${FS_LOGO_WM}${attach}</div>`;
+    host.innerHTML=`<div class="heroart empty abBox" style="cursor:${canFS?"pointer":"default"}">${FS_LOGO_WM}${attach}</div>${keepUnder}`;
     if(canFS) host.querySelector(".abBox").onclick=()=>doSet();
     const ab=host.querySelector(".abAttach");
     if(ab) ab.onclick=e=>{ e.stopPropagation(); doSet(); };
@@ -56655,6 +56756,7 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
 
   async function benchBurnFiles(){
     try{
+      try{ const fB=BenchEnv.files(); if(fB && fB.wipeAll) await fB.wipeAll(); }catch(e){}
       const FSp=window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins.Filesystem;
       if(!FSp) return;
       for(const d of ["bench","stamps"]){
@@ -57649,7 +57751,7 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
         <button class="btn sm primary" id="phCam">Take photo</button>
         <button class="btn sm" id="phPick">Choose from phone</button>
         <button class="btn sm" id="phNo">Not now</button>
-      </div></div>`;
+      </div>${BenchEnv.keepLine()}</div>`;
     const done=(mode)=>{ sh.classList.remove("open"); if(mode!==undefined) onPick(mode); };
     sh.querySelector("#phX").onclick=()=>done();
     sh.querySelector("#phNo").onclick=()=>done();
@@ -57669,7 +57771,7 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
           if(!f.stepArt) f.stepArt={};
           f.stepArt[key]=rec.id;
           saveSafe(); renderStep(false);
-        }catch(e){ console.error("attach:",e); alert("Couldn't save that file. Try again."); }
+        }catch(e){ console.error("attach:",e); alert(benchSaveFail(e, "Couldn't save that file. Try again.")); }
       }, mode);
     });
   }
@@ -57687,7 +57789,7 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     })();
     if(stepIndex===0 && canFS && !benchStepArtRec(f,0)){
       if(pane && !pane.hidden && line){
-        line.innerHTML=`<button class="artadd-line" id="stepPromptBtn">＋ Add a photo of your own gun — see how</button>`;
+        line.insertAdjacentHTML("afterbegin", `<button class="artadd-line" id="stepPromptBtn">＋ Add a photo of your own gun — see how</button>`);
         const b=document.getElementById("stepPromptBtn");
         if(b) b.onclick=()=>benchStepArtViaExample(byId(activeId), 0);
       } else {
@@ -58939,7 +59041,7 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     const isUser=!!s.userStep;
     const atStop = !isUser && WALK.mode==="strip" && stepIndex===WALK.published-1 && WALK.published>0;
     const fork = WALK.mode==="strip" && last && walkHasClean();
-    const atLaidOut = WALK.mode==="strip" && stepIndex===WALK.forkAt;
+    const atLaidOut = walkAtLaidOut();
     bar.innerHTML=
       (atLaidOut?'<div class="fslaid"><div id="laidOutBox"></div></div>':"")
       + (atStop?'<div class="fsStop">This is as far as the maker publishes. Anything past this is yours to record.</div>':"")
@@ -58998,7 +59100,7 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     if(f && s) fsRenderNote(f, stepIndex, s);
     walkRenderChrome();
     const pl=document.getElementById("scr-player");
-    if(pl) pl.classList.toggle("fs-noart", !!(s && (s.userStep || s.fsEmpty)));
+    if(pl) pl.classList.toggle("fs-noart", !!(s && (s.userStep || s.fsEmpty)) || walkAtLaidOut());
     if(pl){
       const gk=fkey(f), gg=gk?GUNS[gk]:null;
       const hasArt=!!(gg && (gg.layerMode || (typeof LAYER_SETS!=="undefined" && LAYER_SETS[gk])));
@@ -59181,5 +59283,29 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
   if(FS_WEB_BUILD) webNotice();   
 })();
 </script>
+<script id="fsGateScript">(function(){
+var KEY="fs_web_gate", H="aab7d0f6a5ca0ddcab61868d1be09dcafb81f8b847bf5df368e252a8eaaaee92", S="fs-web-gate-v1";
+function ok(){try{return localStorage.getItem(KEY)==='"1"';}catch(e){return false;}}
+if(ok()){document.documentElement.classList.remove("fsgate");return;}
+var d=document.getElementById("safeDoor"); if(d&&d.parentNode) d.parentNode.removeChild(d);
+var g=document.createElement("div"); g.id="fsGate";
+g.innerHTML='<div class="gmark">FIELD<b>STRIP</b></div>'+
+  '<form id="fsGateForm" autocomplete="off"><label for="fsGateIn">Enter access code</label>'+
+  '<input id="fsGateIn" type="text" autocomplete="off" autocapitalize="none" spellcheck="false">'+
+  '<button type="submit" id="fsGateGo">Enter</button></form>';
+document.body.appendChild(g);
+var inp=g.querySelector("#fsGateIn");
+async function sha(t){var b=new TextEncoder().encode(t);
+  var h=await crypto.subtle.digest("SHA-256",b);
+  return Array.prototype.map.call(new Uint8Array(h),function(x){return x.toString(16).padStart(2,"0");}).join("");}
+g.querySelector("#fsGateForm").addEventListener("submit",async function(e){
+  e.preventDefault();
+  var v=(inp.value||"").trim().toLowerCase();
+  var got=""; try{ got=await sha(S+":"+v); }catch(err){ got=""; }
+  if(got===H){ try{localStorage.setItem(KEY,'"1"');}catch(err){} location.reload(); return; }
+  inp.value=""; inp.focus();
+});
+try{inp.focus();}catch(e){}
+})();</script>
 </body>
 </html>
