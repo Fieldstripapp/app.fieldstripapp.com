@@ -16,7 +16,7 @@ font-family:var(--body,sans-serif);font-size:17px;padding:13px 14px;text-align:c
 #fsGate input:focus{outline:none;border-color:#F0AC3F}
 #fsGate button{width:100%;background:#F0AC3F;border:none;border-radius:10px;color:#14161A;
 font-family:var(--display,sans-serif);font-weight:600;font-size:14px;letter-spacing:1.6px;
-text-transform:uppercase;padding:13px 14px;cursor:pointer}</style><script id="fsGateEarly">try{if(localStorage.getItem("fs_web_gate")!=='"1"')document.documentElement.classList.add("fsgate");}catch(e){document.documentElement.classList.add("fsgate");}</script>
+text-transform:uppercase;padding:13px 14px;cursor:pointer}</style><script id="fsGateEarly">window.__FS_NS="waab7d0f6a5ca_";try{if(localStorage.getItem(window.__FS_NS+"fs_web_gate")!=='"1"')document.documentElement.classList.add("fsgate");}catch(e){document.documentElement.classList.add("fsgate");}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#14161A">
@@ -480,6 +480,10 @@ text-transform:uppercase;padding:13px 14px;cursor:pointer}</style><script id="fs
     flex-direction:column;gap:4px;padding:6px 5px;text-align:center;line-height:1.3}
   .attthumb.add .apl{font-size:21px;line-height:1;color:var(--amber);font-weight:600}
   .attthumb.add:active{background:rgba(232,163,61,.13);border-color:var(--amber)}
+  .stagerow{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:7px}
+  .stagerow .attthumb.staged{border-style:solid;border-color:var(--green)}
+  .stagerow .attthumb.staged .atag{color:var(--green)}
+  .stagerow .sthumb{width:100%;height:100%;object-fit:cover;display:block}
   .attrow{display:flex;align-items:center;gap:11px;width:100%;text-align:left;
     background:#0e1013;border:1px solid var(--edge);border-radius:11px;
     padding:10px 12px;margin-top:8px;color:var(--text);cursor:pointer}
@@ -539,12 +543,12 @@ text-transform:uppercase;padding:13px 14px;cursor:pointer}</style><script id="fs
   .benchlocked{cursor:pointer}
   .benchlocked .benchrow{cursor:pointer}
   .lifebox{position:relative}
-  #scr-detail .bccard > :first-child{cursor:pointer;user-select:none}
-  #scr-detail .bccard .bcchev{display:inline-block;width:15px;color:var(--muted);font-size:10px;transition:transform .18s ease}
-  #scr-detail .bccard.bcclosed .bcchev{transform:rotate(-90deg)}
-  #scr-detail .bccard.bcclosed > *{display:none!important}
-  #scr-detail .bccard.bcclosed > :first-child{display:block!important}
-  #scr-detail .bccard.bcclosed > .lrow:first-child{display:flex!important}
+  .bccard > :first-child{cursor:pointer;user-select:none}
+  .bccard .bcchev{display:inline-block;width:15px;color:var(--muted);font-size:10px;transition:transform .18s ease}
+  .bccard.bcclosed .bcchev{transform:rotate(-90deg)}
+  .bccard.bcclosed > *{display:none!important}
+  .bccard.bcclosed > :first-child{display:block!important}
+  .bccard.bcclosed > .lrow:first-child{display:flex!important}
   .boxhide{position:absolute;right:8px;top:8px;width:26px;height:26px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.14);border:1px solid var(--muted);border-radius:50%;color:var(--text);opacity:1;font-size:16px;line-height:1;padding:0;cursor:pointer;z-index:3}
   .boxhide:hover{opacity:1;background:rgba(255,255,255,.12)}
   .bchide{display:flex;justify-content:flex-end;margin-top:12px;padding-top:10px;border-top:1px solid var(--edge)}
@@ -666,6 +670,8 @@ text-transform:uppercase;padding:13px 14px;cursor:pointer}</style><script id="fs
   .sd-pad button.sd-pro:active{transform:translateY(1px)}
   .prosheet.abovedoor{z-index:240}
   #safeDoor.fadeout{opacity:0;transition:opacity .28s ease .34s}
+  .sd-msg{max-width:min(86%,320px);margin:10px auto 0;text-align:center;color:#E8A33D;
+    font-family:var(--body,sans-serif);font-size:12.5px;line-height:1.45;letter-spacing:.2px}
   .sd-setcombo{position:absolute;bottom:11%;left:50%;transform:translateX(-50%);white-space:nowrap;
     background:linear-gradient(180deg,#2a303a,#1b1f26);border:1px solid #3a424d;border-radius:11px;
     color:var(--amber);font-family:var(--display);font-weight:600;font-size:calc(11 * var(--du));letter-spacing:1.8px;padding:calc(9 * var(--du)) calc(14 * var(--du));cursor:pointer;
@@ -779,6 +785,14 @@ text-transform:uppercase;padding:13px 14px;cursor:pointer}</style><script id="fs
   .cardstub .csn{font-family:var(--display);font-size:12px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted)}
   .cardstub .css{font-size:11.5px;color:var(--muted);opacity:.8;margin-top:2px}
   .doorcard{border:1px solid var(--amber-dim);border-radius:14px;padding:15px 16px;margin-bottom:10px;background:rgba(232,163,61,.05)}
+.fsdoorwhy{margin:0 0 10px}
+.nfh{color:var(--text);font-size:15px;font-weight:700;line-height:1.35;margin:0 0 6px}
+.nfb{color:var(--muted);font-size:13px;line-height:1.55;margin:0 0 8px}
+.nfb:last-child{margin-bottom:0}
+.fsdoorwhy.deadend{border:1px solid var(--amber-dim);border-radius:12px;padding:14px 14px 12px;background:rgba(232,163,61,.05)}
+.nfacts{margin-top:10px}
+.pickmore.notfound{text-align:left}
+.pickmore.notfound .nfh{font-size:16px}
   .doorcard .dc-h{font-family:var(--display);font-weight:600;font-size:15px;letter-spacing:.5px;color:var(--text)}
   .doorcard .dc-p{color:var(--muted);font-size:12.5px;line-height:1.5;margin:6px 0 11px}
   .doorcard .dc-row{display:flex;gap:8px}
@@ -868,13 +882,25 @@ text-transform:uppercase;padding:13px 14px;cursor:pointer}</style><script id="fs
           </g>
         </svg>
         <div class="sd-dots" id="sdDots"></div>
+        <div class="sd-msg" id="sdMsg" hidden></div>
         <div class="sd-pad" id="sdPad"></div>
         <button class="sd-setcombo" id="sdSetCombo" type="button" hidden>SET YOUR COMBINATION ▸</button>
       </div>
     </div></div>
   </div>
   <script>
-    try{ if((JSON.parse(localStorage.getItem("fs_lock")||"{}")).on) document.getElementById("safeDoor").style.display="flex"; }catch(e){}
+    window.FSNS=(function(){
+      var p="";
+      try{ p=String(window.__FS_NS||""); }catch(e){ p=""; }
+      if(!/^[A-Za-z0-9_]{0,40}$/.test(p)) p="";
+      return {
+        prefix:p,
+        k:function(key){ return p+key; },
+        mine:function(key){ return p ? String(key).indexOf(p)===0 : true; },
+        bare:function(key){ return (p && String(key).indexOf(p)===0) ? String(key).slice(p.length) : key; }
+      };
+    })();
+    try{ if((JSON.parse(localStorage.getItem(window.FSNS.k("fs_lock"))||"{}")).on) document.getElementById("safeDoor").style.display="flex"; }catch(e){}
   </script>
 <div class="phone">
 
@@ -1230,6 +1256,21 @@ text-transform:uppercase;padding:13px 14px;cursor:pointer}</style><script id="fs
         <label for="ammoNote">Extra notes (optional)</label>
         <input type="text" id="ammoNote" placeholder="e.g. 2 FTFs in first 50, none after break-in">
       </div>
+      <div class="field" id="ammoPhotoField">
+        <label>Photos (optional)</label>
+        <div class="stagerow" id="ammoPhotoRow"></div>
+      </div>
+      <div class="field" id="chronoField">
+        <label>Chronograph (optional)</label>
+        <button type="button" class="btn sm" id="chronoImport">Import chronograph file</button>
+        <input type="file" id="chronoFile" accept=".csv,.txt,.xfr,text/csv,text/plain" hidden>
+        <div class="lmsg" id="chronoMsg"></div>
+        <div class="nfagrid" id="chronoPickWrap" hidden style="margin-top:8px">
+          <div class="nf wide"><label for="chronoCol">Which column holds the velocity?</label><select id="chronoCol"></select></div>
+          <div class="nf"><label for="chronoUnit">Units in that file</label><select id="chronoUnit"><option value="fps">fps</option><option value="mps">m/s</option></select></div>
+        </div>
+        <div id="chronoSummary"></div>
+      </div>
       <div class="field" id="ammoHistWrap" hidden>
         <label>History — this firearm</label>
         <div id="ammoHist"></div>
@@ -1238,6 +1279,27 @@ text-transform:uppercase;padding:13px 14px;cursor:pointer}</style><script id="fs
       <div class="row">
         <button class="btn" id="ammoRoundsOnly">Rounds Only</button>
         <button class="btn primary" id="ammoSave">Save Session</button>
+      </div>
+      <div class="lifebox" id="malfBox" style="margin-top:16px">
+        <div class="lrow"><span class="lt">Malfunctions</span><span class="lv" id="malfSummary"></span></div>
+        <div class="lmsg" id="malfMsg"></div>
+        <div id="malfList"></div>
+        <div id="malfFormWrap" hidden>
+          <div class="nfagrid">
+            <div class="nf"><label for="malfDate">Date</label><input type="date" id="malfDate"></div>
+            <div class="nf"><label for="malfType">What happened</label><select id="malfType"></select></div>
+            <div class="nf wide" id="malfOtherWrap" hidden><label for="malfOther">Name it</label><input type="text" id="malfOther" maxlength="40" placeholder="e.g. Bolt override"></div>
+            <div class="nf wide" id="malfMagWrap"><label for="malfMag">Magazine</label><select id="malfMag"></select></div>
+            <div class="nf wide"><label for="malfLot">Ammo — lot or load</label><input type="text" id="malfLot" maxlength="40" list="malfLotList" placeholder="On the box flap — e.g. FC26-114A"><datalist id="malfLotList"></datalist></div>
+            <div class="nf"><label for="malfRounds">Round count at the time</label><input type="number" id="malfRounds" min="0" max="10000000" inputmode="numeric"></div>
+            <div class="nf wide"><label for="malfNote">Note (optional)</label><input type="text" id="malfNote" maxlength="120" placeholder="e.g. Third one today, all from the same mag"></div>
+            <div class="nf wide" id="malfPhotoField"><label>Photos (optional)</label>
+              <div class="stagerow" id="malfPhotoRow"></div></div>
+          </div>
+          <button class="btn sm primary" id="malfSave" style="margin-top:10px">Save Malfunction</button>
+          <button class="btn sm" id="malfCancel" style="margin-left:8px;margin-top:10px">Cancel</button>
+        </div>
+        <button class="btn sm" id="malfAdd" style="margin-top:10px">Log a malfunction</button>
       </div>
     </div>
   </section>
@@ -1823,35 +1885,6 @@ text-transform:uppercase;padding:13px 14px;cursor:pointer}</style><script id="fs
       <button class="btn full" id="cufCancel" style="margin-top:8px">Cancel</button>
     </div>
   </div>
-  <div class="prosheet" id="reqSheet">
-    <div class="sheet">
-      <button class="sheetx" id="reqX" aria-label="Close">✕</button>
-      <div id="reqFormView">
-        <h3>Request a Firearm</h3>
-        <p class="pp">This opens your email app — Fieldstrip has no servers and sends nothing itself.</p>
-        <div class="nfagrid">
-          <div class="nf"><label for="reqMk">Manufacturer</label><input type="text" id="reqMk" maxlength="40" autocomplete="off"></div>
-          <div class="nf"><label for="reqMd">Model</label><input type="text" id="reqMd" maxlength="40" autocomplete="off"></div>
-          <div class="nf"><label for="reqCh">Caliber (optional)</label><input type="text" id="reqCh" maxlength="30" autocomplete="off"></div>
-          <div class="nf"><label for="reqCt">Action type (optional)</label><select id="reqCt"></select></div>
-          <div class="nf wide"><label for="reqNotes">Notes (optional)</label><input type="text" id="reqNotes" maxlength="120" autocomplete="off"></div>
-        </div>
-        <button class="btn primary full" id="reqBuild" style="margin-top:14px">Build Request</button>
-        <button class="btn full" id="reqCancel" style="margin-top:8px">Cancel</button>
-      </div>
-      <div id="reqResultView" hidden>
-        <h3>Opening your email app…</h3>
-        <p class="pp">Your request is ready to send from your own email app. Nothing has left your phone.</p>
-        <button class="btn full" id="reqShowFallback">Didn't open? Copy the request</button>
-        <div id="reqFallback" hidden style="margin-top:12px">
-          <pre class="reqtext" id="reqText"></pre>
-          <button class="btn primary full" id="reqCopy" style="margin-top:10px">Copy request</button>
-          <div class="pp" style="margin-top:10px">Send to: <b>contact@fieldstripllc.com</b></div>
-        </div>
-        <button class="btn full" id="reqDone" style="margin-top:8px">Done</button>
-      </div>
-    </div>
-  </div>
 <script>
 (function(){
   "use strict";
@@ -1882,16 +1915,16 @@ text-transform:uppercase;padding:13px 14px;cursor:pointer}</style><script id="fs
     try { localStorage.setItem("__fs_t","1"); localStorage.removeItem("__fs_t"); persistent = true; } catch(e){}
     return {
       get(key, fallback){
-        try { if(persistent){ const v = localStorage.getItem(key); return v===null ? fallback : JSON.parse(v); } } catch(e){}
+        try { if(persistent){ const v = localStorage.getItem(FSNS.k(key)); return v===null ? fallback : JSON.parse(v); } } catch(e){}
         return key in mem ? mem[key] : fallback;
       },
       set(key, val){
         mem[key] = val;
         const json = JSON.stringify(val);
-        if(persistent){ try { localStorage.setItem(key, json); } catch(e){} }
+        if(persistent){ try { localStorage.setItem(FSNS.k(key), json); } catch(e){} }
         try {
           const P = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Preferences;
-          if(P) P.set({key, value: json});
+          if(P) P.set({key:FSNS.k(key), value: json});
         } catch(e){}
       }
     };
@@ -2232,7 +2265,7 @@ text-transform:uppercase;padding:13px 14px;cursor:pointer}</style><script id="fs
 
   const KEY = "fs_attachments";
   const DIR = "bench/att";
-  const PARENT_KINDS = ["firearm","mag","nfa","zero","ammo","svc","spec","stamp","att","gear"];  
+  const PARENT_KINDS = ["firearm","mag","nfa","zero","ammo","svc","spec","stamp","att","gear","malf","sess"];  
   const IMPORT_MAX_DIM = 2600;
   const THUMB_DIM = 320;
 
@@ -2374,10 +2407,10 @@ text-transform:uppercase;padding:13px 14px;cursor:pointer}</style><script id="fs
     function P(){ return window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Preferences; }
     function storeAdapter(){
       return {
-        keys(){ const a=[]; for(let i=0;i<localStorage.length;i++) a.push(localStorage.key(i)); return a; },
-        getRaw(k){ return localStorage.getItem(k); },
-        setRaw(k,v){ localStorage.setItem(k,String(v)); try{ const p=P(); if(p) p.set({key:k, value:String(v)}); }catch(e){} },
-        remove(k){ localStorage.removeItem(k); try{ const p=P(); if(p) p.remove({key:k}); }catch(e){} }
+        keys(){ const a=[]; for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(FSNS.mine(k)) a.push(FSNS.bare(k)); } return a; },
+        getRaw(k){ return localStorage.getItem(FSNS.k(k)); },
+        setRaw(k,v){ localStorage.setItem(FSNS.k(k),String(v)); try{ const p=P(); if(p) p.set({key:FSNS.k(k), value:String(v)}); }catch(e){} },
+        remove(k){ localStorage.removeItem(FSNS.k(k)); try{ const p=P(); if(p) p.remove({key:FSNS.k(k)}); }catch(e){} }
       };
     }
     function filesAdapter(FS){
@@ -2418,7 +2451,7 @@ text-transform:uppercase;padding:13px 14px;cursor:pointer}</style><script id="fs
           location.reload();
         }
       }catch(e){
-        try{ localStorage.setItem(REPORT, JSON.stringify({at:Date.now(), ok:false, error:String(e&&e.message||e)})); }catch(_){}
+        try{ localStorage.setItem(FSNS.k(REPORT), JSON.stringify({at:Date.now(), ok:false, error:String(e&&e.message||e)})); }catch(_){}
       }
     }
     return {run};
@@ -2625,19 +2658,44 @@ text-transform:uppercase;padding:13px 14px;cursor:pointer}</style><script id="fs
     });
     return buildCsv(rows);
   }
-  function buildHistoryCsv(store, catalog){
+  function buildHistoryCsv(store, catalog, opts){
+    opts=opts||{};
+    const label = typeof opts.malfLabel==="function"
+      ? opts.malfLabel : (m=>(m.type==="other"?(m.customType||"Other"):(m.type||"Malfunction")));
     const safe=parse(store,"fs_safe",[]);
+    const reg=parse(store,"fs_attachments",[]);   
     const rows=[["firearm_id","firearm","date","kind","entry","chemicals","condition_note","performed_by","cost"]];
     safe.forEach(f=>{
       (f.log||[]).slice().reverse().forEach(e=>{
+        const c=e.chrono;
+        const nFiles=e.id ? reg.filter(a=>a&&a.parent&&a.parent.kind==="sess"&&a.parent.id===e.id).length : 0;
+        const extra=[
+          c ? `chrono ${c.n} shots, avg ${c.avg==null?"":Math.round(c.avg*10)/10} ${c.unit==="mps"?"m/s":"fps"}`
+              + `, ES ${c.es==null?"":Math.round(c.es*10)/10}, SD ${c.sd==null?"":Math.round(c.sd*10)/10}`
+              + (c.src?` (${c.src})`:"") : "",
+          c && c.countNote ? `file ${c.countNote.file} shots vs ${c.countNote.logged} logged` : "",
+          nFiles ? `${nFiles} file${nFiles===1?"":"s"}` : ""
+        ].filter(Boolean).join(" — ");
         rows.push([f.id, fName(f,catalog),
           e.ts?new Date(e.ts).toISOString().slice(0,10):"",
-          e.type||"", e.msg||"", e.chems||"", e.note||"", e.by||e.vendor||"", e.cost||""]);
+          e.type||"", (e.msg||"")+(extra?" — "+extra:""), e.chems||"", e.note||"", e.by||e.vendor||"", e.cost||""]);
       });
       (f.service||[]).slice().sort((a,b)=>a.ts-b.ts).forEach(sv=>{
         rows.push([f.id, fName(f,catalog),
           sv.ts?new Date(sv.ts).toISOString().slice(0,10):"",
           "service", (sv.type?sv.type+" — ":"")+(sv.work||""), "", "", sv.vendor||"", sv.cost||""]);
+      });
+      (f.malfunctions||[]).slice().sort((a,b)=>a.ts-b.ts).forEach(m=>{
+        const mag=(f.mags||[]).find(x=>x.id===m.magId);
+        const num=mag?mag.num:m.magNum;
+        rows.push([f.id, fName(f,catalog),
+          m.ts?new Date(m.ts).toISOString().slice(0,10):"",
+          "malfunction",
+          label(m)
+            + (num?" — mag #"+num:"")
+            + (m.lot?" — lot "+m.lot:"")
+            + ((m.rounds||m.rounds===0)?" — at "+m.rounds+" rds":""),
+          "", m.note||"", "", ""]);
       });
     });
     return buildCsv(rows);
@@ -2751,11 +2809,148 @@ text-transform:uppercase;padding:13px 14px;cursor:pointer}</style><script id="fs
           previewInventoryCsv, runInventoryImport};
 });
 
+(function(root, factory){
+  if(typeof module!=="undefined" && module.exports) module.exports = factory();
+  else root.BenchChrono = factory();
+})(typeof self!=="undefined" ? self : this, function(){
+  "use strict";
+
+  const MPS_PER_FPS = 0.3048;            
+
+  const VEL_NAME = /(^|[^a-z])(velocity|veloc|speed|vel|muzzle\s*vel)([^a-z]|$)/i;
+  const VEL_UNIT_IN_NAME = /(f\s*p\s*s|ft\s*\/\s*s|feet\s*per\s*second|m\s*\/\s*s|mps|metres?\s*per\s*second|meters?\s*per\s*second)/i;
+  const VEL_GATE = /^v\s*[-_]?\s*\d+$/i;
+
+  function unitFromText(t){
+    if(!t) return null;
+    if(/(m\s*\/\s*s|(^|[^a-z])mps([^a-z]|$)|met(re|er)s?\s*per\s*second)/i.test(t)) return "mps";
+    if(/(f\s*p\s*s|ft\s*\/\s*s|feet\s*per\s*second)/i.test(t)) return "fps";
+    return null;
+  }
+
+  function sniffDelim(lines){
+    const cands = [",", "\t", ";"];
+    let best = ",", bestN = 0;
+    cands.forEach(d=>{
+      const counts = lines.slice(0, 40).map(l=>l.split(d).length);
+      const n = counts.length ? Math.max.apply(null, counts) : 0;
+      if(n > bestN){ bestN = n; best = d; }
+    });
+    return best;
+  }
+
+  function splitRow(line, d){
+    const out=[]; let cur="", q=false;
+    for(let i=0;i<line.length;i++){
+      const c=line[i];
+      if(q){ if(c==='"'){ if(line[i+1]==='"'){ cur+='"'; i++; } else q=false; } else cur+=c; }
+      else if(c==='"') q=true;
+      else if(c===d){ out.push(cur); cur=""; }
+      else cur+=c;
+    }
+    out.push(cur);
+    return out.map(s=>s.trim());
+  }
+
+  const num = s => {
+    if(s===null||s===undefined) return null;
+    const m = String(s).replace(/,(?=\d{3}\b)/g, "").match(/-?\d+(\.\d+)?/);
+    return m ? parseFloat(m[0]) : null;
+  };
+
+  function velocityColumn(names){
+    for(let i=0;i<names.length;i++) if(VEL_NAME.test(names[i])) return i;
+    for(let i=0;i<names.length;i++) if(VEL_UNIT_IN_NAME.test(names[i])) return i;
+    for(let i=0;i<names.length;i++) if(VEL_GATE.test(names[i])) return i;
+    return -1;
+  }
+
+  function runFrom(lines, d, h, col){
+    const vals=[];
+    for(let r=h+1; r<lines.length; r++){
+      const row = splitRow(lines[r], d);
+      if(row.length <= col) break;
+      const v = num(row[col]);
+      if(v===null || !isFinite(v)) break;
+      vals.push(v);
+    }
+    return vals;
+  }
+  function findTable(lines, d, forcedCol){
+    let best=null;
+    for(let h=0; h<lines.length; h++){
+      const names = splitRow(lines[h], d);
+      if(names.length < 2) continue;
+      const col = (forcedCol!==null && forcedCol!==undefined) ? forcedCol : velocityColumn(names);
+      if(col < 0 || col >= names.length) continue;
+      const vals = runFrom(lines, d, h, col);
+      if(vals.length < 1) continue;
+      if(!best || vals.length > best.shots.length) best = {headerRow:h, names, col, shots:vals};
+    }
+    return best;
+  }
+
+  function stats(shots){
+    const n = shots.length;
+    if(!n) return {n:0, avg:null, es:null, sd:null};
+    let sum=0, lo=shots[0], hi=shots[0];
+    for(const v of shots){ sum+=v; if(v<lo) lo=v; if(v>hi) hi=v; }
+    const avg = sum/n;
+    const es = hi-lo;
+    let sd = null;
+    if(n>1){
+      let ss=0; for(const v of shots) ss += (v-avg)*(v-avg);
+      sd = Math.sqrt(ss/(n-1));
+    }
+    return {n, avg, es, sd, lo, hi};
+  }
+
+  function convert(v, from, to){
+    if(v===null||v===undefined) return null;
+    if(!from || !to || from===to) return v;
+    if(from==="fps" && to==="mps") return v*MPS_PER_FPS;
+    if(from==="mps" && to==="fps") return v/MPS_PER_FPS;
+    return v;
+  }
+
+  function parse(text, opts){
+    opts = opts || {};
+    const raw = String(text||"");
+    const lines = raw.split(/\r\n|\r|\n/).filter(l=>l.trim()!=="");
+    if(!lines.length) return {ok:false, reason:"empty", columns:[]};
+    const d = sniffDelim(lines);
+    const t = findTable(lines, d, opts.col);
+    if(!t){
+      let widest = [], wi = 0;
+      lines.slice(0, 40).forEach((l,i)=>{ const r=splitRow(l,d); if(r.length>widest.length){ widest=r; wi=i; } });
+      return {ok:false, reason:"no-velocity-column", delimiter:d, headerRow:wi, columns:widest};
+    }
+    const unit = opts.unit || unitFromText(t.names[t.col]) || unitFromText(lines.slice(0, t.headerRow+1).join(" ")) || null;
+    const s = stats(t.shots);
+    return {ok:true, delimiter:d, headerRow:t.headerRow, columns:t.names, velCol:t.col,
+            velName:t.names[t.col], unit, shots:t.shots,
+            n:s.n, avg:s.avg, es:s.es, sd:s.sd, lo:s.lo, hi:s.hi};
+  }
+
+  function inUnit(res, to){
+    if(!res || !res.ok || !res.unit || !to) return res;
+    const f = res.unit;
+    return Object.assign({}, res, {
+      unit: to,
+      shots: res.shots.map(v=>convert(v, f, to)),
+      avg: convert(res.avg, f, to), es: convert(res.es, f, to), sd: convert(res.sd, f, to),
+      lo: convert(res.lo, f, to), hi: convert(res.hi, f, to)
+    });
+  }
+
+  return {MPS_PER_FPS, parse, stats, convert, inUnit, velocityColumn, unitFromText, splitRow, sniffDelim};
+});
+
   (function(){
     try{
       const P = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Preferences;
       if(!P) return;
-      if(localStorage.getItem("fs_safe")!==null) return;          
+      if(localStorage.getItem(FSNS.k("fs_safe"))!==null) return;  
       if(sessionStorage.getItem("__fs_restored")) return;          
       sessionStorage.setItem("__fs_restored","1");
       P.keys().then(res=>{
@@ -2764,7 +2959,7 @@ text-transform:uppercase;padding:13px 14px;cursor:pointer}</style><script id="fs
       }).then(pairs=>{
         let recovered=false;
         pairs.forEach(([k,r])=>{
-          if(r && r.value!=null){ localStorage.setItem(k, r.value); recovered=true; }
+          if(r && r.value!=null){ localStorage.setItem(FSNS.k(k), r.value); recovered=true; }
         });
         if(recovered) location.reload();
       }).catch(()=>{});
@@ -3142,9 +3337,10 @@ text-transform:uppercase;padding:13px 14px;cursor:pointer}</style><script id="fs
   const FREE_MAX_GUNS = 2;
   const FS_DEV_BUILD = false;
   const FS_WEB_BUILD = true;
+  const FS_SHOWROOM = FS_WEB_BUILD && !!document.getElementById("fsGateEarly");
   let proState = store.get("fs_pro", null) || {on:false, src:null, ts:null};
   if(!FS_DEV_BUILD && proState && proState.src==="dev") proState = {on:false, src:null, ts:null};
-  const isPro = ()=> !!proState.on;
+  const isPro = ()=> FS_SHOWROOM || !!proState.on;
   const savePro = ()=> store.set("fs_pro", proState);
 
   let safe = store.get("fs_safe", []);
@@ -3159,6 +3355,7 @@ text-transform:uppercase;padding:13px 14px;cursor:pointer}</style><script id="fs
   function grantPro(src){ proState={on:true, src:src||"play", ts:Date.now()}; savePro(); updateProRow();
     if(document.getElementById("scr-detail").classList.contains("active")) renderDetail(); }
   function openProSheet(reason){
+    if(FS_SHOWROOM) return;
     const pro=isPro();
     const why = (typeof reason === "string" && reason.trim()) ? reason.trim() : "";
     const rr=document.getElementById("proReason");
@@ -3192,6 +3389,7 @@ text-transform:uppercase;padding:13px 14px;cursor:pointer}</style><script id="fs
   }
   function updateProRow(){
     const r=document.getElementById("proRow"); if(!r) return;
+    if(FS_SHOWROOM){ r.hidden=true; return; }
     r.hidden=false;
     if(isPro()){ r.className="prorow on"; r.innerHTML="<b>PRO</b> unlocked — the full safe is yours"; }
     else { r.className="prorow"; r.innerHTML="<b>Fieldstrip Pro</b> — unlimited safe + NFA suite · "+proRowTail(); }
@@ -3236,6 +3434,24 @@ text-transform:uppercase;padding:13px 14px;cursor:pointer}</style><script id="fs
   const fmtN = n => n.toLocaleString();
   const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 
+  const CARD_OPEN = Object.create(null);        
+  function cardOpenSet(screen){
+    if(!CARD_OPEN[screen]) CARD_OPEN[screen]=Object.create(null);
+    return CARD_OPEN[screen];
+  }
+  function cardIsOpen(screen, id){ return cardOpenSet(screen)[id]===true; }
+  function cardSetOpen(screen, id, open){
+    const s=cardOpenSet(screen);
+    if(open) s[id]=true; else delete s[id];
+  }
+  function cardToggleOpen(screen, id){
+    const now=!cardIsOpen(screen,id);
+    cardSetOpen(screen,id,now);
+    return now;
+  }
+  function cardOpenIds(screen){ return Object.keys(cardOpenSet(screen)); }
+  function cardsResetScreen(screen){ delete CARD_OPEN[screen]; }
+
   const screens=["scr-safe","scr-pick","scr-detail","scr-logclean","scr-ammo","scr-ammoinv","scr-bench","scr-gate","scr-player","scr-clean","scr-done"];
   const parents={"scr-pick":"scr-safe","scr-detail":"scr-safe","scr-logclean":"scr-detail","scr-ammo":"scr-detail","scr-ammoinv":"scr-detail","scr-bench":"scr-detail","scr-gate":"scr-detail","scr-player":"scr-gate","scr-clean":"scr-player","scr-done":"scr-clean"};
   const backBtn=document.getElementById("backBtn");
@@ -3244,9 +3460,11 @@ text-transform:uppercase;padding:13px 14px;cursor:pointer}</style><script id="fs
 
   function show(id, push=true){
     const prev=current;
+    cardsResetScreen(id);
     screens.forEach(s=>document.getElementById(s).classList.toggle("active",s===id));
     current=id;
     if(prev==="scr-pick" && id!=="scr-pick") resetPicker();
+    if(id==="scr-pick" && prev!=="scr-pick") renderPicker();
     const el=document.getElementById(id);
     el.scrollTop=0;
     el.querySelectorAll(".step-info").forEach(x=>x.scrollTop=0);
@@ -3290,16 +3508,10 @@ text-transform:uppercase;padding:13px 14px;cursor:pointer}</style><script id="fs
     if(A&&A.getInfo){ const i=await A.getInfo(); APP_INFO={version:i.version||APP_INFO.version, build:(i.build!=null&&i.build!=="")?String(i.build):APP_INFO.build, real:true}; if(typeof ctxLabel!=="undefined"&&current==="scr-safe") ctxLabel.textContent="My Safe · v"+APP_INFO.version+" ("+APP_INFO.build+")"; } }catch(e){} })();
 
   const custSheet=document.getElementById("customSheet");
-  const reqSheet=document.getElementById("reqSheet");
   function closeCustomSheet(){ custSheet.classList.remove("open"); }
-  function closeReqSheet(){ reqSheet.classList.remove("open"); }
   custSheet.addEventListener("click",e=>{ if(e.target.id==="customSheet") closeCustomSheet(); });
-  reqSheet.addEventListener("click",e=>{ if(e.target.id==="reqSheet") closeReqSheet(); });
   document.getElementById("cufCancel").addEventListener("click",closeCustomSheet);
   document.getElementById("cufX").addEventListener("click",closeCustomSheet);
-  document.getElementById("reqCancel").addEventListener("click",closeReqSheet);
-  document.getElementById("reqX").addEventListener("click",closeReqSheet);
-  document.getElementById("reqDone").addEventListener("click",closeReqSheet);
 
   function canAddCustom(){ if(isPro()) return true; if(safe.filter(x=>x.custom).length>=1) return false; if(safe.length>=FREE_MAX_GUNS) return false; return true; }
   function customGateReason(){
@@ -3341,57 +3553,8 @@ text-transform:uppercase;padding:13px 14px;cursor:pointer}</style><script id="fs
   });
 
   function openReqSheet(pref){
-    document.getElementById("reqFormView").hidden=false;
-    document.getElementById("reqResultView").hidden=true;
-    document.getElementById("reqFallback").hidden=true;
-    document.getElementById("reqMk").value=(pref&&pref.mk)||"";
-    document.getElementById("reqMd").value=(pref&&pref.md)||"";
-    document.getElementById("reqCh").value=(pref&&pref.ch)||"";
-    fillSel(document.getElementById("reqCt"),["— optional —"].concat(ACTION_TYPES),(pref&&pref.ct)||"— optional —");
-    document.getElementById("reqNotes").value="";
-    document.getElementById("reqCopy").textContent="Copy request";
-    reqSheet.classList.add("open");
+    alert("The request sheet is unavailable in this build.");
   }
-  function composeRequest(d){
-    const subject=("FS-REQ: "+((d.mk||"")+" "+(d.md||"")).trim()).trim();
-    const body=[
-      "Fieldstrip — firearm request",
-      "Manufacturer: "+((d.mk||"").trim()||"—"),
-      "Model: "+((d.md||"").trim()||"—"),
-      "Caliber: "+((d.ch||"").trim()||"—"),
-      "Action type: "+((d.ct||"").trim()||"—"),
-      "Notes: "+((d.notes||"").trim()||"—"),
-      "—",
-      "App: "+APP_INFO.version+" (build "+APP_INFO.build+")"
-    ].join("\n");
-    return {to:"contact@fieldstripllc.com", subject, body};
-  }
-  async function copyText(t){
-    try{ if(navigator.clipboard&&navigator.clipboard.writeText){ await navigator.clipboard.writeText(t); return true; } }catch(e){}
-    try{ const ta=document.createElement("textarea"); ta.value=t; ta.style.position="fixed"; ta.style.opacity="0"; document.body.appendChild(ta); ta.select(); const ok=document.execCommand("copy"); ta.remove(); return ok; }catch(e){ return false; }
-  }
-  document.getElementById("reqBuild").addEventListener("click",()=>{
-    const btn=document.getElementById("reqBuild");
-    const d={ mk:document.getElementById("reqMk").value, md:document.getElementById("reqMd").value,
-      ch:document.getElementById("reqCh").value, notes:document.getElementById("reqNotes").value };
-    const ctv=document.getElementById("reqCt").value; d.ct=(ctv&&ctv!=="— optional —")?ctv:"";
-    if(!d.mk.trim() && !d.md.trim()){ btn.textContent="Enter a manufacturer or model"; setTimeout(()=>btn.textContent="Build Request",2200); return; }
-    const r=composeRequest(d);
-    document.getElementById("reqText").textContent="To: "+r.to+"\nSubject: "+r.subject+"\n\n"+r.body;
-    const href="mailto:"+r.to+"?subject="+encodeURIComponent(r.subject)+"&body="+encodeURIComponent(r.body);
-    try{ const a=document.createElement("a"); a.href=href; a.rel="noopener"; document.body.appendChild(a); a.click(); a.remove(); }
-    catch(e){ try{ window.location.href=href; }catch(_){}}
-    document.getElementById("reqFormView").hidden=true;
-    document.getElementById("reqResultView").hidden=false;
-    document.getElementById("reqFallback").hidden=true;
-  });
-  document.getElementById("reqShowFallback").addEventListener("click",()=>{ document.getElementById("reqFallback").hidden=false; });
-  document.getElementById("reqCopy").addEventListener("click",async()=>{
-    const btn=document.getElementById("reqCopy");
-    const ok=await copyText(document.getElementById("reqText").textContent);
-    btn.textContent= ok?"Copied ✓":"Copy failed — select the text above";
-    setTimeout(()=>{ btn.textContent="Copy request"; },2600);
-  });
 
   document.getElementById("reqSupportBtn").addEventListener("click",()=>{
     const f=byId(activeId); if(!f) return;
@@ -3419,6 +3582,7 @@ text-transform:uppercase;padding:13px 14px;cursor:pointer}</style><script id="fs
     searchInput.value="";
     pickGroup="All";
     [...chipsWrap.children].forEach(x=>x.classList.toggle("on", x.textContent==="All"));
+    libDeltaReset();
     renderPicker();
   }
 
@@ -3480,12 +3644,11 @@ text-transform:uppercase;padding:13px 14px;cursor:pointer}</style><script id="fs
   }
   function buildPickMore(){
     const wrap=document.createElement("div");
-    wrap.className="pickmore";
-    wrap.innerHTML=`<div class="pmhd">NOT IN THE CATALOG?</div>
-      <button class="btn primary full" data-pm="custom">+ Add it as a custom firearm</button>
-      <div class="pmsub">Track it now — logs, rounds, reminders, mags.</div>
-      <button class="btn full" data-pm="request">✉ Request we add it officially</button>
-      <div class="pmsub" style="margin-bottom:0">We'll build the guide + parts diagram.</div>`;
+    wrap.className="pickmore notfound";
+    wrap.innerHTML=`<div class="nfh">Not in the list yet.</div>
+      <div class="nfb">This one just hasn't been built.</div>
+      <button class="btn primary full" data-pm="request">Request it — requests get built first</button>
+      <button class="btn full" data-pm="custom" style="margin-top:8px">Add it as a custom firearm</button>`;
     wrap.querySelector('[data-pm="custom"]').addEventListener("click",()=> openCustomSheet(pickPrefill()));
     wrap.querySelector('[data-pm="request"]').addEventListener("click",()=> openReqSheet(pickPrefill()));   
     return wrap;
@@ -3720,7 +3883,7 @@ text-transform:uppercase;padding:13px 14px;cursor:pointer}</style><script id="fs
       await FS.writeFile({path:stampPath(f), data:b64, directory:"DATA", recursive:true});
       f.stamp={store:"fs", path:stampPath(f), ts:Date.now()};
     } else {
-      localStorage.setItem(stampLsKey(f), b64);   
+      localStorage.setItem(FSNS.k(stampLsKey(f)), b64);   
       f.stamp={store:"ls", ts:Date.now()};
     }
   }
@@ -3732,14 +3895,14 @@ text-transform:uppercase;padding:13px 14px;cursor:pointer}</style><script id="fs
         const r=await FS.readFile({path:f.stamp.path, directory:"DATA"});
         return r && r.data;
       }
-      return localStorage.getItem(stampLsKey(f));
+      return localStorage.getItem(FSNS.k(stampLsKey(f)));
     }catch(e){ return null; }
   }
   async function deleteStampStorage(f){
     if(!f||!f.stamp) return;
     try{
       if(f.stamp.store==="fs"){ const FS=CapFS(); if(FS) await FS.deleteFile({path:f.stamp.path, directory:"DATA"}); }
-      else localStorage.removeItem(stampLsKey(f));
+      else localStorage.removeItem(FSNS.k(stampLsKey(f)));
     }catch(e){}
     f.stamp=null;
   }
@@ -4313,13 +4476,25 @@ text-transform:uppercase;padding:13px 14px;cursor:pointer}</style><script id="fs
     const wrap=document.getElementById("ammoHistWrap"), hist=document.getElementById("ammoHist");
     const entries=f.log.filter(e=>(e.type==="ammo"||e.type==="session")&&e.load).slice(0,10);
     wrap.hidden=!entries.length;
-    hist.innerHTML=entries.map(e=>`
-      <div class="ammoitem">
+    const one=v=>v===null||v===undefined ? "—" : (Math.round(v*10)/10).toLocaleString();
+    hist.innerHTML=entries.map(e=>{
+      const c=e.chrono;
+      return `<div class="ammoitem">
         <div class="am-top">${esc(e.load||e.msg)}${e.lot?` · lot ${esc(e.lot)}`:""}</div>
         ${e.perf?`<div class="am-perf${PERF_BAD.has(e.perf)?" bad":""}">${esc(e.perf)}</div>`:""}
         ${e.anote?`<div class="am-note">${esc(e.anote)}</div>`:""}
+        ${c?`<div class="am-note">${c.n} shot${c.n===1?"":"s"} · avg ${one(c.avg)} ${esc(chronoUnitLabel(c.unit))} · ES ${one(c.es)} · SD ${one(c.sd)}${c.src?` · ${esc(c.src)}`:""}</div>`:""}
+        ${c&&c.countNote?`<div class="am-note" style="color:var(--amber)">The file holds ${c.countNote.file} shot${c.countNote.file===1?"":"s"}; ${fmtN(c.countNote.logged)} round${c.countNote.logged===1?"":"s"} were logged. Both are kept as they are.</div>`:""}
+        ${e.id?`<div class="attwrap" data-sessid="${escAttr(e.id)}"></div>`:""}
         <div class="am-date">${fmtDate(e.ts)}</div>
-      </div>`).join("");
+      </div>`;
+    }).join("");
+    if(typeof benchAttGrid==="function"){
+      hist.querySelectorAll(".attwrap[data-sessid]").forEach(w=>{
+        benchAttGrid(w, {kind:"sess", id:w.dataset.sessid},
+          {kind:"work", addLabel:"PHOTO / FILE", onchange:()=>renderAmmoHist(byId(activeId))});
+      });
+    }
   }
   function openSession(prefRounds){
     const f=byId(activeId); if(!f) return;
@@ -4337,7 +4512,13 @@ text-transform:uppercase;padding:13px 14px;cursor:pointer}</style><script id="fs
     document.getElementById("ammoLotList").innerHTML=lockerLots(cal).map(l=>`<option value="${esc(l)}">`).join("");
     renderAmmoHist(f);
     updateStockHint();
+    photoStageClear("sess");
+    chronoReset();
+    malfFormOpen=false; malfDelArm=null;
     show("scr-ammo");
+    photoStageRow("sess","ammoPhotoRow");
+    renderMalfunctions(f);
+    malfApplyCard();
   }
   ammoCalSel.addEventListener("change",()=> fillSel(ammoGrSel,grainOpts(ammoCalSel.value)));
   document.getElementById("ammoBtn").addEventListener("click",()=> openSession(0));
@@ -4346,7 +4527,8 @@ text-transform:uppercase;padding:13px 14px;cursor:pointer}</style><script id="fs
     if(n>0) logRounds(n);
     show("scr-detail");
   });
-  document.getElementById("ammoSave").addEventListener("click",()=>{
+  const sessId = () => "sess_"+Date.now().toString(36)+"_"+Math.random().toString(36).slice(2,6);
+  document.getElementById("ammoSave").addEventListener("click",async ()=>{
     const f=byId(activeId); if(!f) return;
     const n=Math.floor(+document.getElementById("ammoRounds").value||0);
     const mk=ammoMkSel.value, cal=ammoCalSel.value, gr=ammoGrSel.value, bt=ammoBtSel.value,
@@ -4354,17 +4536,352 @@ text-transform:uppercase;padding:13px 14px;cursor:pointer}</style><script id="fs
           lot=document.getElementById("ammoLot").value.trim();
     f.lastAmmo={mk,cal,gr,bt,lot};
     const load=`${mk} ${gr} ${bt} · ${cal}`;
+    const id=sessId();
+    const chrono=chronoForSave(n);
     if(n>0){
       f.totalRounds+=n; f.roundsSinceClean+=n; f.roundsSinceSpring+=n;
       let stockNote="";
       const took=drawDown(mk,cal,gr,bt,lot,n);            
       if(took) stockNote=` · ${fmtN(loadQty(mk,cal,gr,bt))} left in locker`;
-      addLog(f,"session",`Fired ${fmtN(n)} rounds — ${load}${lot?` · lot ${lot}`:""}${stockNote}`,{load, perf, anote:note, lot});
+      addLog(f,"session",`Fired ${fmtN(n)} rounds — ${load}${lot?` · lot ${lot}`:""}${stockNote}`,{id, load, perf, anote:note, lot, chrono});
     } else {
-      addLog(f,"ammo",`Ammo logged — ${load}${lot?` · lot ${lot}`:""}`,{load, perf, anote:note, lot});
+      addLog(f,"ammo",`Ammo logged — ${load}${lot?` · lot ${lot}`:""}`,{id, load, perf, anote:note, lot, chrono});
     }
-    saveSafe(); show("scr-detail");
+    saveSafe();
+    await photoStageCommit("sess", {kind:"sess", id}, "work");
+    chronoReset();
+    show("scr-detail");
   });
+
+  let chronoState=null;      
+  function chronoOwnerUnit(){
+    return (benchOwnerGet().units==="m") ? "mps" : "fps";
+  }
+  const chronoUnitLabel = u => u==="mps" ? "m/s" : "fps";
+  function chronoReset(){
+    chronoState=null;
+    const w=document.getElementById("chronoPickWrap"); if(w) w.hidden=true;
+    const m=document.getElementById("chronoMsg"); if(m){ m.textContent=""; m.style.color=""; }
+    const s=document.getElementById("chronoSummary"); if(s) s.innerHTML="";
+    const inp=document.getElementById("chronoFile"); if(inp) inp.value="";
+  }
+  function chronoForSave(roundsLogged){
+    if(!chronoState || !chronoState.res || !chronoState.res.ok) return undefined;
+    const to=chronoOwnerUnit();
+    const r=BenchChrono.inUnit(chronoState.res, to);
+    const out={ n:r.n, avg:r.avg, es:r.es, sd:r.sd, unit:to,
+                src:chronoState.name||"", shots:r.shots.slice(0, 500) };
+    if(roundsLogged>0 && r.n!==roundsLogged) out.countNote={file:r.n, logged:roundsLogged};
+    return out;
+  }
+  function chronoRender(){
+    const msg=document.getElementById("chronoMsg"), sum=document.getElementById("chronoSummary"),
+          wrap=document.getElementById("chronoPickWrap");
+    if(!msg||!sum||!wrap) return;
+    if(!chronoState){ chronoReset(); return; }
+    const res=chronoState.res;
+    if(!res.ok && res.reason==="no-velocity-column"){
+      wrap.hidden=false;
+      const sel=document.getElementById("chronoCol");
+      sel.innerHTML=(res.columns||[]).map((c,i)=>`<option value="${i}">${esc(c||("column "+(i+1)))}</option>`).join("");
+      msg.textContent="Couldn't tell which column holds the velocity in "+(chronoState.name||"that file")+" — point at it and the numbers follow.";
+      msg.style.color="var(--amber)";
+      sum.innerHTML="";
+      return;
+    }
+    if(!res.ok){
+      wrap.hidden=true;
+      msg.textContent = res.reason==="empty" ? "That file is empty." : "Couldn't read that file.";
+      msg.style.color="var(--amber)";
+      sum.innerHTML="";
+      return;
+    }
+    if(!res.unit && !chronoState.picked){
+      wrap.hidden=false;
+      const sel=document.getElementById("chronoCol");
+      sel.innerHTML=(res.columns||[]).map((c,i)=>`<option value="${i}"${i===res.velCol?" selected":""}>${esc(c||("column "+(i+1)))}</option>`).join("");
+      msg.textContent=(chronoState.name||"That file")+" doesn't say what units it is in — say which, and the numbers follow.";
+      msg.style.color="var(--amber)";
+      sum.innerHTML="";
+      return;
+    }
+    wrap.hidden = !chronoState.picked;   
+    const to=chronoOwnerUnit();
+    const r=BenchChrono.inUnit(res, to);
+    const u=chronoUnitLabel(to);
+    const one=v=>v===null||v===undefined ? "—" : (Math.round(v*10)/10).toLocaleString();
+    msg.textContent=(chronoState.name||"file")+" · read from the “"+(res.velName||"chosen")+"” column"
+      + (res.unit? " ("+chronoUnitLabel(res.unit)+(res.unit!==to?" → "+u:"")+")" : "");
+    msg.style.color="";
+    const logged=Math.floor(+document.getElementById("ammoRounds").value||0);
+    const mismatch = logged>0 && r.n!==logged;
+    sum.innerHTML=`<div class="lifebox" style="margin-top:8px"><div class="lrow"><span class="lt">Chronograph</span><span class="lv">${r.n} shot${r.n===1?"":"s"}</span></div>`
+      + `<div class="statgrid" style="margin-top:8px">`
+      + `<div class="stat"><div class="sv">${one(r.avg)}</div><div class="sl">AVG ${esc(u)}</div></div>`
+      + `<div class="stat"><div class="sv">${one(r.es)}</div><div class="sl">ES</div></div>`
+      + `<div class="stat"><div class="sv">${one(r.sd)}</div><div class="sl">SD</div></div></div>`
+      + (mismatch
+          ? `<div class="lmsg" style="color:var(--amber);margin-top:8px">The file holds ${r.n} shot${r.n===1?"":"s"}; you logged ${fmtN(logged)} round${logged===1?"":"s"}. Both are kept as they are.</div>`
+          : "")
+      + `</div>`;
+  }
+  function chronoReparse(){
+    if(!chronoState) return;
+    const sel=document.getElementById("chronoCol"), us=document.getElementById("chronoUnit");
+    const col=sel && sel.value!=="" ? +sel.value : undefined;
+    const unit=us ? us.value : undefined;
+    chronoState.picked=true;
+    chronoState.res=BenchChrono.parse(chronoState.text, {col, unit});
+    chronoRender();
+  }
+  (function(){
+    const btn=document.getElementById("chronoImport"), inp=document.getElementById("chronoFile");
+    if(btn && inp) btn.addEventListener("click",()=>{
+      inp.onchange=async ()=>{
+        const file=inp.files && inp.files[0]; inp.value="";
+        if(!file) return;
+        let text="";
+        try{ text=await file.text(); }catch(e){ alert("Couldn't read that file."); return; }
+        chronoState={text, name:file.name, picked:false, res:BenchChrono.parse(text)};
+        chronoRender();
+      };
+      inp.click();
+    });
+    const sel=document.getElementById("chronoCol"); if(sel) sel.addEventListener("change", chronoReparse);
+    const us=document.getElementById("chronoUnit"); if(us) us.addEventListener("change", chronoReparse);
+    const rounds=document.getElementById("ammoRounds");
+    if(rounds) rounds.addEventListener("input",()=>{ if(chronoState && chronoState.res && chronoState.res.ok) chronoRender(); });
+  })();
+
+  const MALF_TYPES=[
+    {id:"feed",     label:"Failure to feed",            short:"FTF"},
+    {id:"extract",  label:"Failure to extract",         short:"FTE"},
+    {id:"eject",    label:"Failure to eject / stovepipe", short:"stovepipe"},
+    {id:"double",   label:"Double feed",                short:"double feed"},
+    {id:"strike",   label:"Light strike / misfire",     short:"light strike"},
+    {id:"lockback", label:"Failed to lock back",        short:"no lock-back"},
+    {id:"other",    label:"Other (name it)",            short:"other"}
+  ];
+  function malfList(f){ if(!Array.isArray(f.malfunctions)) f.malfunctions=[]; return f.malfunctions; }
+  function malfTypeDef(id){ return MALF_TYPES.find(t=>t.id===id)||null; }
+  function malfLabel(m){
+    if(m.type==="other") return (m.customType||"").trim()||"Other";
+    const t=malfTypeDef(m.type); return t?t.label:(m.type||"Malfunction");
+  }
+  function malfShort(m){
+    if(m.type==="other") return (m.customType||"").trim()||"other";
+    const t=malfTypeDef(m.type); return t?t.short:(m.type||"malfunction");
+  }
+  function malfSummaryLine(entries){
+    const n=entries.length;
+    if(!n) return "";
+    const by={};
+    entries.forEach(m=>{ const s=malfShort(m); by[s]=(by[s]||0)+1; });
+    const parts=Object.keys(by).sort((a,b)=>by[b]-by[a]||a.localeCompare(b)).map(k=>by[k]+" "+k);
+    return n+" malfunction"+(n===1?"":"s")+(parts.length?" · "+parts.join(" · "):"");
+  }
+  function malfForMag(f, magId){
+    if(!magId) return [];
+    return malfList(f).filter(m=>m.magId===magId);
+  }
+  const malfLotKey=s=>String(s||"").trim().toLowerCase();
+  function malfForLot(lot){
+    const k=malfLotKey(lot);
+    if(!k) return [];
+    const out=[];
+    safe.forEach(f=>malfList(f).forEach(m=>{ if(malfLotKey(m.lot)===k) out.push(m); }));
+    return out;
+  }
+  let malfFormOpen=false, malfDelArm=null;
+
+  const photoStage={};        
+  const photoStageRows={};    
+  function photoStageGet(key){ if(!photoStage[key]) photoStage[key]=[]; return photoStage[key]; }
+  function photoStageClear(key){
+    delete photoStage[key];
+    const rowId=photoStageRows[key];
+    if(rowId && document.getElementById(rowId)) photoStageRow(key, rowId);
+  }
+  function photoStageRow(key, rowId){
+    photoStageRows[key]=rowId;      
+    const row=document.getElementById(rowId); if(!row) return;
+    const staged=photoStageGet(key);
+    row.innerHTML="";
+    staged.forEach((st,i)=>{
+      const cell=document.createElement("div");
+      cell.className="attthumb staged";
+      const img=document.createElement("img");
+      img.className="sthumb"; img.alt="staged photo";
+      img.src="data:image/jpeg;base64,"+st.b64;
+      cell.appendChild(img);
+      const tag=document.createElement("span");
+      tag.className="atag"; tag.textContent="staged"; cell.appendChild(tag);
+      const del=document.createElement("button");
+      del.type="button"; del.className="attdel"; del.textContent="×";
+      del.setAttribute("aria-label","Remove this staged photo");
+      del.addEventListener("click",e=>{ e.stopPropagation(); staged.splice(i,1); photoStageRow(key,rowId); });
+      cell.appendChild(del);
+      row.appendChild(cell);
+    });
+    if(BenchEnv.hasFS()){
+      const add=document.createElement("div");
+      add.className="attthumb add";
+      add.innerHTML='<span class="apl">＋</span><span>ADD PHOTO</span>';
+      add.addEventListener("click",()=>{
+        benchPickPhoto((b64,dims)=>{ photoStageGet(key).push({b64,dims}); photoStageRow(key,rowId); });
+      });
+      row.appendChild(add);
+    }
+    (function(){
+      const html=BenchEnv.keepLine();
+      let k=document.getElementById(rowId+"KeepLine");
+      if(!html){ if(k) k.remove(); return; }
+      if(!k){ k=document.createElement("div"); k.id=rowId+"KeepLine"; row.insertAdjacentElement("afterend", k); }
+      k.innerHTML=html;
+    })();
+  }
+  async function photoStageCommit(key, parent, kind){
+    const staged=photoStageGet(key);
+    const ids=[];
+    for(const st of staged){
+      try{
+        const rec=await benchImport(parent, st.b64, st.dims, kind||"work");
+        ids.push(rec.id);
+      }catch(e){
+        console.error("attach:",e);
+        alert(benchSaveFail(e, "Couldn't save that photo. The record was kept."));
+      }
+    }
+    photoStageClear(key);
+    return ids;
+  }
+  const malfDateStr=ts=>{ const d=new Date(ts); const p=n=>String(n).padStart(2,"0");
+    return d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate()); };
+  function malfFillForm(f){
+    const typeSel=document.getElementById("malfType");
+    typeSel.innerHTML=MALF_TYPES.map(t=>`<option value="${t.id}">${esc(t.label)}</option>`).join("");
+    document.getElementById("malfDate").value=malfDateStr(Date.now());
+    document.getElementById("malfOther").value="";
+    document.getElementById("malfOtherWrap").hidden=true;
+    document.getElementById("malfNote").value="";
+    document.getElementById("malfRounds").value=f.totalRounds||0;
+    const last=f.lastAmmo||{};
+    document.getElementById("malfLot").value=last.lot||"";
+    const lots=[...new Set(lockerLots(last.cal).concat(lockerLots()))];
+    document.getElementById("malfLotList").innerHTML=lots.map(l=>`<option value="${esc(l)}">`).join("");
+    const magWrap=document.getElementById("malfMagWrap"), magSel=document.getElementById("malfMag");
+    const mags=hasMags(f)?(f.mags||[]):[];
+    magWrap.hidden=!hasMags(f);
+    magSel.innerHTML=`<option value="">No magazine / not sure</option>`
+      + mags.map(m=>`<option value="${escAttr(m.id||"")}">#${m.num||"?"} · ${m.cap}-rd${m.model?" · "+esc(m.model):""} · ${esc(m.role||"")}</option>`).join("");
+    photoStageClear("malf");
+    photoStageRow("malf","malfPhotoRow");
+  }
+  function renderMalfunctions(f){
+    const box=document.getElementById("malfBox"); if(!box||!f) return;
+    const entries=malfList(f);
+    const sum=document.getElementById("malfSummary"), msg=document.getElementById("malfMsg"),
+          list=document.getElementById("malfList");
+    sum.textContent = entries.length ? malfSummaryLine(entries) : "None logged";
+    msg.textContent = entries.length ? ""
+      : "A stoppage is a fact about a gun, a magazine and a box of ammo at once. Log it here and each of those three carries it.";
+    msg.style.color="";
+    list.innerHTML="";
+    entries.slice().sort((a,b)=>b.ts-a.ts).forEach(m=>{
+      const mag=(f.mags||[]).find(x=>x.id===m.magId);
+      const bits=[
+        mag?`mag #${mag.num||"?"}`:(m.magNum?`mag #${m.magNum}`:""),
+        m.lot?`lot ${esc(m.lot)}`:"",
+        (m.rounds||m.rounds===0)?`at ${fmtN(m.rounds)} rds`:"",
+        m.note?esc(m.note):""
+      ].filter(Boolean).join(" · ");
+      const row=document.createElement("div"); row.className="benchrow";
+      row.innerHTML=`<div class="bi"><div class="bn">${esc(malfLabel(m))} · ${esc(fmtDate(m.ts))}</div>`
+        + (bits?`<div class="bs">${bits}</div>`:"")
+        + `<div class="attwrap" data-malfid="${escAttr(m.id)}"></div></div>`
+        + `<button class="magbtn del" data-malfdel="${escAttr(m.id)}">${malfDelArm===m.id?"Confirm":"×"}</button>`;
+      list.appendChild(row);
+    });
+    if(typeof benchAttGrid==="function"){
+      list.querySelectorAll(".attwrap").forEach(w=>{
+        benchAttGrid(w, {kind:"malf", id:w.dataset.malfid},
+          {kind:"work", addLabel:"PHOTO / FILE", onchange:()=>renderMalfunctions(byId(activeId))});
+      });
+    }
+    list.querySelectorAll("[data-malfdel]").forEach(b=>b.addEventListener("click",()=>{
+      const f2=byId(activeId); if(!f2) return;
+      const id=b.dataset.malfdel;
+      if(malfDelArm===id){
+        const i=malfList(f2).findIndex(x=>x.id===id);
+        if(i>=0){ addLog(f2,"malf","Malfunction removed — "+malfLabel(f2.malfunctions[i])); f2.malfunctions.splice(i,1); }
+        malfDelArm=null; saveSafe(); renderMalfunctions(f2);
+      } else {
+        malfDelArm=id; renderMalfunctions(f2);
+        setTimeout(()=>{ if(malfDelArm===id){ malfDelArm=null; const f3=byId(activeId); if(f3) renderMalfunctions(f3); } },4000);
+      }
+    }));
+    document.getElementById("malfFormWrap").hidden=!malfFormOpen;
+    document.getElementById("malfAdd").hidden=malfFormOpen;
+  }
+  (function(){
+    const add=document.getElementById("malfAdd");
+    if(add) add.addEventListener("click",()=>{
+      const f=byId(activeId); if(!f) return;
+      malfFormOpen=true; malfFillForm(f); renderMalfunctions(f);
+      cardSetOpen("scr-ammo","malfBox",true); malfApplyCard();
+    });
+    const cancel=document.getElementById("malfCancel");
+    if(cancel) cancel.addEventListener("click",()=>{
+      photoStageClear("malf");
+      malfFormOpen=false; const f=byId(activeId); if(f) renderMalfunctions(f);
+    });
+    const t=document.getElementById("malfType");
+    if(t) t.addEventListener("change",()=>{
+      document.getElementById("malfOtherWrap").hidden = t.value!=="other";
+    });
+    const save=document.getElementById("malfSave");
+    if(save) save.addEventListener("click",async ()=>{
+      const f=byId(activeId); if(!f) return;
+      const type=document.getElementById("malfType").value;
+      const customType=(document.getElementById("malfOther").value||"").trim().slice(0,40);
+      const dv=document.getElementById("malfDate").value;
+      let ts=Date.now();
+      if(/^\d{4}-\d{2}-\d{2}$/.test(dv)){
+        const p=dv.split("-").map(Number);
+        ts=new Date(p[0], p[1]-1, p[2], 12, 0, 0).getTime();
+      }
+      const magId=hasMags(f)?(document.getElementById("malfMag").value||null):null;
+      const mag=magId?(f.mags||[]).find(x=>x.id===magId):null;
+      const rec={
+        id:"malf_"+Date.now().toString(36)+"_"+Math.random().toString(36).slice(2,6),
+        ts, type, customType: type==="other"?customType:"",
+        magId: magId||null, magNum: mag?(mag.num||null):null,
+        lot: (document.getElementById("malfLot").value||"").trim().slice(0,40),
+        rounds: Math.max(0, Math.floor(+document.getElementById("malfRounds").value||0)),
+        note: (document.getElementById("malfNote").value||"").trim().slice(0,120)
+      };
+      malfList(f).push(rec);
+      addLog(f,"malf","Malfunction logged — "+malfLabel(rec)
+        + (mag?` · mag #${mag.num||"?"}`:"") + (rec.lot?` · lot ${rec.lot}`:""));
+      malfFormOpen=false; malfDelArm=null;
+      saveSafe();
+      await photoStageCommit("malf", {kind:"malf", id:rec.id}, "work");
+      renderMalfunctions(f);
+    });
+  })();
+  function malfApplyCard(){
+    const el=document.getElementById("malfBox"); if(!el) return;
+    el.classList.add("bccard");
+    const head=el.firstElementChild;
+    if(!head) return;
+    if(!head.querySelector(":scope > .bcchev")){
+      const chev=document.createElement("span");
+      chev.className="bcchev"; chev.textContent="▾";
+      head.insertBefore(chev, head.firstChild);
+    }
+    el.classList.toggle("bcclosed", !cardIsOpen("scr-ammo","malfBox"));
+    head.onclick=()=>{ cardToggleOpen("scr-ammo","malfBox"); malfApplyCard(); };
+  }
 
   const LN = ()=> window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.LocalNotifications;
   let notifTimer=null;
@@ -4442,10 +4959,12 @@ text-transform:uppercase;padding:13px 14px;cursor:pointer}</style><script id="fs
       ammoInv.forEach((a,i)=>{
         if(a.cal!==cal) return;
         const ppr=rowPPR(a);
+        const lotMalf = (a.lot && typeof malfForLot==="function") ? malfForLot(a.lot) : [];
         const tags=[
           a.lot?`lot ${esc(a.lot)}`:"",
           a.loc?`▣ ${esc(a.loc)}`:"",
-          ppr!=null?`$${ppr.toFixed(ppr<1?3:2)}/rd`:""
+          ppr!=null?`$${ppr.toFixed(ppr<1?3:2)}/rd`:"",
+          lotMalf.length?esc(malfSummaryLine(lotMalf)):""
         ].filter(Boolean).join(" · ");
         if(!a.id){ a.id="ammo_"+i+"_"+Date.now().toString(36); saveAmmo(); }
         const row=document.createElement("div"); row.className="lkrow";
@@ -5232,12 +5751,15 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     cleanList.innerHTML="";
     (gun.cleaning||[]).forEach((comp,ci)=>{
       const wrap=document.createElement("div");
-      wrap.className="comp"+(ci===0?" open":"");
+      const cid="comp"+ci;
+      wrap.className="comp"+(cardIsOpen("scr-clean", cid)?" open":"");
       const doneCount=()=>wrap.querySelectorAll(".task.done").length;
       wrap.innerHTML=`
         <button class="comp-head"><span class="chev">▸</span><span class="cname">${comp.name}</span><span class="count">0 / ${comp.tasks.length}</span></button>
         <div class="comp-body">${comp.tasks.map(t=>`<button class="task"><span class="tbox">✓</span><span class="tt">${t}</span></button>`).join("")}</div>`;
-      wrap.querySelector(".comp-head").addEventListener("click",()=>wrap.classList.toggle("open"));
+      wrap.querySelector(".comp-head").addEventListener("click",()=>{
+        wrap.classList.toggle("open", cardToggleOpen("scr-clean", cid));
+      });
       wrap.querySelectorAll(".task").forEach(task=>task.addEventListener("click",()=>{
         task.classList.toggle("done");
         wrap.querySelector(".count").textContent=`${doneCount()} / ${comp.tasks.length}`;
@@ -5274,10 +5796,10 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     const FS = ()=> window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Filesystem;
     const SH = ()=> window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Share;
     const storeA = {
-      keys(){ const a=[]; for(let i=0;i<localStorage.length;i++) a.push(localStorage.key(i)); return a; },
-      getRaw(k){ return localStorage.getItem(k); },
-      setRaw(k,v){ localStorage.setItem(k,String(v)); try{ const p=P(); if(p) p.set({key:k, value:String(v)}); }catch(e){} },
-      remove(k){ localStorage.removeItem(k); try{ const p=P(); if(p) p.remove({key:k}); }catch(e){} }
+      keys(){ const a=[]; for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(FSNS.mine(k)) a.push(FSNS.bare(k)); } return a; },
+      getRaw(k){ return localStorage.getItem(FSNS.k(k)); },
+      setRaw(k,v){ localStorage.setItem(FSNS.k(k),String(v)); try{ const p=P(); if(p) p.set({key:FSNS.k(k), value:String(v)}); }catch(e){} },
+      remove(k){ localStorage.removeItem(FSNS.k(k)); try{ const p=P(); if(p) p.remove({key:FSNS.k(k)}); }catch(e){} }
     };
     const IDB_NAME="fieldstrip-files", IDB_STORE="files";
     const KEEP_LINE="Saved in this browser only. Clear its data and it's gone. The Android app keeps it.";
@@ -5823,6 +6345,11 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
           : `<span class="rot due">never rotated — log first rotation</span>`;
       }
       if(m.note) rot += `<span class="rot">${esc(m.note)}</span>`;
+      const mMalf = typeof malfForMag==="function" ? malfForMag(f, m.id) : [];
+      if(mMalf.length){
+        rot += `<span class="rot due">${esc(malfSummaryLine(mMalf))}</span>`;
+        if(status!=="problem") rot += `<span class="rot">logged against this mag — mark it a problem if that is what it is</span>`;
+      }
       const label = `<b>#${m.num||i+1}</b> · ${m.cap}-rd${m.model?` · ${esc(m.model)}`:""}${m.brand?` · ${esc(m.brand)}`:""} · ${esc(m.role)}`;
       row.innerHTML=`<input type="checkbox" class="magsel" data-i="${i}" aria-label="Select mag ${m.num||i+1}" style="width:auto;margin:0 8px 0 0;flex:0 0 auto">`
         + `<div class="maginfo">${label}${rot}<div class="attwrap" data-mid="${m.id||""}"></div></div>`
@@ -6181,7 +6708,7 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
       safeList.innerHTML = `<div class="empty"><div class="big">YOUR SAFE IS EMPTY</div><p>Add a firearm to start tracking rounds and maintenance.</p>
         <button class="btn sm" id="emptyRestore" style="margin-top:10px">Restore from Backup</button></div>`;
       const er=document.getElementById("emptyRestore");
-      if(er) er.onclick=()=>benchRestoreFlow();
+      if(er) er.onclick=()=>benchRestoreDoor();
       return;
     }
     safe.forEach(f=>{
@@ -6720,7 +7247,7 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     });
     document.getElementById("benchExport").onclick=()=>benchDoExport("local");
     { const bs=document.getElementById("benchShare"); if(bs) bs.onclick=()=>benchDoExport("share"); }
-    document.getElementById("benchRestore").onclick=()=>benchRestoreFlow();   
+    document.getElementById("benchRestore").onclick=()=>benchRestoreDoor();   
   }
   async function benchDeliverBackup(json, fname, mode){
     const LS=window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.LocalSave;
@@ -55394,7 +55921,7 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
 
   renderPicker = function(){
     const q=searchInput.value.trim().toLowerCase();
-    let list=CATALOG.filter(c=>pickGroup==="All"||c.gp===pickGroup);
+    let list=libCatalog().filter(c=>pickGroup==="All"||c.gp===pickGroup);
     if(q){
       const toks=q.split(/\s+/);
       list=list.filter(c=>{
@@ -55402,12 +55929,15 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
         return toks.every(t=>hay.includes(t));
       });
     }
-    list.sort((a,b)=> (a.mk+" "+a.md).localeCompare(b.mk+" "+b.md));
+    const TR=c=>(typeof c.tr==="number"&&c.tr>0)?c.tr:99;
+    const byName=(a,b)=>(a.mk+" "+a.md).localeCompare(b.mk+" "+b.md);
+    list.sort(q ? ((a,b)=>(TR(a)-TR(b))||byName(a,b)) : byName);
     const shown=list;
+    const dnote=libNote();
     resultNote.textContent = list.length
       ? (q ? `${list.length} match${list.length===1?"":"es"}`
            : (pickGroup==="All" ? `All ${list.length} models — A to Z` : `${list.length} ${pickGroup.toLowerCase()} — A to Z`))
-      : "No matches — try just the model number, or check the spelling";
+      : (dnote || "No matches — try just the model number, or check the spelling");
     pickList.innerHTML="";
     shown.forEach(c=>{
       const b=document.createElement("button");
@@ -55421,11 +55951,13 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
                  mags:[], magRotDays:90, reminders:[], service:[], zeros:[]};
         safe.unshift(f); saveSafe();
         activeId=f.id; show("scr-detail");
+        libOffer(f, c.i);
       });
       pickList.appendChild(b);
     });
     if(list.length===0) pickList.appendChild(buildPickMore());
     else if(q.length>=2) pickList.appendChild(buildPickFooter());
+    if(q.length>=2 && list.length===0) libDeltaCheck(renderPicker);
   };
 
   searchInput.addEventListener("input",()=>renderPicker());
@@ -55633,6 +56165,7 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
 
   updateProRow = function(){
     const r=document.getElementById("proRow"); if(!r) return;
+    if(FS_SHOWROOM){ r.hidden=true; return; }      
     r.hidden=false;
     if(isPro()){ r.className="prorow on"; r.innerHTML="<b>PRO</b> unlocked — the full safe is yours"; }
     else { r.className="prorow"; r.innerHTML="<b>Fieldstrip Pro</b> — the Bench: mag fleets, NFA filings, zero records · "+proRowTail(); }
@@ -55745,22 +56278,19 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
   function benchShowBox(f, id){
     const h=benchHiddenList(f);
     const i=h.indexOf(id);
-    if(i>=0){ h.splice(i,1); if(!h.length && !benchExpandedList(f).length) delete f.layout; saveSafe(); }
+    if(i>=0){ h.splice(i,1);
+      if(!h.length && !(f.layout&&f.layout.order) && !(f.layout&&Array.isArray(f.layout.expanded)&&f.layout.expanded.length)) delete f.layout;
+      saveSafe(); }
     renderDetail();
   }
-  function benchExpandedList(f){ return (f.layout && Array.isArray(f.layout.expanded)) ? f.layout.expanded : []; }
+  function benchExpandedList(f){ return cardOpenIds("scr-detail"); }
   function benchCollapseBox(f, id){
-    if(benchExpandedList(f).indexOf(id)<0) return;   
+    if(!cardIsOpen("scr-detail", id)) return;   
     benchToggleCollapsed(f, id);
   }
   function benchToggleCollapsed(f, id){
-    if(!f.layout) f.layout={hidden:[]};
-    if(!Array.isArray(f.layout.expanded)) f.layout.expanded=[];
-    const c=f.layout.expanded, i=c.indexOf(id);
-    if(i>=0) c.splice(i,1); else c.push(id);
-    if(!c.length) delete f.layout.expanded;      
-    if(!benchExpandedList(f).length && !benchHiddenList(f).length && !(f.layout&&f.layout.order)) delete f.layout;
-    saveSafe(); renderDetail();
+    cardToggleOpen("scr-detail", id);
+    renderDetail();
   }
   let benchHiddenOpen=false;
   function benchStubFor(def, f){
@@ -55823,7 +56353,7 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
           chev.className="bcchev"; chev.textContent="▾";
           head.insertBefore(chev, head.firstChild);
         }
-        el.classList.toggle("bcclosed", benchExpandedList(f).indexOf(def.id)<0);
+        el.classList.toggle("bcclosed", !cardIsOpen("scr-detail", def.id));
         head.onclick=e=>{
           if(e.target.closest(".boxhide")) return;
           const f2=byId(activeId); if(!f2) return;
@@ -56009,7 +56539,45 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     return [...a].map(x=>x.toString(16).padStart(2,"0")).join("");
   }
 
-  const sdState={buf:"", rot:0, open:false};
+  function benchLockRead(){
+    let raw;
+    try{ raw=BenchEnv.store.getRaw("fs_lock"); }
+    catch(e){ return {state:"unreadable", why:"Your combination could not be read from this device's storage. The safe stays locked."}; }
+    if(raw===null || raw===undefined || raw==="") return {state:"none", lock:{}};
+    let o;
+    try{ o=JSON.parse(raw); }
+    catch(e){ return {state:"unreadable", why:"Your stored combination is damaged and cannot be checked. The safe stays locked."}; }
+    if(!o || typeof o!=="object") return {state:"unreadable", why:"Your stored combination is damaged and cannot be checked. The safe stays locked."};
+    if(o.on!==true) return {state:"none", lock:o};
+    if(typeof o.salt!=="string" || !o.salt
+       || typeof o.hash!=="string" || o.hash.length!==64
+       || typeof o.len!=="number" || o.len<4 || o.len>8)
+      return {state:"unreadable", why:"Your stored combination is incomplete and cannot be checked. The safe stays locked."};
+    return {state:"set", lock:o};
+  }
+  function sdArmed(){ return benchLockRead().state!=="none"; }
+
+  function sdVerify(salt, hash, len, buf){
+    if(typeof salt!=="string" || !salt) return false;
+    if(typeof hash!=="string" || hash.length!==64) return false;
+    if(typeof len!=="number" || len<4 || len>8) return false;
+    if(typeof buf!=="string" || buf.length!==len) return false;
+    if(!/^[0-9]+$/.test(buf)) return false;
+    const got=benchPinHash(salt, buf);
+    return typeof got==="string" && got.length===64 && got===hash;
+  }
+
+  const sdState={buf:"", rot:0, open:false, auth:false, timers:[]};
+  function sdAfter(ms, fn){
+    const t=setTimeout(()=>{ sdState.timers=sdState.timers.filter(x=>x!==t); fn(); }, ms);
+    sdState.timers.push(t); return t;
+  }
+  function sdClearTimers(){ (sdState.timers||[]).forEach(t=>clearTimeout(t)); sdState.timers=[]; }
+  function sdSkip(){ if(sdState.open) sdFinish(); }
+  function sdSay(msg){
+    const el=document.getElementById("sdMsg"); if(!el) return;
+    if(msg){ el.textContent=msg; el.hidden=false; } else { el.textContent=""; el.hidden=true; }
+  }
   (function buildDial(){
     const g=document.getElementById("sdTicks"); if(!g) return;
     let h="";
@@ -56033,29 +56601,42 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     if(disc) disc.style.transform=`rotate(${sdState.rot}deg)`;
   }
   function sdDots(){
-    const lock=benchLockGet();
+    const rd=benchLockRead();
     const el=document.getElementById("sdDots"); if(!el) return;
-    const len=lock.len||4;
+    if(rd.state!=="set"){
+      el.innerHTML=Array.from({length:sdState.buf.length},()=>"<b>●</b>").join(" ");
+      return;
+    }
+    const len=rd.lock.len;
     el.innerHTML=Array.from({length:len},(x,i)=>i<sdState.buf.length?"<b>●</b>":"○").join(" ");
   }
   function sdFinish(){
+    if(sdArmed() && !sdState.auth) return;
+    sdClearTimers();
     const doorEl=document.getElementById("safeDoor");
+    if(doorEl){ doorEl.removeEventListener("click", sdSkip); }
     if(doorEl){ doorEl.style.display="none"; doorEl.classList.remove("opening","fadeout","brand-open"); }
     const slab=document.getElementById("sdDoor");
     if(slab) slab.classList.remove("open","unbolted","spin");
     sdState.open=false;
+    sdState.auth=false;      
   }
   function sdOpenSequence(fast){
+    if(sdArmed() && !sdState.auth) return;
     const overlay=document.getElementById("safeDoor");
     const door=document.getElementById("sdDoor");
+    if(!overlay || !door) return;
+    sdClearTimers();
+    sdSay("");
     sdState.open=true;
     if(fast){ overlay.classList.add("opening"); sdFinish(); return; }
     door.classList.add("spin");
-    setTimeout(()=>{ overlay.classList.add("opening"); door.classList.add("unbolted"); }, 900);
-    setTimeout(()=>door.classList.add("open"), 1240);
-    setTimeout(()=>overlay.classList.add("fadeout"), 1240);
-    setTimeout(sdFinish, 1900);
-    overlay.addEventListener("click",()=>sdFinish(),{once:true});
+    sdAfter(900, ()=>{ overlay.classList.add("opening"); door.classList.add("unbolted"); });
+    sdAfter(1240, ()=>door.classList.add("open"));
+    sdAfter(1240, ()=>overlay.classList.add("fadeout"));
+    sdAfter(1900, sdFinish);
+    overlay.removeEventListener("click", sdSkip);
+    overlay.addEventListener("click", sdSkip);
   }
   function sdWrong(){
     const dial=document.getElementById("sdDial");
@@ -56064,23 +56645,29 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
   }
   function sdDigit(d){
     if(sdState.open) return;
-    const lock=benchLockGet();
-    if(sdState.buf.length>=(lock.len||8)) return;
+    const rd=benchLockRead();
+    const lock=rd.lock||{};
+    const cap=(rd.state==="set")?lock.len:8;
+    if(sdState.buf.length>=cap) return;
     sdState.buf+=String(d);
     sdTurnTo(d, sdState.buf.length-1);
     sdDots();
-    if(sdState.buf.length===(lock.len||4)){
-      setTimeout(()=>{
-        if(benchPinHash(lock.salt, sdState.buf)===lock.hash){ sdState.buf=""; sdOpenSequence(false); }
+    if(rd.state!=="set") return;          
+    if(sdState.buf.length===lock.len){
+      sdAfter(420, ()=>{                       
+        const buf=sdState.buf;
+        if(sdVerify(lock.salt, lock.hash, lock.len, buf)){ sdState.buf=""; sdState.auth=true; sdOpenSequence(false); }
         else sdWrong();
-      }, 420);   
+      });
     }
   }
   (function buildPad(){
     const pad=document.getElementById("sdPad"); if(!pad) return;
     const keys=[1,2,3,4,5,6,7,8,9,"PRO",0,"⌫"];
     pad.innerHTML=keys.map(k=>k==="PRO"
-      ? `<button class="sd-pro" data-pro="1" type="button" aria-label="Fieldstrip Pro">PRO</button>`
+      ? (FS_SHOWROOM
+         ? `<button class="sd-pro" type="button" disabled aria-hidden="true"></button>`
+         : `<button class="sd-pro" data-pro="1" type="button" aria-label="Fieldstrip Pro">PRO</button>`)
       : `<button data-k="${k}">${k}</button>`).join("");
     const proKey=pad.querySelector("[data-pro]");
     if(proKey) proKey.addEventListener("click",e=>{
@@ -56094,36 +56681,51 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     }));
   })();
 
-  (function(){
-    const lock=benchLockGet();
-    const overlay=document.getElementById("safeDoor"); if(!overlay) return;
+  function benchArmDoor(){
+    const rd=benchLockRead();
+    const overlay=document.getElementById("safeDoor"); if(!overlay) return rd.state;
     const combo=document.getElementById("sdSetCombo");
     const pad=document.getElementById("sdPad");
+    const door=document.getElementById("sdDoor");
+    sdClearTimers();
+    sdState.buf=""; sdState.open=false; sdState.auth=false;
+    overlay.removeEventListener("click", sdSkip);
+    overlay.classList.remove("opening","fadeout","brand-open");
+    overlay.style.opacity="";
+    if(door) door.classList.remove("open","unbolted","spin");
     overlay.style.display="flex";
-    if(lock.on){
+    if(rd.state==="set"){
       if(pad) pad.hidden=false;
       if(combo) combo.hidden=true;
+      sdSay("");
       sdDots();
+    } else if(rd.state==="unreadable"){
+      if(pad) pad.hidden=true;
+      if(combo) combo.hidden=true;
+      sdDots();
+      sdSay(rd.why);
     } else {
       if(pad) pad.hidden=true;
+      sdSay("");
       if(combo){
         combo.hidden=false;
         combo.addEventListener("click",e=>{ e.stopPropagation(); sdFinish(); benchLockSheet(); },{once:true});
       }
-      overlay.addEventListener("click",()=>sdFinish(),{once:true});
-      const door=document.getElementById("sdDoor");
-      setTimeout(()=>{ overlay.classList.add("opening"); door.classList.add("unbolted"); }, 620);
-      setTimeout(()=>door.classList.add("open"), 1020);
-      setTimeout(()=>overlay.classList.add("fadeout"), 1020);
-      setTimeout(sdFinish, 1750);
+      overlay.addEventListener("click", sdSkip);
+      sdState.open=true;                 
+      sdAfter(620, ()=>{ overlay.classList.add("opening"); if(door) door.classList.add("unbolted"); });
+      sdAfter(1020, ()=>{ if(door) door.classList.add("open"); });
+      sdAfter(1020, ()=>overlay.classList.add("fadeout"));
+      sdAfter(1750, sdFinish);
     }
-  })();
+    return rd.state;
+  }
+  benchArmDoor();
 
   function benchDoorCard(){
-    const lock=benchLockGet();
     const list=document.getElementById("safeList"); if(!list) return;
     const existing=document.getElementById("doorCard");
-    if(lock.on || lock.cardDismissed){ if(existing) existing.remove(); return; }
+    if(benchLockRead().state!=="none"){ if(existing) existing.remove(); return; }
     if(existing) return;
     const c=document.createElement("div");
     c.className="doorcard"; c.id="doorCard";
@@ -56132,7 +56734,7 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
       <div class="dc-row"><button class="btn sm primary" id="dcSet">Set combination</button><button class="btn sm" id="dcNo">Not now</button></div>`;
     list.parentNode.insertBefore(c, list);
     c.querySelector("#dcSet").onclick=()=>benchLockSheet();
-    c.querySelector("#dcNo").onclick=()=>{ const l=benchLockGet(); l.cardDismissed=true; benchLockSave(l); c.remove(); };
+    c.querySelector("#dcNo").onclick=()=>{ c.remove(); };
   }
   const benchPrevRenderSafe_v11=renderSafe;
   renderSafe=function(){ benchPrevRenderSafe_v11(); benchDoorCard(); };
@@ -56165,7 +56767,9 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
         const salt=benchNewSalt();
         benchLockSave({on:true, salt, hash:benchPinHash(salt,p1), len:p1.length, ts:Date.now()});
         sh.classList.remove("open");
-        benchLockRow();   
+        benchLockRow();
+        benchArmDoor();
+        if(typeof renderSafe==="function") renderSafe();   
       };
     } else {
       sh.innerHTML=`<div class="sheet"><button class="sheetx" id="lsX">×</button>
@@ -56179,7 +56783,7 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
         </div></div>`;
       const check=()=>{
         const cur=sh.querySelector("#lsCur").value.trim();
-        if(benchPinHash(lock.salt,cur)!==lock.hash){ alert("Wrong PIN."); return false; }
+        if(!sdVerify(lock.salt, lock.hash, lock.len, cur)){ alert("Wrong PIN."); return false; }
         return true;
       };
       sh.querySelector("#lsSave").onclick=()=>{
@@ -56191,11 +56795,15 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
           benchLockSave({on:true, salt, hash:benchPinHash(salt,nv), len:nv.length, ts:Date.now()});
         }
         sh.classList.remove("open"); benchLockRow();
+        benchArmDoor();                                     
+        if(typeof renderSafe==="function") renderSafe();
       };
       sh.querySelector("#lsOff").onclick=()=>{
         if(!check()) return;
         benchLockSave({on:false});
         sh.classList.remove("open"); benchLockRow();
+        sdState.auth=true; sdFinish();
+        if(typeof renderSafe==="function") renderSafe();     
       };
     }
     sh.querySelector("#lsX").onclick=()=>sh.classList.remove("open");
@@ -56677,29 +57285,150 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     b.onclick=e=>{ e.stopPropagation(); const f2=byId(activeId); if(f2) benchSetStepArt(f2, stepIndex); };
   }
 
+  const benchPickBackupOpts={
+    initialLocation:"Downloads",
+    mimeType:"application/json",
+    namePrefix:"fieldstrip-backup-"
+  };
+  const benchLocalSave=()=>{
+    const P=window.Capacitor && window.Capacitor.Plugins;
+    return (P && P.LocalSave) || null;
+  };
+  function benchNativePicker(){
+    const LS=benchLocalSave();
+    return (LS && typeof LS.pickBackup==="function") ? LS : null;
+  }
+  async function benchPickerHintHonoured(){
+    const LS=benchLocalSave();
+    if(!LS || typeof LS.pickerCaps!=="function") return null;   
+    try{ const caps=await LS.pickerCaps(); return !!(caps && caps.initialLocation); }
+    catch(e){ return null; }
+  }
+  async function benchRestoreWhereLine(el){
+    if(!el) return;
+    const ok=await benchPickerHintHonoured();
+    el.textContent = ok===false ? "Your backups are in Downloads." : "";
+  }
+
+  const BACKUP_HEAD_BYTES=240;      
+  function benchBackupLister(){
+    const LS=benchLocalSave();
+    return (LS && typeof LS.listBackups==="function" && typeof LS.readBackup==="function") ? LS : null;
+  }
+  function benchBackupHeadPhotos(head){
+    if(!head) return null;                         
+    const m=String(head).match(/"photos"\s*:\s*(true|false)/);
+    return m ? m[1]==="true" : null;
+  }
+  function benchBackupHeadValid(head){
+    return !!(head && String(head).indexOf('"format":"'+BenchExport.FORMAT+'"')>=0);
+  }
+  const benchFmtBytes=n=>{
+    n=+n||0;
+    if(n<1024) return n+" B";
+    if(n<1024*1024) return (n/1024).toFixed(n<10240?1:0)+" KB";
+    return (n/1048576).toFixed(n<10485760?1:0)+" MB";
+  };
+  const benchFmtWhen=ts=>{
+    const d=new Date(+ts||0);
+    return fmtDate(d.getTime())+" · "+d.toLocaleTimeString(undefined,{hour:"numeric",minute:"2-digit"});
+  };
+  function benchBackupSort(list){
+    return (list||[]).slice().sort((a,b)=>(+b.modified||0)-(+a.modified||0));
+  }
+  async function benchBackupList(){
+    const LS=benchBackupLister();
+    if(!LS) return null;                            
+    try{
+      const r=await LS.listBackups({namePrefix:benchPickBackupOpts.namePrefix, headBytes:BACKUP_HEAD_BYTES});
+      return benchBackupSort(r && r.backups);
+    }catch(e){ console.error("listBackups:",e); return null; }
+  }
+  function benchRestoreSheet(list){
+    let sh=document.getElementById("restorePickSheet");
+    if(!sh){
+      sh=document.createElement("div");
+      sh.id="restorePickSheet"; sh.className="prosheet";
+      document.body.appendChild(sh);
+      sh.addEventListener("click",e=>{ if(e.target.id==="restorePickSheet") sh.classList.remove("open"); });
+    }
+    const rows=(list||[]).map((b,i)=>{
+      const photos=benchBackupHeadPhotos(b.head);
+      const bits=[benchFmtBytes(b.size), photos===true?"with photos":""].filter(Boolean).join(" · ");
+      return `<div class="benchrow" data-bkpick="${i}"><div class="bi">`
+        + `<div class="bn">${esc(benchFmtWhen(b.modified))}</div>`
+        + `<div class="bs">${esc(bits)}</div></div><span class="lv">Restore</span></div>`;
+    }).join("");
+    sh.innerHTML=`<div class="sheet"><button class="sheetx" id="rpX">×</button>
+      <h3>RESTORE FROM BACKUP</h3>
+      ${(list||[]).length
+        ? `<p class="pp">Backups this app wrote to this device, newest first. Tap one to restore it.</p>${rows}`
+        : `<p class="pp">No backups found here.</p>`}
+      <button class="btn full" id="rpOther" style="margin-top:12px">Choose another file…</button>
+      <div class="lmsg" id="rpWhere"></div></div>`;
+    sh.querySelector("#rpX").onclick=()=>sh.classList.remove("open");
+    benchRestoreWhereLine(sh.querySelector("#rpWhere"));
+    sh.querySelector("#rpOther").onclick=()=>{ sh.classList.remove("open"); benchRestoreFlow(); };
+    sh.querySelectorAll("[data-bkpick]").forEach(row=>row.addEventListener("click",async ()=>{
+      const b=(list||[])[+row.dataset.bkpick]; if(!b) return;
+      sh.classList.remove("open");
+      const LS=benchBackupLister(); if(!LS) return;
+      try{
+        const res=await LS.readBackup({uri:b.uri});
+        if(!res || res.canceled) return;
+        await benchRestoreApply(String(res.data||""));
+      }catch(e){
+        console.error("readBackup:",e);
+        alert("Couldn't read that backup. Try Choose another file…");
+      }
+    }));
+    sh.classList.add("open");
+  }
+  async function benchRestoreDoor(){
+    const list=await benchBackupList();
+    if(list===null){ benchRestoreFlow(); return; }   
+    benchRestoreSheet(list);
+  }
+  async function benchRestoreApply(text){
+    let archive=null;
+    try{ archive=JSON.parse(text); }catch(e){}
+    const bad=BenchImport.validate(archive);
+    if(bad){ alert(bad); return; }
+    if(BenchEnv.hasFS()){
+      try{
+        const fA=BenchEnv.files();
+        const textFiles={
+          write:async (p,t)=>fA.writeB64(p, btoa(unescape(encodeURIComponent(String(t))))),
+          read:async p=>decodeURIComponent(escape(atob(await fA.readB64(p))))
+        };
+        const snap=await BenchSnapshot.snapshotAndVerify(BenchEnv.store, textFiles, Date.now());
+        if(!snap.ok){ alert("Couldn't take the safety snapshot — nothing was imported."); return; }
+      }catch(e){ alert("Couldn't take the safety snapshot — nothing was imported."); return; }
+    }
+    const r=await BenchImport.runImport(BenchEnv.store, BenchEnv.hasFS()?BenchEnv.files():null, archive, {});
+    benchRestoreResult(r);
+  }
   function benchRestoreFlow(){
+    const LS=benchNativePicker();
+    if(LS){
+      LS.pickBackup(benchPickBackupOpts).then(res=>{
+        if(!res || res.canceled) return;
+        return benchRestoreApply(String(res.data||""));
+      }).catch(e=>{
+        console.error("restore picker:",e);
+        benchRestoreFileInput();          
+      });
+      return;
+    }
+    benchRestoreFileInput();
+  }
+  function benchRestoreFileInput(){
     const inp=document.getElementById("benchRestoreFile");
     if(!inp) return;
     inp.onchange=async ()=>{
       const file=inp.files && inp.files[0]; inp.value="";
       if(!file) return;
-      let archive=null;
-      try{ archive=JSON.parse(await file.text()); }catch(e){}
-      const bad=BenchImport.validate(archive);
-      if(bad){ alert(bad); return; }
-      if(BenchEnv.hasFS()){
-        try{
-          const fA=BenchEnv.files();
-          const textFiles={
-            write:async (p,t)=>fA.writeB64(p, btoa(unescape(encodeURIComponent(String(t))))),
-            read:async p=>decodeURIComponent(escape(atob(await fA.readB64(p))))
-          };
-          const snap=await BenchSnapshot.snapshotAndVerify(BenchEnv.store, textFiles, Date.now());
-          if(!snap.ok){ alert("Couldn't take the safety snapshot — nothing was imported."); return; }
-        }catch(e){ alert("Couldn't take the safety snapshot — nothing was imported."); return; }
-      }
-      const r=await BenchImport.runImport(BenchEnv.store, BenchEnv.hasFS()?BenchEnv.files():null, archive, {});
-      benchRestoreResult(r);
+      await benchRestoreApply(await file.text());
     };
     inp.click();
   }
@@ -56767,7 +57496,7 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
   function benchBurnWipe(){
     try{
       const P=window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins.Preferences;
-      const keys=[]; for(let i=0;i<localStorage.length;i++) keys.push(localStorage.key(i));
+      const keys=[]; for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(FSNS.mine(k)) keys.push(k); }
       keys.forEach(k=>{ try{ localStorage.removeItem(k); }catch(e){} });
       try{ if(P&&P.clear) P.clear(); else if(P) keys.forEach(k=>P.remove({key:k})); }catch(e){}
     }catch(e){}
@@ -56781,26 +57510,33 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
 
   sdDigit = function(d){
     if(sdState.open) return;
-    const lock=benchLockGet();
-    if(sdState.buf.length>=(lock.len||8)) return;
+    const rd=benchLockRead();
+    const lock=rd.lock||{};
+    const cap=(rd.state==="set")?lock.len:8;
+    if(sdState.buf.length>=cap) return;
     sdState.buf+=String(d);
     sdTurnTo(d, sdState.buf.length-1);
     sdDots();
-    if(sdState.buf.length===(lock.len||4)){
-      setTimeout(()=>{
+    if(rd.state!=="set") return;
+    if(sdState.buf.length===lock.len){
+      sdAfter(420, ()=>{
         const buf=sdState.buf;
-        if(benchPinHash(lock.salt, buf)===lock.hash){
+        if(sdVerify(lock.salt, lock.hash, lock.len, buf)){
           sdState.buf="";
           if(lock.twofa && benchBioPlugin()){
-            benchBioVerify("Second factor — unlock your safe").then(ok=>{ if(ok) sdOpenSequence(false); else sdWrong(); });
-          } else sdOpenSequence(false);
-        } else if(lock.burn && lock.burn.len===lock.len && benchPinHash(lock.burn.salt, buf)===lock.burn.hash){
+            benchBioVerify("Second factor — unlock your safe").then(ok=>{
+              if(ok){ sdState.auth=true; sdOpenSequence(false); } else sdWrong();
+            });
+          } else { sdState.auth=true; sdOpenSequence(false); }
+        } else if(lock.burn && lock.burn.len===lock.len
+                  && sdVerify(lock.burn.salt, lock.burn.hash, lock.burn.len, buf)){
           sdState.buf="";
           benchBurnWipe();
+          sdState.auth=true;
           sdOpenSequence(false);
           setTimeout(()=>{ if(typeof renderSafe==="function") renderSafe(); updateProRow(); }, 60);
         } else sdWrong();
-      }, 420);
+      });
     }
   };
 
@@ -56808,7 +57544,7 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     const lock=benchLockGet();
     if(!(lock.on && lock.bio && !lock.twofa)) return;
     const overlay=document.getElementById("safeDoor"); if(!overlay || overlay.style.display==="none") return;
-    const tryBio=async ()=>{ if(sdState.open) return; if(await benchBioVerify()) sdOpenSequence(false); };
+    const tryBio=async ()=>{ if(sdState.open) return; if(await benchBioVerify()){ sdState.auth=true; sdOpenSequence(false); } };
     setTimeout(tryBio, 900);
     const dial=document.getElementById("sdDial");
     if(dial) dial.addEventListener("click",()=>tryBio());
@@ -57002,7 +57738,7 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
       <div class="fo-brand">FIELD<span>STRIP</span></div>
       <div class="fo-tag">Your safe, your bench, your records</div>
       <div class="fo-body">Guided field-stripping and cleaning for your firearms. A running record of everything you do — rounds, cleanings, service, ammo, filings.</div>
-      <div class="fo-quiet">Everything stays on this phone. No account. No cloud. No tracking.</div>
+      <div class="fo-quiet">Everything stays on this phone. No account. No cloud. No tracking. The app reaches the internet only when you ask it to — to see whether guns have been added since this build while you're searching, and to download a guide you've said yes to.</div>
       <div class="fo-sect">Before you start</div>
       <div id="foAcks" style="display:flex;flex-direction:column;gap:10px">${acks.map((a,i)=>`<button class="gate-item" data-fa="${i}"><span class="box">✓</span><span><div class="gt" style="font-size:13.5px">${a}</div></span></button>`).join("")}</div>
       <button class="btn primary full" id="foGo" disabled style="margin-top:16px">I understand — continue</button>
@@ -57053,16 +57789,8 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
   function benchBHide(id){ const o=benchLayoutGet(); if(!Array.isArray(o.hidden)) o.hidden=[]; if(o.hidden.indexOf(id)<0) o.hidden.push(id); benchLayoutSave(o); renderBench(); }
   function benchBShow(id){ const o=benchLayoutGet(); const h=Array.isArray(o.hidden)?o.hidden:[]; const i=h.indexOf(id); if(i>=0){ h.splice(i,1); o.hidden=h; benchLayoutSave(o); } renderBench(); }
   let benchBOpen={};                     
-  function benchBExpanded(){ const o=benchLayoutGet(); return Array.isArray(o.expanded)?o.expanded:[]; }
-  function benchBSetCollapsed(id, closed){
-    const o=benchLayoutGet();
-    if(!Array.isArray(o.expanded)) o.expanded=[];
-    const i=o.expanded.indexOf(id);
-    if(!closed && i<0) o.expanded.push(id);
-    if(closed && i>=0) o.expanded.splice(i,1);
-    if(!o.expanded.length) delete o.expanded;   
-    benchLayoutSave(o);
-  }
+  function benchBExpanded(){ return cardOpenIds("scr-bench"); }
+  function benchBSetCollapsed(id, closed){ cardSetOpen("scr-bench", id, !closed); }
   let benchCareTargetId=null, benchSvcTargetId=null, benchNfaTargetId=null, benchMagTargetId=null;
   let benchZeroTargetId=null, benchRoundsTargetId=null;   
   function benchSelect(id){
@@ -57596,7 +58324,7 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     benchSeatAttCard();
     const be=document.getElementById("benchExport"), br=document.getElementById("benchRestore");
     if(be) be.onclick=benchDoExport;
-    if(br) br.onclick=()=>benchRestoreFlow();
+    if(br) br.onclick=()=>benchRestoreDoor();
     benchAmmoChips();
   };
   const benchPrevRenderBench_v16locked=(function(){ const prev=benchPrevRenderBench_v14; return function(){ prev(); benchAmmoChips(); }; })();
@@ -57873,10 +58601,11 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
   }, true);
 
 
-  async function benchCsvShare(base, text){
+  async function benchCsvShare(base, text, opts){
     const msg=document.getElementById("csvMsg");
     try{
-      const fname=base+"-"+new Date().toISOString().slice(0,10)+".csv";
+      const fname=(opts&&opts.name) ? opts.name
+                : base+"-"+new Date().toISOString().slice(0,10)+".csv";
       const FSp=window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Filesystem;
       const SHp=BenchEnv.share();
       if(FSp && SHp){
@@ -58099,10 +58828,11 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     const x=document.getElementById("dsX"); if(x) x.onclick=()=>sh.classList.remove("open");
     const csvBtn=(id,fn)=>{ const b=document.getElementById(id); if(b) b.onclick=fn; };
     csvBtn("csvInv",   ()=>benchCsvShare("fieldstrip-inventory", BenchCsv.buildInventoryCsv(BenchEnv.store, CATALOG)));
-    csvBtn("csvHist",  ()=>benchCsvShare("fieldstrip-history",   BenchCsv.buildHistoryCsv(BenchEnv.store, CATALOG)));
+    csvBtn("csvHist",  ()=>benchCsvShare("fieldstrip-history",   BenchCsv.buildHistoryCsv(BenchEnv.store, CATALOG, {malfLabel:malfLabel})));
     csvBtn("csvAtt",   ()=>benchCsvShare("fieldstrip-attachments", BenchCsv.buildAttachmentsCsv(BenchEnv.store)));
     csvBtn("csvLocker",()=>benchCsvShare("fieldstrip-locker",    BenchCsv.buildLockerCsv(BenchEnv.store)));
-    csvBtn("csvTemplate",()=>benchCsvShare("fieldstrip-template", BenchCsv.buildInventoryTemplate()));
+    csvBtn("csvTemplate",()=>benchCsvShare("fieldstrip-import-template", BenchCsv.buildInventoryTemplate(),
+                                           {name:"fieldstrip-import-template.csv"}));
     csvBtn("csvImport",()=>benchCsvImportFlow());
     sh.classList.add("open");
   }
@@ -58146,7 +58876,7 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
       <div class="lmsg" id="bkMsg"></div></div>`;
     sh.querySelector("#bkX").onclick=()=>sh.classList.remove("open");
     sh.querySelector("#bkSave").onclick=()=>benchDoExport("local",{msg:sh.querySelector("#bkMsg"), photos:sh.querySelector("#bkPhotos")});
-    sh.querySelector("#bkRestore").onclick=()=>benchRestoreFlow();
+    sh.querySelector("#bkRestore").onclick=()=>benchRestoreDoor();
     sh.classList.add("open");
   }
   const benchPrevLockRow_v18=benchLockRow;
@@ -58710,21 +59440,14 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
 
 
   function benchRelock(){
-    const lock=benchLockGet();
-    if(!lock.on) return false;
+    const rd=benchLockRead();
+    if(rd.state==="none") return false;          
+    const lock=rd.lock||{};
     const overlay=document.getElementById("safeDoor"); if(!overlay) return false;
     if(overlay.style.display==="flex" && !sdState.open) return true;   
-    sdState.buf=""; sdState.open=false;
-    overlay.classList.remove("opening","fadeout");
-    overlay.style.opacity="";
-    const door=document.getElementById("sdDoor");
-    if(door) door.classList.remove("open","unbolted");
-    const pad=document.getElementById("sdPad"); if(pad) pad.hidden=false;
-    const combo=document.getElementById("sdSetCombo"); if(combo) combo.hidden=true;
-    sdDots();
-    overlay.style.display="flex";
+    benchArmDoor();
     if(lock.bio && !lock.twofa){
-      setTimeout(async ()=>{ if(!sdState.open && await benchBioVerify()) sdOpenSequence(false); }, 700);
+      sdAfter(700, async ()=>{ if(!sdState.open && await benchBioVerify()){ sdState.auth=true; sdOpenSequence(false); } });
     }
     return true;
   }
@@ -59136,6 +59859,7 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     }
     b.textContent=fsDoorLabel(byId(activeId));
     row.appendChild(b);
+    fsMountDoorWhy(byId(activeId));
   }
   const fsPrevRenderDetail=renderDetail;
   renderDetail=function(){
@@ -59278,13 +60002,911 @@ const EXP_LAYERS=[{n:"mag",asm:[18.23,-32.23],exp:[0,2],src:"assets/guns/glock/m
     }
   };
 
+
+  const LIBRARY_BASE = "https://library.fieldstripapp.com";
+  const RECEIVER_URL = "https://request.fieldstripapp.com/";
+
+  const LIBRARY_INDEX_VERSION = 16;
+
+  function libRead(k, dflt) {
+    try { const s = BenchEnv.store.getRaw(k); return s ? JSON.parse(s) : dflt; }
+    catch (e) { return dflt; }
+  }
+  function libWrite(k, o) { try { BenchEnv.store.setRaw(k, JSON.stringify(o)); } catch (e) {} }
+
+  function libState() { return libRead("fs_lib", { v: 0, rows: {} }); }
+  function libGuides() { return libRead("fs_lib_g", {}); }
+  function libVersion() { return Math.max(LIBRARY_INDEX_VERSION, Number(libState().v) || 0); }
+
+
+  function libRowToCat(r) {
+    return { i: r.id, mk: r.maker, md: r.model, ch: r.chambering || "",
+             ct: r.category || "", gp: r.group || "", fm: r.family || "",
+             tr: typeof r.tier === "number" ? r.tier : 5, lib: true };
+  }
+
+  function libCatalog() {
+    try {
+      const rows = libState().rows || {};
+      const extra = [];
+      Object.keys(rows).forEach(id => {
+        if (CATALOG.some(c => c.i === id)) return;
+        extra.push(libRowToCat(rows[id]));
+      });
+      return extra.length ? CATALOG.concat(extra) : CATALOG;
+    } catch (e) { return CATALOG; }
+  }
+
+  function libKeyForModel(id) {
+    try {
+      if (libGuides()[id]) return "sg_" + id;
+      return fkey({ model: id });
+    } catch (e) { return null; }
+  }
+
+  function libHasGuide(id) {
+    try {
+      if (!id) return false;
+      if (guideWalkable(libKeyForModel(id))) return true;
+      const r = (libState().rows || {})[id];
+      if (r && r.guide) return true;
+      const c = CATALOG.find(x => x.i === id);
+      return !!(c && c.lib);
+    } catch (e) { return false; }
+  }
+
+  const LIB_TIMEOUT_MS = 8000;
+  function libFetch(url, init) {
+    if (typeof fetch !== "function") return Promise.reject(new Error("offline"));
+    if (typeof navigator !== "undefined" && navigator.onLine === false) {
+      return Promise.reject(new Error("offline"));
+    }
+    const ctl = (typeof AbortController === "function") ? new AbortController() : null;
+    const t = setTimeout(() => { try { ctl && ctl.abort(); } catch (e) {} }, LIB_TIMEOUT_MS);
+    const opt = Object.assign({ cache: "no-store", credentials: "omit", referrerPolicy: "no-referrer" },
+                              init || {});
+    if (ctl) opt.signal = ctl.signal;
+    return fetch(url, opt).then(r => {
+      clearTimeout(t);
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      return r;
+    }, e => { clearTimeout(t); throw e; });
+  }
+  function libFetchJson(url) { return libFetch(url).then(r => r.json()); }
+
+  let libDeltaTried = false;
+  let libDeltaBusy = false;
+  let libDeltaNote = "";
+
+  function libDeltaReset() {
+    try { libDeltaTried = false; libDeltaBusy = false; libDeltaNote = ""; } catch (e) {}
+  }
+  function libNote() { try { return libDeltaNote || ""; } catch (e) { return ""; } }
+
+  function libDeltaCheck(rerender) {
+    try {
+      if (libDeltaTried || libDeltaBusy) return;
+      libDeltaTried = true;
+      libDeltaBusy = true;
+      libDeltaNote = "Checking for new guns…";
+      rerender();
+      libFetchJson(LIBRARY_BASE + "/delta/" + libVersion() + ".json").then(d => {
+        libDeltaBusy = false;
+        const rows = (d && d.rows) || [];
+        const st = libState();
+        st.rows = st.rows || {};
+        rows.forEach(r => { if (r && r.id) st.rows[r.id] = r; });
+        ((d && d.removed) || []).forEach(id => { delete st.rows[id]; });
+        if (d && typeof d.to === "number") st.v = Math.max(Number(st.v) || 0, d.to);
+        libWrite("fs_lib", st);
+        libReqReconcile();
+        libDeltaNote = "";
+        rerender();
+      }, () => {
+        libDeltaBusy = false;
+        libDeltaNote = "Couldn't check for new guns — no signal";
+        rerender();
+      });
+    } catch (e) {}
+  }
+
+
+  function libGuideSheetCopy() {
+    return "This is the one time the app talks to us about this firearm. Our server will see " +
+           "an internet address asking for this particular guide at this particular time. " +
+           "Nothing else is sent — no account, no name, no device id, nothing about your safe. " +
+           "You can skip it and add the steps yourself from the maker's manual instead.";
+  }
+
+  function libOffer(f, rowId) {
+    try {
+      if (!f || !rowId) return;
+      if (guideWalkable(libKeyForModel(rowId))) return;      
+      const r = (libState().rows || {})[rowId];
+      if (!(r && r.guide)) return;                            
+      libAskAndFetch(f, rowId, r);
+    } catch (e) {}
+  }
+
+  function libAskAndFetch(f, rowId, r) {
+    let sh = document.getElementById("libSheet");
+    if (!sh) {
+      sh = document.createElement("div");
+      sh.id = "libSheet"; sh.className = "prosheet";
+      document.body.appendChild(sh);
+      sh.addEventListener("click", e => { if (e.target.id === "libSheet") sh.classList.remove("open"); });
+    }
+    const name = ((r && r.maker) || "") + " " + ((r && r.model) || "");
+    sh.innerHTML = '<div class="sheet"><button class="sheetx" id="lgX">×</button>' +
+      '<h3>DOWNLOAD THIS GUIDE?</h3>' +
+      '<p class="pp">' + (name.trim() ? name.trim() + " — a" : "A") +
+      ' step-by-step strip guide is published for this firearm. It is in your safe either way.</p>' +
+      '<div class="proreason">' + libGuideSheetCopy() + '</div>' +
+      '<button class="btn primary full" id="lgYes">Download the guide</button>' +
+      '<button class="btn full" id="lgNo" style="margin-top:8px">Not now</button>' +
+      '<div class="hint" id="lgMsg" style="margin-top:8px"></div></div>';
+    const close = () => sh.classList.remove("open");
+    sh.querySelector("#lgX").onclick = close;
+    sh.querySelector("#lgNo").onclick = close;
+    sh.querySelector("#lgYes").onclick = () => {
+      const msg = sh.querySelector("#lgMsg");
+      msg.textContent = "Downloading…";
+      libFetchGuide(rowId).then(() => {
+        close();
+        if (typeof renderDetail === "function") renderDetail();
+      }, () => {
+        msg.textContent = "Couldn't download it — no signal. The firearm is in your safe; " +
+                          "you can try again from here later.";
+      });
+    };
+    sh.classList.add("open");
+  }
+
+  function libFetchGuide(rowId) {
+    const gid = ((libState().rows || {})[rowId] || {}).guideId || rowId;
+    return libFetchJson(LIBRARY_BASE + "/guides/" + gid + ".json").then(g => {
+      if (!g || !g.row || !Array.isArray(g.steps) || !g.steps.length) throw new Error("not a guide");
+      const held = libGuides();
+      held[rowId] = g;
+      libWrite("fs_lib_g", held);
+      libInstallGuide(rowId, g);
+      libReqReconcile();
+      return g;
+    });
+  }
+
+  function libStepFrom(g, st) {
+    if (st.box === "passage") {
+      return tgStep(st.phase, st.title, stPassage(st.quote, st.cite, st.gloss),
+                    { src: st.cite, passage: true });
+    }
+    let body = "";
+    if (st.action) body += stA(st.action);
+    if (st.prose) body += st.prose;
+    if (st.caution) body += stC(st.caution);
+    if (st.aside) body += stAs(st.aside);
+    if (st.box === "bilingual") body += stSrcX(st.quote, st.quoteEnglish, st.quoteLang, st.cite);
+    else if (st.box === "quote") body += stSrc(st.quote, st.cite);
+    else if (st.box === "limit") body += stLimit(g.make, st.quote, st.cite);
+    const extra = {};
+    if (st.warn) extra.warn = st.warn;
+    if (st.warn && st.warnSrc) extra.warnSrc = st.warnSrc;
+    if (st.branch) extra.branch = true;
+    if (st.quote) extra.src = st.cite;
+    return tgStep(st.phase, st.title, body, extra);
+  }
+
+  function libGuideObject(g) {
+    const o = { textMode: true, parts: {}, origins: {} };
+    if (g.sourcedFrom) o.sourcedFrom = g.sourcedFrom;
+    if (g.sourceSha256) o.sourceSha256 = g.sourceSha256;
+    if (g.sourceSha256_2) o.sourceSha256_2 = g.sourceSha256_2;
+    o.cleanIntro = g.cleanIntro;
+    o.steps = (g.steps || []).map(s => libStepFrom(g, s));
+    if (g.deepSteps && g.deepSteps.length) o.deepSteps = g.deepSteps.map(s => libStepFrom(g, s));
+    else o.deepAbsentReason = g.deepAbsentReason;
+    if (g.cleaning && g.cleaning.length) o.cleaning = g.cleaning;
+    if (g.reassembly && g.reassembly.length) o.reassembly = g.reassembly;
+    if (g.fncheck) o.fncheck = g.fncheck;
+    return o;
+  }
+
+  function libInstallGuide(rowId, g) {
+    const key = "sg_" + rowId;
+    GUNS[key] = libGuideObject(g);
+    SOURCED_FOR[rowId] = key;
+  }
+
+  (function libInstallHeld() {
+    const held = libGuides();
+    Object.keys(held).forEach(row => { try { libInstallGuide(row, held[row]); } catch (e) {} });
+  })();
+
+  const REQ_KINDS = [
+    { v: "firearm", label: "A firearm" },
+    { v: "suppressor", label: "A suppressor" },
+    { v: "other", label: "A bug, or something you'd like added" }
+  ];
+  function reqState() { return libRead("fs_req", { sent: {}, open: [] }); }
+  function reqSave(o) { libWrite("fs_req", o); }
+  function reqCap() { return isPro() ? safe.length : FREE_MAX_GUNS; }
+  function reqOpen() { return (reqState().open || []).filter(r => !r.closed); }
+  function reqKey(s) { return String(s || "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim(); }
+  function reqAlreadySent(text) { return !!(reqState().sent || {})[reqKey(text)]; }
+
+  function libReqReconcile() {
+    try {
+      const s = reqState();
+      let moved = 0;
+      (s.open || []).forEach(r => {
+        if (r.closed || !r.gunId) return;
+        const f = safe.find(x => x.id === r.gunId);
+        if (f && guideWalkable(fkey(f))) { r.closed = Date.now(); moved++; }
+      });
+      if (moved) reqSave(s);
+      return moved;
+    } catch (e) { return 0; }
+  }
+
+  function reqCompose(kind, text) {
+    return (kind === "other" ? "other: " : kind === "suppressor" ? "suppressor: " : "") +
+           String(text || "").replace(/[\r\n]+/g, " ").trim();
+  }
+  function reqSend(kind, text, gunId) {
+    const line = reqCompose(kind, text);
+    if (!line) return Promise.reject(new Error("empty"));
+    return libFetch(RECEIVER_URL, { method: "POST", body: line }).then(() => {
+      const s = reqState();
+      s.sent = s.sent || {}; s.open = s.open || [];
+      s.sent[reqKey(text)] = Date.now();
+      s.open.push({ id: Date.now().toString(36), kind, text: String(text).trim(),
+                    gunId: gunId || null, ts: Date.now(), closed: 0 });
+      reqSave(s);
+      return true;
+    });
+  }
+
+  function reqRemind(gunId, label) {
+    const f = safe.find(x => x.id === gunId);
+    if (!f) return false;
+    f.reminders = f.reminders || [];
+    f.reminders.push({ id: Date.now().toString(36), label: "Check for a guide: " + label,
+                       every: 30, unit: "days", last: Date.now() });
+    saveSafe();
+    if (typeof syncNotifications === "function") { try { syncNotifications(); } catch (e) {} }
+    return true;
+  }
+
+  const DOOR_VERDICT = {
+    "DPMS Oracle": "NO-MANUAL",
+    "DPMS Oracle .308": "NO-MANUAL",
+    "aac762sdn6": "FETCHED",
+    "aacelement2": "BLOCKED",
+    "aacjaeger30": "FETCHED",
+    "aacranger5": "BLOCKED",
+    "aacranger7": "BLOCKED",
+    "aactirant45m": "BLOCKED",
+    "accuracyinternationalas50": "MAKER-PUBLISHES-NOTHING",
+    "accuracyinternationalatx": "MAKER-PUBLISHES-NOTHING",
+    "accuracyinternationalaw50": "MAKER-PUBLISHES-NOTHING",
+    "accuracyinternationalax50": "MAKER-PUBLISHES-NOTHING",
+    "accuracyinternationalaxmc": "MAKER-PUBLISHES-NOTHING",
+    "accuracyinternationalaxsr": "MAKER-PUBLISHES-NOTHING",
+    "adamsarmsp2": "MAKER-PUBLISHES-NOTHING",
+    "aeroprecisionac15": "NO-MANUAL",
+    "aeroprecisionm4e1": "NO-MANUAL",
+    "aeroprecisionm5": "NO-MANUAL",
+    "alchemycustomweaponryprime": "MAKER-PUBLISHES-NOTHING",
+    "andersonkiger9c": "NO-MANUAL",
+    "andersonmanufacturingam15": "NO-MANUAL",
+    "angstadtarmsreticent360l": "BLOCKED",
+    "angstadtarmsvanquish22": "BLOCKED",
+    "anschutz1727apr": "MAKER-PUBLISHES-NOTHING",
+    "anschutz1761": "MAKER-PUBLISHES-NOTHING",
+    "anschutz1907": "MAKER-PUBLISHES-NOTHING",
+    "anschutz1913": "MAKER-PUBLISHES-NOTHING",
+    "anschutz5430": "MAKER-PUBLISHES-NOTHING",
+    "arexzero2tactical": "MAKER-PUBLISHES-NOTHING",
+    "arsenalsam7r": "MAKER-PUBLISHES-NOTHING",
+    "ashburysaberforsstmod1": "MAKER-PUBLISHES-NOTHING",
+    "ashburysaberm700": "MAKER-PUBLISHES-NOTHING",
+    "atiomnihybrid": "NO-MANUAL",
+    "atlasgunworksartemis": "MAKER-PUBLISHES-NOTHING",
+    "atlasgunworkserebus": "MAKER-PUBLISHES-NOTHING",
+    "atlasgunworkshyperion": "MAKER-PUBLISHES-NOTHING",
+    "atlasgunworksnyx": "MAKER-PUBLISHES-NOTHING",
+    "atlasgunworkstitan": "MAKER-PUBLISHES-NOTHING",
+    "barrettfieldcraft": "MAKER-PUBLISHES-NOTHING",
+    "barrettmrad": "MAKER-PUBLISHES-NOTHING",
+    "barrettmradcovert": "BLOCKED",
+    "bcmrecce16": "NO-MANUAL",
+    "benelli828usupersportai": "BLOCKED",
+    "benelliethossport": "MAKER-PUBLISHES-NOTHING",
+    "benellilupobest": "MAKER-PUBLISHES-NOTHING",
+    "benellilupohprbest": "MAKER-PUBLISHES-NOTHING",
+    "benellimp90s": "MAKER-PUBLISHES-NOTHING",
+    "benellimp95e": "MAKER-PUBLISHES-NOTHING",
+    "benellisupersport": "FETCHED",
+    "beretta1301tactical": "NO-MANUAL",
+    "beretta21abobcat": "NO-MANUAL",
+    "beretta3032tomcat": "NO-MANUAL",
+    "beretta486parallelo": "HAND-DOWNLOAD",
+    "beretta686silverpigeoni": "HAND-DOWNLOAD",
+    "beretta688performancesporting": "HAND-DOWNLOAD",
+    "beretta688performancetrapas": "HAND-DOWNLOAD",
+    "beretta694blackdlctrap": "HAND-DOWNLOAD",
+    "beretta694sporting": "HAND-DOWNLOAD",
+    "beretta80xcheetah": "NO-MANUAL",
+    "beretta92fs": "NO-MANUAL",
+    "beretta92x": "NO-MANUAL",
+    "berettaa300ultima": "NO-MANUAL",
+    "berettaa400xtremeplus": "NO-MANUAL",
+    "berettaapxa1": "NO-MANUAL",
+    "berettadt11sporting": "HAND-DOWNLOAD",
+    "berettadt11supersport": "HAND-DOWNLOAD",
+    "berettadt11trap": "HAND-DOWNLOAD",
+    "berettam9a4": "NO-MANUAL",
+    "berettapx4storm": "NO-MANUAL",
+    "berettasl3": "HAND-DOWNLOAD",
+    "berettaso10": "HAND-DOWNLOAD",
+    "berettaso5sporting": "HAND-DOWNLOAD",
+    "berettaultraleggero": "HAND-DOWNLOAD",
+    "bergarabti30": "MAKER-PUBLISHES-NOTHING",
+    "bergarapremiercimapro": "BLOCKED",
+    "bergarapremierhighlander": "BLOCKED",
+    "bergarapremierhmrpro": "BLOCKED",
+    "bergarapremiermglite": "BLOCKED",
+    "bergarapremierridgeback": "BLOCKED",
+    "bersathunder380": "NO-MANUAL",
+    "blaserf16gameintuition": "BLOCKED",
+    "blaserf16prosporting": "BLOCKED",
+    "blaserf3competitionsporting": "BLOCKED",
+    "blaserf3supersport": "MAKER-PUBLISHES-NOTHING",
+    "blaserf3vantage": "MAKER-PUBLISHES-NOTHING",
+    "blaserr8selous": "MAKER-PUBLISHES-NOTHING",
+    "blaserr8ultimate": "FETCHED",
+    "bowersuss22": "MAKER-PUBLISHES-NOTHING",
+    "browningbt99": "FETCHED",
+    "btghm9gen2": "BLOCKED",
+    "bularmory1911sofpro": "BLOCKED",
+    "bularmoryaxecleaver": "BLOCKED",
+    "bularmoryfireball": "MAKER-PUBLISHES-NOTHING",
+    "bularmorysasiiultralight": "BLOCKED",
+    "bushmasterxm15": "NO-MANUAL",
+    "cadexdefencecdxr7crbn": "MAKER-PUBLISHES-NOTHING",
+    "cadexdefencecdxr7fieldcomp": "MAKER-PUBLISHES-NOTHING",
+    "cadexdefencecdxr7lcp": "MAKER-PUBLISHES-NOTHING",
+    "caesargueriniellipseevo": "BLOCKED",
+    "caesargueriniinvictusiiisporting": "BLOCKED",
+    "caesargueriniinvictusisporting": "BLOCKED",
+    "caesargueriniinvictusvtrap": "BLOCKED",
+    "caesarguerinimagnussporting": "BLOCKED",
+    "caesarguerinimaxumsporting": "BLOCKED",
+    "caesarguerinirevenant": "BLOCKED",
+    "caesarguerinisummitimpact": "BLOCKED",
+    "caesarguerinisummitsporting": "BLOCKED",
+    "caesarguerinitempio": "BLOCKED",
+    "caesargueriniwoodlander": "BLOCKED",
+    "caniktp9sfelite": "MAKER-PUBLISHES-NOTHING",
+    "caracalcmp9": "MAKER-PUBLISHES-NOTHING",
+    "charterarmsbulldog": "NO-MANUAL",
+    "charterarmsmagpug": "HAND-DOWNLOAD",
+    "charterarmspathfinder": "HAND-DOWNLOAD",
+    "charterarmspitbull": "HAND-DOWNLOAD",
+    "charterarmsundercover": "NO-MANUAL",
+    "chiapparhino200ds": "HAND-DOWNLOAD",
+    "christensenarmsca10": "MAKER-PUBLISHES-NOTHING",
+    "christensenarmsca15": "NO-MANUAL",
+    "christensenarmsmesafft": "MAKER-PUBLISHES-NOTHING",
+    "christensenarmsmoderncarbonrifle": "FETCHED",
+    "christensenarmsmodernhuntingrifle": "BLOCKED",
+    "christensenarmsmodernprecisionrifle": "BLOCKED",
+    "christensenarmsridgeline": "MAKER-PUBLISHES-NOTHING",
+    "cimarronevilroy": "MAKER-PUBLISHES-NOTHING",
+    "cmmgbansheemk10": "MAKER-PUBLISHES-NOTHING",
+    "cmmgdissentbr47": "BLOCKED",
+    "cmmgdissentmk4": "BLOCKED",
+    "cmmgresolute": "NO-MANUAL",
+    "cmpm1911a1": "MAKER-PUBLISHES-NOTHING",
+    "cmpspringfieldm1garand": "MAKER-PUBLISHES-NOTHING",
+    "coltcompetition1911": "MAKER-PUBLISHES-NOTHING",
+    "coltgrizzly": "MAKER-PUBLISHES-NOTHING",
+    "coltm45a1": "MAKER-PUBLISHES-NOTHING",
+    "coltviper": "MAKER-PUBLISHES-NOTHING",
+    "coltwileyclappgovernment": "MAKER-PUBLISHES-NOTHING",
+    "cvacascade": "NO-MANUAL",
+    "cz52surplus": "MAKER-PUBLISHES-NOTHING",
+    "cz75tsczechmate": "MAKER-PUBLISHES-NOTHING",
+    "czbobwhiteg2": "BLOCKED",
+    "czczechmateparrot": "MAKER-PUBLISHES-NOTHING",
+    "czp09": "NO-MANUAL",
+    "czp10s": "BLOCKED",
+    "danieldefensesg30ti": "FETCHED",
+    "danieldefensesg556": "FETCHED",
+    "deadairghost45": "BLOCKED",
+    "deadairnomadlti": "BLOCKED",
+    "deadairnomadti": "MAKER-PUBLISHES-NOTHING",
+    "deadairsandmank": "BLOCKED",
+    "deltondtiecho316": "NO-MANUAL",
+    "deserttechhti": "HAND-DOWNLOAD",
+    "deserttechsrsa2": "HAND-DOWNLOAD",
+    "diligentdefensedtflti": "HAND-DOWNLOAD",
+    "diligentdefenseenticerl": "HAND-DOWNLOAD",
+    "diligentdefenseenticerlti": "HAND-DOWNLOAD",
+    "diligentdefenseenticersti": "HAND-DOWNLOAD",
+    "diligentdefensewolfhunter": "HAND-DOWNLOAD",
+    "eaabountyhunter": "MAKER-PUBLISHES-NOTHING",
+    "eaawindicator": "NO-MANUAL",
+    "edbrownspecialforces": "NO-MANUAL",
+    "energeticarmamentnyxmod2": "BLOCKED",
+    "energeticarmamentpeak30": "MAKER-PUBLISHES-NOTHING",
+    "energeticarmamentsonus9k": "MAKER-PUBLISHES-NOTHING",
+    "energeticarmamentvoxk2": "BLOCKED",
+    "extarep9": "MAKER-PUBLISHES-NOTHING",
+    "fabarmaxisrs12sporting": "BLOCKED",
+    "fabarmaxisrs12trap": "BLOCKED",
+    "fabarmelosn2rssporting": "MAKER-PUBLISHES-NOTHING",
+    "fabarmelosn2rstrap": "MAKER-PUBLISHES-NOTHING",
+    "fabarml4ssporting": "BLOCKED",
+    "falkorpetra": "MAKER-PUBLISHES-NOTHING",
+    "faxonfx19patriot": "HAND-DOWNLOAD",
+    "feinwerkbaup8x": "FETCHED",
+    "fightlitescr": "MAKER-PUBLISHES-NOTHING",
+    "foldar556": "HAND-DOWNLOAD",
+    "franchimomentumallterrainelite": "BLOCKED",
+    "franchimomentumelite": "BLOCKED",
+    "franklinarmoryf22": "FETCHED",
+    "franklinarmoryprevail": "MAKER-PUBLISHES-NOTHING",
+    "gaprecisiontemplar": "MAKER-PUBLISHES-NOTHING",
+    "geisselesuperduty": "NO-MANUAL",
+    "gemtechabyss556": "FETCHED",
+    "gemtechabyss762": "FETCHED",
+    "gemtechintegra1522": "FETCHED",
+    "gemtechnebula57": "MAKER-PUBLISHES-NOTHING",
+    "gemtechneutrino": "MAKER-PUBLISHES-NOTHING",
+    "gemtechneutron762": "FETCHED",
+    "girsanmc1911": "MAKER-PUBLISHES-NOTHING",
+    "girsanmcp35": "MAKER-PUBLISHES-NOTHING",
+    "girsanregardmc": "MAKER-PUBLISHES-NOTHING",
+    "glock44": "MAKER-PUBLISHES-NOTHING",
+    "grandpowerstribogsp9a3g": "BLOCKED",
+    "greyghostcombatpistol": "MAKER-PUBLISHES-NOTHING",
+    "griffinarmamentbushwhacker46": "HAND-DOWNLOAD",
+    "griffinarmamentduallok5am": "HAND-DOWNLOAD",
+    "griffinarmamentduallok7am": "HAND-DOWNLOAD",
+    "griffinarmamentduallokhrt5kam": "HAND-DOWNLOAD",
+    "griffinarmamentexplorr300": "HAND-DOWNLOAD",
+    "griffinarmamentoptimusmicro": "HAND-DOWNLOAD",
+    "griffinarmamentrecce7am": "HAND-DOWNLOAD",
+    "griffinarmamentsportsmanultralight": "HAND-DOWNLOAD",
+    "gunwerksnexus": "FETCHED",
+    "hammerliap20pro": "HAND-DOWNLOAD",
+    "heritageroscoe": "MAKER-PUBLISHES-NOTHING",
+    "heritageroughriderbigbore": "NO-MANUAL",
+    "horizonfirearmsvandal": "HAND-DOWNLOAD",
+    "howahcrchassisrifle": "MAKER-PUBLISHES-NOTHING",
+    "huxwrxflow45m": "BLOCKED",
+    "huxwrxflow556k": "MAKER-PUBLISHES-NOTHING",
+    "huxwrxflow556ti": "BLOCKED",
+    "huxwrxflow762ti": "MAKER-PUBLISHES-NOTHING",
+    "huxwrxflowrange36ti": "NO-MANUAL",
+    "huxwrxventum556": "BLOCKED",
+    "huxwrxventum762": "MAKER-PUBLISHES-NOTHING",
+    "ibiprecisiondeuce20": "MAKER-PUBLISHES-NOTHING",
+    "infinityfirearmssvi2011open": "MAKER-PUBLISHES-NOTHING",
+    "infinityfirearmssvisighttracker": "MAKER-PUBLISHES-NOTHING",
+    "jacobgreyhexpro2011": "MAKER-PUBLISHES-NOTHING",
+    "jkarmament155rpx46": "HAND-DOWNLOAD",
+    "jkarmament172prokor30ti": "HAND-DOWNLOAD",
+    "jkarmament172prokor556k": "HAND-DOWNLOAD",
+    "jkarmament172prokor9kti": "HAND-DOWNLOAD",
+    "kalashnikovusakr103": "MAKER-PUBLISHES-NOTHING",
+    "keltecp11": "MAKER-PUBLISHES-NOTHING",
+    "kgmr30": "MAKER-PUBLISHES-NOTHING",
+    "kgmr30a2": "MAKER-PUBLISHES-NOTHING",
+    "kgmr30k": "MAKER-PUBLISHES-NOTHING",
+    "kgmr338": "FETCHED",
+    "kgmr6": "MAKER-PUBLISHES-NOTHING",
+    "kimber8400caprivi": "HAND-DOWNLOAD",
+    "kimber84mmountainascent": "HAND-DOWNLOAD",
+    "kimberopenrangeprocarbon": "HAND-DOWNLOAD",
+    "kolaraaacompetition": "MAKER-PUBLISHES-NOTHING",
+    "kolarmaxclays": "MAKER-PUBLISHES-NOTHING",
+    "kolarmaxlitesporting": "MAKER-PUBLISHES-NOTHING",
+    "kolarmaxskeet": "MAKER-PUBLISHES-NOTHING",
+    "kolarmaxtrap": "MAKER-PUBLISHES-NOTHING",
+    "krieghoffk20parcours": "BLOCKED",
+    "krieghoffk20sporting": "BLOCKED",
+    "krieghoffk80acs": "BLOCKED",
+    "krieghoffk80parcoursx": "BLOCKED",
+    "krieghoffk80prosporter": "BLOCKED",
+    "krissusakymera": "HAND-DOWNLOAD",
+    "langdontacticallttimpact": "MAKER-PUBLISHES-NOTHING",
+    "laugoarmsalien": "FETCHED",
+    "laugoarmsalienremus": "FETCHED",
+    "leeenfieldno4mkisurplus": "DEAD-END",
+    "lesbaerultimatemastercombat": "BLOCKED",
+    "lmtdefender": "NO-MANUAL",
+    "lonewolfltd19": "HAND-DOWNLOAD",
+    "lwrcicdi": "NO-MANUAL",
+    "lwrciic9": "HAND-DOWNLOAD",
+    "makarovpmsurplus": "DEAD-END",
+    "masterpiecearmsbacomppro": "MAKER-PUBLISHES-NOTHING",
+    "masterpiecearmsbapmrprorifleii": "MAKER-PUBLISHES-NOTHING",
+    "masterpiecearmsmpads9hybrid": "FETCHED",
+    "masterpiecearmspmrcustommatchrifle": "MAKER-PUBLISHES-NOTHING",
+    "matadorarmsespada": "MAKER-PUBLISHES-NOTHING",
+    "mauser98surplussporter": "HAND-DOWNLOAD",
+    "mauserm12extreme": "HAND-DOWNLOAD",
+    "mauserm18": "HAND-DOWNLOAD",
+    "mauserm98magnum": "HAND-DOWNLOAD",
+    "mlcvaaccuraxt": "BLOCKED",
+    "mlcvaoptimav2": "NO-MANUAL",
+    "mlcvaoptimaxp": "BLOCKED",
+    "mlcvaparamount": "BLOCKED",
+    "mlcvawolfv2": "NO-MANUAL",
+    "mltcprohunterfs": "HAND-DOWNLOAD",
+    "mltradpapellet": "BLOCKED",
+    "mltradshedhorn": "FETCHED",
+    "mltradvortekldr": "BLOCKED",
+    "mlwby307mzy": "HAND-DOWNLOAD",
+    "molotvepr12": "HAND-DOWNLOAD",
+    "mosinnagant9130surplus": "DEAD-END",
+    "mossberg590r": "NO-MANUAL",
+    "mossberg590s": "NO-MANUAL",
+    "mossbergmc1sc": "NO-MANUAL",
+    "mossbergmc2c": "NO-MANUAL",
+    "mossbergmmr": "NO-MANUAL",
+    "nighthawkcustom1911": "NO-MANUAL",
+    "nighthawkcustomsandhawk": "MAKER-PUBLISHES-NOTHING",
+    "noslermodel21": "MAKER-PUBLISHES-NOTHING",
+    "noslermodel48longrangecarbon": "MAKER-PUBLISHES-NOTHING",
+    "noslermodel48mountaincarbon": "MAKER-PUBLISHES-NOTHING",
+    "noveskegen4": "NO-MANUAL",
+    "ottercreeklabshydrogen": "HAND-DOWNLOAD",
+    "ottercreeklabsinfinity556k": "HAND-DOWNLOAD",
+    "ottercreeklabslithium": "HAND-DOWNLOAD",
+    "ottercreeklabspolonium": "HAND-DOWNLOAD",
+    "ottercreeklabsuniverse36": "HAND-DOWNLOAD",
+    "palmettostatearmoryakv": "NO-MANUAL",
+    "palmettostatearmorydagger": "NO-MANUAL",
+    "palmettostatearmorypsakgf3": "HAND-DOWNLOAD",
+    "panzerarmsar12pro": "HAND-DOWNLOAD",
+    "perazzihightech2024": "BLOCKED",
+    "perazzihightechs": "BLOCKED",
+    "perazzimx10": "MAKER-PUBLISHES-NOTHING",
+    "perazzimx12": "MAKER-PUBLISHES-NOTHING",
+    "perazzimx15l": "MAKER-PUBLISHES-NOTHING",
+    "perazzimx20008": "MAKER-PUBLISHES-NOTHING",
+    "perazzimx2000s": "MAKER-PUBLISHES-NOTHING",
+    "perazzimx2005": "MAKER-PUBLISHES-NOTHING",
+    "perazzimx8": "MAKER-PUBLISHES-NOTHING",
+    "perazzimxssporting": "MAKER-PUBLISHES-NOTHING",
+    "perazzitm9x": "MAKER-PUBLISHES-NOTHING",
+    "pioneerarmssporter": "HAND-DOWNLOAD",
+    "pofrenegadeplus": "NO-MANUAL",
+    "pofrevolutiondi": "HAND-DOWNLOAD",
+    "polymer80pf940c": "MAKER-PUBLISHES-NOTHING",
+    "polymer80pf940sc": "MAKER-PUBLISHES-NOTHING",
+    "polymer80pf940v2": "MAKER-PUBLISHES-NOTHING",
+    "proofresearchconvictiontacii": "MAKER-PUBLISHES-NOTHING",
+    "psadaggermicro": "FETCHED",
+    "ptrindustries9ctmp": "MAKER-PUBLISHES-NOTHING",
+    "ptrindustriesptr91": "MAKER-PUBLISHES-NOTHING",
+    "pwsmk116": "HAND-DOWNLOAD",
+    "pwsmk118mod2": "HAND-DOWNLOAD",
+    "qtallboy": "HAND-DOWNLOAD",
+    "qthefix": "HAND-DOWNLOAD",
+    "qthelefty": "HAND-DOWNLOAD",
+    "qtheminifix": "HAND-DOWNLOAD",
+    "radicalfirearmsrf15": "NO-MANUAL",
+    "rizzinibr110sporterips": "MAKER-PUBLISHES-NOTHING",
+    "rizzinibr110sporterx": "MAKER-PUBLISHES-NOTHING",
+    "rockislandarmory1911tacticaliifs": "BLOCKED",
+    "rockriverarmslar15": "NO-MANUAL",
+    "rossirs22": "MAKER-PUBLISHES-NOTHING",
+    "rugerhawkeyealaskan": "FETCHED",
+    "rugersingleseven": "MAKER-PUBLISHES-NOTHING",
+    "rugervaquero": "NO-MANUAL",
+    "ruggedsuppressorssub9": "HAND-DOWNLOAD",
+    "ruggedsurge762": "HAND-DOWNLOAD",
+    "sakotrg22a1": "BLOCKED",
+    "sakotrg42a1": "BLOCKED",
+    "sakotrgm10": "BLOCKED",
+    "savage99legacy": "MAKER-PUBLISHES-NOTHING",
+    "savageimpulseeliteprecision": "BLOCKED",
+    "savageimpulsemountainhunter": "BLOCKED",
+    "savagetimbertacticalaseries": "MAKER-PUBLISHES-NOTHING",
+    "sccycpx1": "FETCHED",
+    "sccycpx2": "FETCHED",
+    "sct19": "MAKER-PUBLISHES-NOTHING",
+    "seekinsprecisionhavakbravo": "HAND-DOWNLOAD",
+    "seekinsprecisionhavakelement": "HAND-DOWNLOAD",
+    "seekinsprecisionhavakhit": "HAND-DOWNLOAD",
+    "seekinsprecisionhavakprohunter2": "HAND-DOWNLOAD",
+    "seekinssp10": "HAND-DOWNLOAD",
+    "sigsauer716": "FETCHED",
+    "sigsauerhexium300": "HAND-DOWNLOAD",
+    "sigsauerhexium556inc": "HAND-DOWNLOAD",
+    "sigsauerhexium556ti": "HAND-DOWNLOAD",
+    "sigsauerm400tread": "NO-MANUAL",
+    "sigsauerp211gto": "HAND-DOWNLOAD",
+    "sigsauerslh762": "HAND-DOWNLOAD",
+    "sigsauerslx": "HAND-DOWNLOAD",
+    "sigsauerslx556": "HAND-DOWNLOAD",
+    "silencercentralbanish46": "BLOCKED",
+    "silencercentralbanishbackcountryti": "BLOCKED",
+    "silencercentralbanishhnt30": "FETCHED",
+    "silencercooctane920": "HAND-DOWNLOAD",
+    "silencercos98": "HAND-DOWNLOAD",
+    "silencercoscythe": "FETCHED",
+    "smithwessonpccompetitorhd": "BLOCKED",
+    "smithwessonspecvimetalcompact": "MAKER-PUBLISHES-NOTHING",
+    "smithwessonspecvmetalhd": "MAKER-PUBLISHES-NOTHING",
+    "sonsoflibertym489": "NO-MANUAL",
+    "springfieldarmory1911garri": "BLOCKED",
+    "springfieldarmory1911operator": "BLOCKED",
+    "springfieldarmorymodel2020boundary": "BLOCKED",
+    "springfieldarmorymodel2020heatseeker": "BLOCKED",
+    "springfieldarmorymodel2020redline": "BLOCKED",
+    "springfieldarmoryrangeofficer": "BLOCKED",
+    "springfieldarmoryronin1911": "MAKER-PUBLISHES-NOTHING",
+    "springfieldarmorytrp": "FETCHED",
+    "staccatoc2": "NO-MANUAL",
+    "staccatocompacthdc36": "HAND-DOWNLOAD",
+    "staccatohd": "HAND-DOWNLOAD",
+    "staccatohdc4x": "HAND-DOWNLOAD",
+    "staccatoxl": "HAND-DOWNLOAD",
+    "stagarmsstag10": "HAND-DOWNLOAD",
+    "stagarmsstag15": "NO-MANUAL",
+    "steyrarmsprohunteriii": "MAKER-PUBLISHES-NOTHING",
+    "steyrarmsssg08": "FETCHED",
+    "steyrevo10e": "MAKER-PUBLISHES-NOTHING",
+    "stoegerm3k3gun": "MAKER-PUBLISHES-NOTHING",
+    "surefiresfryder22s": "HAND-DOWNLOAD",
+    "surefiresocom338ti": "HAND-DOWNLOAD",
+    "surefiresocom556mini4": "HAND-DOWNLOAD",
+    "surefiresocom556rc3": "HAND-DOWNLOAD",
+    "surefiresocom6mini4": "HAND-DOWNLOAD",
+    "surefiresocom762ti2": "HAND-DOWNLOAD",
+    "syrenelosn2elevate": "MAKER-PUBLISHES-NOTHING",
+    "syrenjuliasporting": "MAKER-PUBLISHES-NOTHING",
+    "syrenl4ssporting": "BLOCKED",
+    "syrentempiosporting": "MAKER-PUBLISHES-NOTHING",
+    "tanfogliodomina": "HAND-DOWNLOAD",
+    "tanfogliogoldcustomxtreme": "HAND-DOWNLOAD",
+    "tanfogliolimitedcustom": "HAND-DOWNLOAD",
+    "tanfogliostockii": "HAND-DOWNLOAD",
+    "tanfogliostockiiixtreme": "HAND-DOWNLOAD",
+    "taurusg2c": "NO-MANUAL",
+    "taurusg3x": "MAKER-PUBLISHES-NOTHING",
+    "taurusjudge": "MAKER-PUBLISHES-NOTHING",
+    "taurusjudgehomedefender": "BLOCKED",
+    "tauruspt111millenniumg2leg": "NO-MANUAL",
+    "thompsoncentercompassii": "HAND-DOWNLOAD",
+    "thunderbeast30p1": "BLOCKED",
+    "thunderbeastdominussr": "MAKER-PUBLISHES-NOTHING",
+    "thunderbeastmagnusk": "MAKER-PUBLISHES-NOTHING",
+    "thunderbeastmagnusrr": "MAKER-PUBLISHES-NOTHING",
+    "thunderbeastspiro": "MAKER-PUBLISHES-NOTHING",
+    "thunderbeastultra5": "MAKER-PUBLISHES-NOTHING",
+    "thunderbeastultra7": "MAKER-PUBLISHES-NOTHING",
+    "thunderbeastultra9": "MAKER-PUBLISHES-NOTHING",
+    "tikkat3xacetarget": "BLOCKED",
+    "tikkat3xsupervarmint": "BLOCKED",
+    "tikkat3xtaca1": "BLOCKED",
+    "tikkat3xupr": "BLOCKED",
+    "tisaspx9tacticalcomp": "BLOCKED",
+    "tokarevtt33surplus": "DEAD-END",
+    "traditions1873frontier": "BLOCKED",
+    "twoaarmamentxlr20": "HAND-DOWNLOAD",
+    "typhoondefencef12sport": "MAKER-PUBLISHES-NOTHING",
+    "varioussurplusm1carbine": "DEAD-END",
+    "varioussurplussks": "DEAD-END",
+    "volquartsenmambatf": "BLOCKED",
+    "vudoogunworksv22apparition": "BLOCKED",
+    "vudoogunworksv22priest": "BLOCKED",
+    "vudoogunworksv22three60": "BLOCKED",
+    "waltherccpm2": "NO-MANUAL",
+    "waltherlp500": "FETCHED",
+    "waltherpdpprofseries": "HAND-DOWNLOAD",
+    "waltherpdpsteelframe": "HAND-DOWNLOAD",
+    "waltherppqq5match": "HAND-DOWNLOAD",
+    "waltherq5matchsfpro": "HAND-DOWNLOAD",
+    "waltherq5matchsteelframe": "HAND-DOWNLOAD",
+    "waltherwmp": "HAND-DOWNLOAD",
+    "wbpjack": "MAKER-PUBLISHES-NOTHING",
+    "wilsoncombatcqb": "MAKER-PUBLISHES-NOTHING",
+    "wilsoncombatexperiordoublestack": "BLOCKED",
+    "wilsoncombatprotector": "NO-MANUAL",
+    "wilsoncombatrecontactical": "BLOCKED",
+    "wilsoncombatsfx9": "MAKER-PUBLISHES-NOTHING",
+    "yhmbadlarry": "MAKER-PUBLISHES-NOTHING",
+    "yhmmite": "MAKER-PUBLISHES-NOTHING",
+    "yhmresonatork": "BLOCKED",
+    "yhmsidewinderm2": "MAKER-PUBLISHES-NOTHING",
+    "yhmturbot3": "BLOCKED",
+    "zevoz9": "HAND-DOWNLOAD",
+    "zevtechnologiesoz9competition": "HAND-DOWNLOAD",
+    "zevtechnologiesoz9elitehypercomp": "HAND-DOWNLOAD",
+    "zolikronos": "MAKER-PUBLISHES-NOTHING",
+    "zolizbella": "MAKER-PUBLISHES-NOTHING",
+    "zolizsport": "MAKER-PUBLISHES-NOTHING",
+    "zolizsportextra": "MAKER-PUBLISHES-NOTHING"
+  };
+
+  const DOOR_DEAD_END = { "MAKER-PUBLISHES-NOTHING": 1, "DEAD-END": 1 };
+  function fsRowVerdict(f) {
+    if (!f || f.custom) return null;
+    return (typeof DOOR_VERDICT !== "undefined" && DOOR_VERDICT[f.model]) || null;
+  }
+  function fsIsDeadEnd(f) { return !!DOOR_DEAD_END[fsRowVerdict(f)]; }
+
+  function fsRowMakerModel(f) {
+    const c = catEntry(f && f.model);
+    return c ? { maker: c.mk, model: c.md } : null;
+  }
+
+
+  openReqSheet = function (pref) {
+    let sh = document.getElementById("reqSheet35");
+    if (!sh) {
+      sh = document.createElement("div");
+      sh.id = "reqSheet35"; sh.className = "prosheet";
+      document.body.appendChild(sh);
+      sh.addEventListener("click", e => { if (e.target.id === "reqSheet35") sh.classList.remove("open"); });
+    }
+    const guess = ((pref && pref.mk) || "") + " " + ((pref && pref.md) || "");
+    const open = reqOpen(), cap = reqCap();
+    const full = open.length >= cap;
+    const guns = safe.slice();
+
+    sh.innerHTML = '<div class="sheet"><button class="sheetx" id="rqX">×</button>' +
+      '<h3>REQUEST</h3>' +
+      '<p class="pp">Tell us what to build next. It is free, and it always will be.</p>' +
+      '<div class="field"><label for="rqKind">What is it?</label>' +
+        '<select id="rqKind">' + REQ_KINDS.map(k =>
+          '<option value="' + k.v + '">' + k.label + '</option>').join("") + '</select></div>' +
+      '<div class="field"><label for="rqText" id="rqLabel">Model name</label>' +
+        '<input type="text" id="rqText" autocomplete="off" value="' +
+        String(guess).trim().replace(/"/g, "&quot;") + '"></div>' +
+      (guns.length
+        ? '<div class="field"><label for="rqGun">Which firearm in your safe is this for?</label>' +
+          '<select id="rqGun">' + guns.map(f =>
+            '<option value="' + f.id + '">' + faInfo(f).name + '</option>').join("") + '</select></div>'
+        : '<div class="proreason">Add a firearm to your safe first — a request is tied to one of ' +
+          'your guns, which is also how many you can have open at once.</div>') +
+      '<div class="hint">' + open.length + ' of ' + cap + ' open — one per gun slot.</div>' +
+      '<button class="btn primary full" id="rqSend"' + (full || !guns.length ? " disabled" : "") + '>Send</button>' +
+      (full ? '<div class="proreason">You have a request open for every gun slot you have. ' +
+              'They close themselves when a guide arrives.</div>' : '') +
+      '<div class="hint" id="rqMsg" style="margin-top:8px"></div>' +
+      '<div class="proreason" style="margin-top:10px">We send the name and nothing else — ' +
+        'no account, no e-mail address, no device id, nothing about your safe.</div></div>';
+
+    const kindSel = sh.querySelector("#rqKind");
+    const label = sh.querySelector("#rqLabel");
+    kindSel.onchange = () => {
+      label.textContent = kindSel.value === "other" ? "What would you like?" : "Model name";
+    };
+    sh.querySelector("#rqX").onclick = () => sh.classList.remove("open");
+
+    const send = sh.querySelector("#rqSend");
+    if (send) send.onclick = () => {
+      const msg = sh.querySelector("#rqMsg");
+      const text = sh.querySelector("#rqText").value.trim();
+      const gunSel = sh.querySelector("#rqGun");
+      if (!text) { msg.textContent = "Type a name first."; return; }
+      if (reqAlreadySent(text)) { msg.textContent = "You've already asked for this one. It's on the list."; return; }
+      send.disabled = true; msg.textContent = "Sending…";
+      reqSend(kindSel.value, text, gunSel ? gunSel.value : null).then(() => {
+        sh.querySelector(".sheet").innerHTML =
+          '<button class="sheetx" id="rqX2">×</button>' +
+          '<div class="nfh">Request recorded.</div>' +
+          '<div class="nfb">Requested guns go to the front of the build queue, ahead of ' +
+            'everything we’d have picked ourselves.</div>' +
+          '<button class="btn primary full" id="rqRemind" style="margin-top:14px">' +
+            'Remind me to check</button>' +
+          '<div class="hint" id="rqRemindMsg" style="margin-top:8px"></div>';
+        sh.querySelector("#rqX2").onclick = () => sh.classList.remove("open");
+        const rm = sh.querySelector("#rqRemind");
+        rm.onclick = () => {
+          rm.disabled = true;
+          const ok = reqRemind(gunSel ? gunSel.value : null, text);
+          sh.querySelector("#rqRemindMsg").textContent = ok
+            ? "Reminder set — on this phone, nowhere else."
+            : "Add this firearm to your safe first — the reminder rides on the gun.";
+        };
+      }, () => {
+        send.disabled = false;
+        msg.textContent = "Couldn't send it — no signal. Try again when you have one.";
+      });
+    };
+    sh.classList.add("open");
+  };
+
+  function fsMountDoorWhy(f) {
+    const row = document.getElementById("heroDoorRow");
+    if (!row) return;
+    const existing = document.getElementById("fsDoorWhy");
+    const btn = document.getElementById("fieldstripBtn");
+    const show = f && fsDoorLabel(f) === "RECORD YOUR OWN STRIP";
+    if (!show) { if (existing) existing.remove(); return; }
+
+    const el = existing || document.createElement("div");
+    el.id = "fsDoorWhy"; el.className = "fsdoorwhy";
+
+    const mm = fsRowMakerModel(f);
+    if (fsIsDeadEnd(f) && mm) {
+      el.classList.add("deadend");
+      el.innerHTML =
+        '<div class="nfh">We looked. ' + esc(mm.maker) + " doesn't publish one.</div>" +
+        '<div class="nfb">We searched ' + esc(mm.maker) + "'s own site and support pages, " +
+          'public archives, and the published armorer references. There’s no disassembly ' +
+          'procedure for the ' + esc(mm.model) + ' in print anywhere we can reach.</div>' +
+        '<div class="nfb">We don’t guess. A wrong step on a gun nobody has documented is ' +
+          'worse than no step at all.</div>' +
+        '<div class="nfb">So build your own. Strip it, photograph each step, name it in your ' +
+          'words — and you’ll have a field strip record for this gun that exists ' +
+          'nowhere else.</div>';
+      if (btn) btn.textContent = "Build my own field strip.";
+    } else {
+      el.classList.remove("deadend");
+      el.innerHTML =
+        '<div class="nfh">Not in the list yet.</div>' +
+        '<div class="nfb">This one just hasn’t been built.</div>' +
+        '<div class="nfacts"><button class="btn sm" type="button" id="fsDoorReq">' +
+          'Request it — requests get built first</button></div>';
+    }
+    if (!existing) row.insertBefore(el, row.firstChild);
+
+    const rq = el.querySelector("#fsDoorReq");
+    if (rq) rq.onclick = () => {
+      const c = catEntry(f && f.model);
+      openReqSheet(c ? { mk: c.mk || "", md: c.md || "", ch: c.ch || "", ct: c.ct || "" }
+                     : { mk: (f && f.cmk) || "", md: (f && f.cmd) || "" });
+    };
+  }
+
+
+  window.FS_VC35 = {
+    libraryBase(){ return LIBRARY_BASE; },
+    receiverUrl(){ return RECEIVER_URL; },
+    buildVersion(){ return LIBRARY_INDEX_VERSION; },
+    heldVersion(){ return libVersion(); },
+    mergedRows(){ return Object.keys(libState().rows || {}).length; },
+    deltaNote(){ return libNote(); },
+    hasGuide(id){ return libHasGuide(id); },
+    guideKeyFor(id){ return libKeyForModel(id); },
+    fetchedRows(){ return Object.keys(libGuides()); },
+    reqCap(){ return reqCap(); },
+    reqOpenCount(){ return reqOpen().length; },
+    reqSentKeys(){ return Object.keys(reqState().sent || {}); },
+    reqAlreadySent(t){ return reqAlreadySent(t); },
+    reqComposed(kind, text){ return reqCompose(kind, text); },
+    doorVerdict(id){ return (typeof DOOR_VERDICT!=="undefined" && DOOR_VERDICT[id]) || null; },
+    doorScreen(f){ return fsIsDeadEnd(f) ? 3 : 1; },
+    rowMakerModel(f){ return fsRowMakerModel(f); },
+    deadEndVerdicts(){ return Object.keys(DOOR_DEAD_END).sort(); },
+    guideShapeOf(id){
+      const k = libKeyForModel(id), g = k ? GUNS[k] : null;
+      if(!g) return null;
+      return { key:k, steps:(g.steps||[]).length, deep:(g.deepSteps||[]).length,
+               cleaning:(g.cleaning||[]).length, branch:(g.steps||[]).some(s=>s.branch),
+               bodies:(g.steps||[]).map(s=>String(s.body||"")) };
+    }
+  };
+
+
+  libReqReconcile();
+
   renderSafe();
   BenchBoot.run();
   if(FS_WEB_BUILD) webNotice();   
 })();
 </script>
 <script id="fsGateScript">(function(){
-var KEY="fs_web_gate", H="aab7d0f6a5ca0ddcab61868d1be09dcafb81f8b847bf5df368e252a8eaaaee92", S="fs-web-gate-v1";
+var KEY=(window.__FS_NS||"")+"fs_web_gate", H="aab7d0f6a5ca0ddcab61868d1be09dcafb81f8b847bf5df368e252a8eaaaee92", S="fs-web-gate-v1";
 function ok(){try{return localStorage.getItem(KEY)==='"1"';}catch(e){return false;}}
 if(ok()){document.documentElement.classList.remove("fsgate");return;}
 var d=document.getElementById("safeDoor"); if(d&&d.parentNode) d.parentNode.removeChild(d);
